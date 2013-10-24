@@ -2,10 +2,10 @@ package dandremids.src;
 
 import java.util.ArrayList;
 
-import dandremids.scr.daos.DAO_User;
 import dandremids.src.customclasses.CreatureListAdapter;
 import dandremids.src.customclasses.DandremidsSQLiteHelper;
 import dandremids.src.customclasses.MyAlarm;
+import dandremids.src.daos.DAO_User;
 import dandremids.src.model.Creature;
 import dandremids.src.model.User;
 

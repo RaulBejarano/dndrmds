@@ -1,7 +1,7 @@
 package dandremids.src;
 
-import dandremids.scr.daos.DAO_User;
 import dandremids.src.customclasses.DandremidsSQLiteHelper;
+import dandremids.src.daos.DAO_User;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
