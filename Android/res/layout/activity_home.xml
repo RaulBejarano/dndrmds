@@ -1,0 +1,181 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#A0E2FF"
+    tools:context=".HomeActivity" >
+
+    <TextView
+        android:id="@+id/activity_home_player_name"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:text="Agarosh"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="30sp" />
+
+    <ImageView
+        android:id="@+id/activity_home_image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignLeft="@+id/activity_home_player_name"
+        android:layout_below="@+id/activity_home_player_name"
+        android:src="@drawable/logo_text" />
+
+    <TextView
+        android:id="@+id/activity_home_name"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_alignTop="@+id/activity_home_image"
+        android:layout_toLeftOf="@+id/activity_home_edit_name"
+        android:layout_toRightOf="@+id/activity_home_image"
+        android:text="Name"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/activity_home_age"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_below="@+id/activity_home_surname"
+        android:layout_toLeftOf="@+id/activity_home_edit_age"
+        android:layout_toRightOf="@+id/activity_home_image"
+        android:text="Age"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/activity_home_gender"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_alignLeft="@+id/activity_home_age"
+        android:layout_alignRight="@+id/activity_home_age"
+        android:layout_below="@+id/activity_home_age"
+        android:text="Gender"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <ImageButton
+        android:id="@+id/activity_home_edit_name"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/activity_home_player_name"
+        android:scaleType="centerCrop"
+        android:src="@drawable/edit" />
+
+    <ImageButton
+        android:id="@+id/activity_home_edit_surname"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignLeft="@+id/activity_home_edit_name"
+        android:layout_below="@+id/activity_home_edit_name"
+        android:scaleType="centerCrop"
+        android:src="@drawable/edit" />
+
+    <ImageButton
+        android:id="@+id/activity_home_edit_age"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignLeft="@+id/activity_home_edit_surname"
+        android:layout_below="@+id/activity_home_edit_surname"
+        android:scaleType="centerCrop"
+        android:src="@drawable/edit" />
+
+    <ImageButton
+        android:id="@+id/activity_home_edit_gender"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignLeft="@+id/activity_home_edit_age"
+        android:layout_below="@+id/activity_home_edit_age"
+        android:scaleType="centerCrop"
+        android:src="@drawable/edit" />
+
+    <TextView
+        android:id="@+id/activity_home_level"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignLeft="@+id/activity_home_image"
+        android:layout_alignTop="@+id/activity_home_image"
+        android:background="@drawable/background_level"
+        android:gravity="center"
+        android:text="1"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/activity_home_surname"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_alignLeft="@+id/activity_home_name"
+        android:layout_alignRight="@+id/activity_home_name"
+        android:layout_below="@+id/activity_home_name"
+        android:text="Surname"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <ProgressBar
+        android:id="@+id/activity_home_exp"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/activity_home_image"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/activity_home_image"
+        android:layout_marginRight="10dp"
+        android:max="500"
+        android:progress="125"
+        android:progressDrawable="@android:drawable/progress_horizontal" />
+
+    <TextView
+        android:id="@+id/activity_home_exp_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/activity_home_exp"
+        android:layout_alignRight="@+id/activity_home_exp"
+        android:layout_below="@+id/activity_home_image"
+        android:gravity="center"
+        android:text="125/500"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textSize="10sp" />
+
+    <Button
+        android:id="@+id/activity_home_scan_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="5dp"
+        android:background="@drawable/background_green_button"
+        android:text="Scan"
+        android:textColor="@android:color/primary_text_dark"
+        android:textSize="20sp" />
+
+    <ListView
+        android:id="@+id/activity_home_creature_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/activity_home_scan_button"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textView1"
+        android:background="#FFFFE1" >
+
+    </ListView>
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/activity_home_exp"
+        android:layout_marginTop="20dp"
+        android:background="#026ED2"
+        android:paddingLeft="20dp"
+        android:text="Creature List"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#FFFFFF" />
+
+</RelativeLayout>
