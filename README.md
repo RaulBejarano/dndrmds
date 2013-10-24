@@ -6,7 +6,7 @@ Dandremids is a self project make in my free time in order to learn some technol
 
 
 Technologies used:
-	
+------------------	
 	- Android:
 		- QR Scan
 		- Canvas paint
