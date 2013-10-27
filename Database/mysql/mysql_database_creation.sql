@@ -40,7 +40,7 @@ CREATE  TABLE IF NOT EXISTS `Element` (
 DROP TABLE IF EXISTS `Creature_Base` ;
 
 CREATE  TABLE IF NOT EXISTS `Creature_Base` (
-  `id` INT NOT NULL ,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL ,
   `Element1_id` INT(11) NOT NULL ,
   `Element2_id` INT(11) NOT NULL ,
@@ -68,7 +68,7 @@ CREATE  TABLE IF NOT EXISTS `Creature_Base` (
 DROP TABLE IF EXISTS `Creature` ;
 
 CREATE  TABLE IF NOT EXISTS `Creature` (
-  `id` INT NOT NULL ,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL ,
   `level` INT(11) NOT NULL ,
   `exp` INT(11) NOT NULL ,
@@ -107,6 +107,7 @@ CREATE  TABLE IF NOT EXISTS `Atack` (
   `Element_id` INT(11) NOT NULL ,
   `strike` INT(11) NOT NULL ,
   `heal` INT(11) NOT NULL ,
+  `minimumLevel` INT(11) NOT NULL ,
   PRIMARY KEY (`id`) ,
   UNIQUE INDEX `name_UNIQUE` (`name` ASC) ,
   INDEX `fk_Atack_Element1` (`Element_id` ASC) ,
@@ -143,7 +144,7 @@ CREATE  TABLE IF NOT EXISTS `Creature_Atack` (
 DROP TABLE IF EXISTS `State` ;
 
 CREATE  TABLE IF NOT EXISTS `State` (
-  `id` INT NOT NULL ,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL ,
   `abreviation` VARCHAR(3) NOT NULL ,
   PRIMARY KEY (`id`) );

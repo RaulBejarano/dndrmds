@@ -47,22 +47,22 @@ INSERT INTO Atack (name, Element_id, strike, heal, minimumLevel)
 VALUES ('Ataque 1', (SELECT id FROM Element WHERE name = 'DROP'), 10, 0, 1);
 
 INSERT INTO Atack (name, Element_id, strike, heal, minimumLevel) 
-VALUES ('Ataque 2', (SELECT id FROM Element WHERE name = 'DROP'), 10, 0, 2);
+VALUES ('Ataque 2', (SELECT id FROM Element WHERE name = 'DROP'), 9, 0, 2);
 
 INSERT INTO Atack (name, Element_id, strike, heal, minimumLevel) 
-VALUES ('Ataque 3', (SELECT id FROM Element WHERE name = 'DROP'), 10, 0, 3);
+VALUES ('Ataque 3', (SELECT id FROM Element WHERE name = 'DROP'), 8, 1, 3);
 
 INSERT INTO Atack (name, Element_id, strike, heal, minimumLevel) 
-VALUES ('Ataque 4', (SELECT id FROM Element WHERE name = 'DROP'), 10, 0, 4);
+VALUES ('Ataque 4', (SELECT id FROM Element WHERE name = 'DROP'), 7, 0, 4);
 
 INSERT INTO Atack (name, Element_id, strike, heal, minimumLevel) 
-VALUES ('Ataque 5', (SELECT id FROM Element WHERE name = 'FLAME'), 10, 0, 1);
+VALUES ('Ataque 5', (SELECT id FROM Element WHERE name = 'FLAME'), 6, 4, 1);
 
 INSERT INTO Atack (name, Element_id, strike, heal, minimumLevel) 
-VALUES ('Ataque 6', (SELECT id FROM Element WHERE name = 'THUNDER'), 10, 0, 1);
+VALUES ('Ataque 6', (SELECT id FROM Element WHERE name = 'THUNDER'), 5, 0, 1);
 
 INSERT INTO Atack (name, Element_id, strike, heal, minimumLevel) 
-VALUES ('Ataque 7', (SELECT id FROM Element WHERE name = 'LEAF'), 10, 0, 1);
+VALUES ('Ataque 7', (SELECT id FROM Element WHERE name = 'LEAF'), 4, 4, 1);
 
 
 
@@ -72,8 +72,8 @@ VALUES ('Ataque 7', (SELECT id FROM Element WHERE name = 'LEAF'), 10, 0, 1);
 -- Users
 DELETE FROM User;
 
-INSERT INTO User (playerName, password, email, name, surname, birth, level, exp, expNextLevel) 
-VALUES ('Agarosh', 'bejarano', 'parry907@gmail.com', 'Raúl', 'Bejarano Parrilla', '17/04/1990', 2, 10, 30);
+INSERT INTO User (playerName, password, email, name, surname, birth, gender, level, exp, expNextLevel) 
+VALUES ('Agarosh', 'bejarano', 'parry907@gmail.com', 'Raúl', 'Bejarano Parrilla', '17/04/1990', 'Male', 2, 10, 30);
 
 
 -- Creature
@@ -94,5 +94,8 @@ VALUES ((SELECT id FROM Atack WHERE name = 'Ataque 2'), (SELECT id FROM Creature
 
 INSERT INTO Creature_Atack (Atack_id, Creature_id, level, uses, nextLevelUses) 
 VALUES ((SELECT id FROM Atack WHERE name = 'Ataque 3'), (SELECT id FROM Creature WHERE name = 'Antock1'), 1, 0, 10);
+
+
+-- Delete till here
 
 SET FOREIGN_KEY_CHECKS=1;
