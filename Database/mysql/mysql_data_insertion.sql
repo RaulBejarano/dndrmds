@@ -41,27 +41,27 @@ VALUES ('Lonta', (SELECT id FROM Element WHERE name = 'LEAF'), (SELECT id FROM E
 
 
 -- Attack
-DELETE FROM Atack;
+DELETE FROM Attack;
 
-INSERT INTO Atack (name, Element_id, strike, heal, minimumLevel) 
+INSERT INTO Attack (name, Element_id, strike, heal, minimumLevel) 
 VALUES ('Ataque 1', (SELECT id FROM Element WHERE name = 'DROP'), 10, 0, 1);
 
-INSERT INTO Atack (name, Element_id, strike, heal, minimumLevel) 
+INSERT INTO Attack (name, Element_id, strike, heal, minimumLevel) 
 VALUES ('Ataque 2', (SELECT id FROM Element WHERE name = 'DROP'), 9, 0, 2);
 
-INSERT INTO Atack (name, Element_id, strike, heal, minimumLevel) 
+INSERT INTO Attack (name, Element_id, strike, heal, minimumLevel) 
 VALUES ('Ataque 3', (SELECT id FROM Element WHERE name = 'DROP'), 8, 1, 3);
 
-INSERT INTO Atack (name, Element_id, strike, heal, minimumLevel) 
+INSERT INTO Attack (name, Element_id, strike, heal, minimumLevel) 
 VALUES ('Ataque 4', (SELECT id FROM Element WHERE name = 'DROP'), 7, 0, 4);
 
-INSERT INTO Atack (name, Element_id, strike, heal, minimumLevel) 
+INSERT INTO Attack (name, Element_id, strike, heal, minimumLevel) 
 VALUES ('Ataque 5', (SELECT id FROM Element WHERE name = 'FLAME'), 6, 4, 1);
 
-INSERT INTO Atack (name, Element_id, strike, heal, minimumLevel) 
+INSERT INTO Attack (name, Element_id, strike, heal, minimumLevel) 
 VALUES ('Ataque 6', (SELECT id FROM Element WHERE name = 'THUNDER'), 5, 0, 1);
 
-INSERT INTO Atack (name, Element_id, strike, heal, minimumLevel) 
+INSERT INTO Attack (name, Element_id, strike, heal, minimumLevel) 
 VALUES ('Ataque 7', (SELECT id FROM Element WHERE name = 'LEAF'), 4, 4, 1);
 
 
@@ -83,17 +83,20 @@ INSERT INTO Creature (name, level, exp, expNextLevel, selected, strength, defens
 VALUES ('Antock1', 1, 0, 100, FALSE, 1, 1, 1, 200, 200, 10, 100, 100, 90, (SELECT id FROM User WHERE playerName = 'Agarosh'), (SELECT id FROM Creature_Base WHERE name = 'Antock'));
 
 
--- Creature_Atack
-DELETE FROM Creature_Atack;
+-- Creature_Attack
+DELETE FROM Creature_Attack;
 
-INSERT INTO Creature_Atack (Atack_id, Creature_id, level, uses, nextLevelUses) 
-VALUES ((SELECT id FROM Atack WHERE name = 'Ataque 1'), (SELECT id FROM Creature WHERE name = 'Antock1'), 1, 0, 10);
+INSERT INTO Creature_Attack (Attack_id, Creature_id, level, uses, nextLevelUses) 
+VALUES ((SELECT id FROM Attack WHERE name = 'Ataque 1'), (SELECT id FROM Creature WHERE name = 'Antock1'), 1, 0, 10);
 
-INSERT INTO Creature_Atack (Atack_id, Creature_id, level, uses, nextLevelUses) 
-VALUES ((SELECT id FROM Atack WHERE name = 'Ataque 2'), (SELECT id FROM Creature WHERE name = 'Antock1'), 1, 0, 10);
+INSERT INTO Creature_Attack (Attack_id, Creature_id, level, uses, nextLevelUses) 
+VALUES ((SELECT id FROM Attack WHERE name = 'Ataque 2'), (SELECT id FROM Creature WHERE name = 'Antock1'), 1, 0, 10);
 
-INSERT INTO Creature_Atack (Atack_id, Creature_id, level, uses, nextLevelUses) 
-VALUES ((SELECT id FROM Atack WHERE name = 'Ataque 3'), (SELECT id FROM Creature WHERE name = 'Antock1'), 1, 0, 10);
+INSERT INTO Creature_Attack (Attack_id, Creature_id, level, uses, nextLevelUses) 
+VALUES ((SELECT id FROM Attack WHERE name = 'Ataque 3'), (SELECT id FROM Creature WHERE name = 'Antock1'), 1, 0, 10);
+
+
+INSERT INTO Creature_State(Creature_id, State_id) VALUES ((SELECT id FROM Creature WHERE name = 'Antock1'),(SELECT id FROM State WHERE name = 'Burn'));
 
 
 -- Delete till here

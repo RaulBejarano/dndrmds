@@ -97,11 +97,11 @@ CREATE  TABLE IF NOT EXISTS `Creature` (
 
 
 -- -----------------------------------------------------
--- Table `Atack`
+-- Table `Attack`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `Atack` ;
+DROP TABLE IF EXISTS `Attack` ;
 
-CREATE  TABLE IF NOT EXISTS `Atack` (
+CREATE  TABLE IF NOT EXISTS `Attack` (
   `id` INT(11) NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(45) NOT NULL ,
   `Element_id` INT(11) NOT NULL ,
@@ -110,30 +110,30 @@ CREATE  TABLE IF NOT EXISTS `Atack` (
   `minimumLevel` INT(11) NOT NULL ,
   PRIMARY KEY (`id`) ,
   UNIQUE INDEX `name_UNIQUE` (`name` ASC) ,
-  INDEX `fk_Atack_Element1` (`Element_id` ASC) ,
-  CONSTRAINT `fk_Atack_Element1`
+  INDEX `fk_Attack_Element1` (`Element_id` ASC) ,
+  CONSTRAINT `fk_Attack_Element1`
     FOREIGN KEY (`Element_id` )
     REFERENCES `Element` (`id` ));
 
 
 -- -----------------------------------------------------
--- Table `Creature_Atack`
+-- Table `Creature_Attack`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `Creature_Atack` ;
+DROP TABLE IF EXISTS `Creature_Attack` ;
 
-CREATE  TABLE IF NOT EXISTS `Creature_Atack` (
-  `Atack_id` INT(11) NOT NULL ,
+CREATE  TABLE IF NOT EXISTS `Creature_Attack` (
+  `Attack_id` INT(11) NOT NULL ,
   `Creature_id` INT(11) NOT NULL ,
   `level` INT(11) NOT NULL ,
   `uses` INT(11) NOT NULL ,
   `nextLevelUses` INT(11) NOT NULL ,
-  PRIMARY KEY (`Atack_id`, `Creature_id`) ,
-  INDEX `fk_Atack_has_Creature_Creature1` (`Creature_id` ASC) ,
-  INDEX `fk_Atack_has_Creature_Atack1` (`Atack_id` ASC) ,
-  CONSTRAINT `fk_Atack_has_Creature_Atack1`
-    FOREIGN KEY (`Atack_id` )
-    REFERENCES `Atack` (`id` ),
-  CONSTRAINT `fk_Atack_has_Creature_Creature1`
+  PRIMARY KEY (`Attack_id`, `Creature_id`) ,
+  INDEX `fk_Attack_has_Creature_Creature1` (`Creature_id` ASC) ,
+  INDEX `fk_Attack_has_Creature_Attack1` (`Attack_id` ASC) ,
+  CONSTRAINT `fk_Attack_has_Creature_Attack1`
+    FOREIGN KEY (`Attack_id` )
+    REFERENCES `Attack` (`id` ),
+  CONSTRAINT `fk_Attack_has_Creature_Creature1`
     FOREIGN KEY (`Creature_id` )
     REFERENCES `Creature` (`id` ));
 
@@ -151,22 +151,22 @@ CREATE  TABLE IF NOT EXISTS `State` (
 
 
 -- -----------------------------------------------------
--- Table `Atack_State`
+-- Table `Attack_State`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `Atack_State` ;
+DROP TABLE IF EXISTS `Attack_State` ;
 
-CREATE  TABLE IF NOT EXISTS `Atack_State` (
+CREATE  TABLE IF NOT EXISTS `Attack_State` (
   `State_id` INT NOT NULL ,
-  `Atack_id` INT(11) NOT NULL ,
-  PRIMARY KEY (`State_id`, `Atack_id`) ,
-  INDEX `fk_State_has_Atack_Atack1` (`Atack_id` ASC) ,
-  INDEX `fk_State_has_Atack_State1` (`State_id` ASC) ,
-  CONSTRAINT `fk_State_has_Atack_State1`
+  `Attack_id` INT(11) NOT NULL ,
+  PRIMARY KEY (`State_id`, `Attack_id`) ,
+  INDEX `fk_State_has_Attack_Attack1` (`Attack_id` ASC) ,
+  INDEX `fk_State_has_Attack_State1` (`State_id` ASC) ,
+  CONSTRAINT `fk_State_has_Attack_State1`
     FOREIGN KEY (`State_id` )
     REFERENCES `State` (`id` ),
-  CONSTRAINT `fk_State_has_Atack_Atack1`
-    FOREIGN KEY (`Atack_id` )
-    REFERENCES `Atack` (`id` ));
+  CONSTRAINT `fk_State_has_Attack_Attack1`
+    FOREIGN KEY (`Attack_id` )
+    REFERENCES `Attack` (`id` ));
 
 
 -- -----------------------------------------------------
