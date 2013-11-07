@@ -1,6 +1,7 @@
 package dandremids.src;
 
-import java.util.ArrayList;
+
+import java.util.List;
 
 import dandremids.src.customclasses.CreatureListAdapter;
 import dandremids.src.customclasses.DandremidsSQLiteHelper;
@@ -152,7 +153,7 @@ public class HomeActivity extends Activity {
 
 	protected void onCreatureListItemLongClick(int pos) {
 		
-		ArrayList<Creature> list = player.getCreatureList();
+		List<Creature> list = player.getCreatureList();
 		for (Creature c : list) {
 			c.setSelected(false);
 		}

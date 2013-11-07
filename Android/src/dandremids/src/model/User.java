@@ -1,6 +1,7 @@
 package dandremids.src.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.graphics.Bitmap;
 
@@ -15,7 +16,7 @@ public class User {
 	private String gender;
 	private int level;
 	private int exp, expNextLevel;
-	private ArrayList<Creature> creatureList;
+	private List<Creature> creatureList;
 	
 
 
@@ -131,7 +132,7 @@ public class User {
 	}
 
 
-	public ArrayList<Creature> getCreatureList() {
+	public List<Creature> getCreatureList() {
 		return creatureList;
 	}
 

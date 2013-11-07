@@ -24,7 +24,7 @@
         android:layout_height="100dp"
         android:layout_alignLeft="@+id/activity_home_player_name"
         android:layout_below="@+id/activity_home_player_name"
-        android:src="@drawable/logo_text" />
+        android:src="@drawable/logo_dandremids" />
 
     <TextView
         android:id="@+id/activity_home_name"
