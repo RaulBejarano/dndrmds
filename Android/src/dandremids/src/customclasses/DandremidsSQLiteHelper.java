@@ -79,26 +79,26 @@ public class DandremidsSQLiteHelper extends SQLiteOpenHelper {
 					    "FOREIGN KEY (Creature_Base_id ) "+
 					    "REFERENCES Creature_Base (id ))");
 		
-		db.execSQL("CREATE  TABLE IF NOT EXISTS Atack ( "+
+		db.execSQL("CREATE  TABLE IF NOT EXISTS Attack ( "+
 					  "id INTEGER NOT NULL PRIMARY KEY  , "+
 					  "name VARCHAR(45) NOT NULL UNIQUE , "+
 					  "Element_id INTEGER NOT NULL , "+
 					  "strike INTEGER NOT NULL , "+
 					  "heal INTEGER NOT NULL , "+
-					  "CONSTRAINT fk_Atack_Element1 "+
+					  "CONSTRAINT fk_Attack_Element1 "+
 					    "FOREIGN KEY (Element_id ) "+
 					    "REFERENCES Element (id ))");
 		
-		db.execSQL("CREATE  TABLE IF NOT EXISTS Creature_Atack (  "+
-					  "Atack_id INTEGER NOT NULL , "+
+		db.execSQL("CREATE  TABLE IF NOT EXISTS Creature_Attack (  "+
+					  "Attack_id INTEGER NOT NULL , "+
 					  "Creature_id INTEGER NOT NULL , "+
 					  "level INTEGER NOT NULL , "+
 					  "uses INTEGER NOT NULL , "+
 					  "nextLevelUses INTEGER NOT NULL , "+
-					  "CONSTRAINT fk_Atack_has_Creature_Atack1 "+
-					    "FOREIGN KEY (Atack_id ) "+
-					    "REFERENCES Atack (id ), "+
-					  "CONSTRAINT fk_Atack_has_Creature_Creature1 "+
+					  "CONSTRAINT fk_Attack_has_Creature_Attack1 "+
+					    "FOREIGN KEY (Attack_id ) "+
+					    "REFERENCES Attack (id ), "+
+					  "CONSTRAINT fk_Attack_has_Creature_Creature1 "+
 					    "FOREIGN KEY (Creature_id ) "+
 					    "REFERENCES Creature (id ))");
 		
@@ -107,16 +107,16 @@ public class DandremidsSQLiteHelper extends SQLiteOpenHelper {
 					  "name VARCHAR(45) NOT NULL , "+
 					  "abreviation VARCHAR(3) NOT NULL )"); 
 		
-		db.execSQL("CREATE  TABLE IF NOT EXISTS Atack_State ( "+
+		db.execSQL("CREATE  TABLE IF NOT EXISTS Attack_State ( "+
 					  "State_id INTEGER NOT NULL , "+
-					  "Atack_id INTEGER NOT NULL , "+
-					  "PRIMARY KEY (State_id, Atack_id) , "+
-					 "CONSTRAINT fk_State_has_Atack_State1 "+
+					  "Attack_id INTEGER NOT NULL , "+
+					  "PRIMARY KEY (State_id, Attack_id) , "+
+					 "CONSTRAINT fk_State_has_Attack_State1 "+
 					    "FOREIGN KEY (State_id ) "+
 					    "REFERENCES State (id ), "+
-					  "CONSTRAINT fk_State_has_Atack_Atack1 "+
-					    "FOREIGN KEY (Atack_id ) "+
-					    "REFERENCES Atack (id ))");
+					  "CONSTRAINT fk_State_has_Attack_Attack1 "+
+					    "FOREIGN KEY (Attack_id ) "+
+					    "REFERENCES Attack (id ))");
 		
 		db.execSQL("CREATE  TABLE IF NOT EXISTS Creature_State ( "+
 					  "State_id INTEGER NOT NULL , "+
@@ -137,10 +137,10 @@ public class DandremidsSQLiteHelper extends SQLiteOpenHelper {
 		db.execSQL("DROP TABLE IF EXISTS Element");
 		db.execSQL("DROP TABLE IF EXISTS Creature_Base");
 		db.execSQL("DROP TABLE IF EXISTS Creature");
-		db.execSQL("DROP TABLE IF EXISTS Atack");
-		db.execSQL("DROP TABLE IF EXISTS Creature_Atack");
+		db.execSQL("DROP TABLE IF EXISTS Attack");
+		db.execSQL("DROP TABLE IF EXISTS Creature_Attack");
 		db.execSQL("DROP TABLE IF EXISTS State");
-		db.execSQL("DROP TABLE IF EXISTS Atack_State");
+		db.execSQL("DROP TABLE IF EXISTS Attack_State");
 		db.execSQL("DROP TABLE IF EXISTS Creature_State");
 		
 		this.onCreate(db);

@@ -23,11 +23,9 @@ public class User {
 	private Bitmap image;
 	
 	
-
-
-
 	public User(int id, Bitmap image, String playerName, String name, String email, String surname, String birth, String gender, int level, int exp, int expNextLevel) {
 		super();
+		this.id=id;
 		this.image = image;
 		this.playerName = playerName;
 		this.name = name;

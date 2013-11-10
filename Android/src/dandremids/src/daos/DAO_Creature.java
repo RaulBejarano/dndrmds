@@ -25,9 +25,10 @@ public class DAO_Creature {
 	
 	public ArrayList<Creature> getUserCreatures (User u){
 		ArrayList<Creature> creatureList = new ArrayList<Creature>();
+		
 		String sql = "SELECT id, name, level, exp, expNextLevel, selected, strength, defense, speed, feed, maxFeed, starveSpeed, happiness, life, maxLife, Creature_Base_id FROM Creature WHERE User_id = " + u.getId();
 		Cursor c = db.rawQuery(sql, null);
-		
+				
 		Creature creature;
 		while(c.moveToNext()){			
 				creature = new Creature(
@@ -49,17 +50,19 @@ public class DAO_Creature {
 						);
 				
 				DAO_CreatureBase daoCreatureBase = new DAO_CreatureBase(context, db);
+				
 				creature.setCreatureBase(daoCreatureBase.getCreatureBaseById(c.getInt(15)));
 				
 				creatureList.add(creature);
 		}
 		
+		c.close();
 		return creatureList;
 	}
 	
-	private void insertCreature (Creature c, User u){
+	public void insertCreature (dandremids.src.model.db.Creature c){
 		String sql = "INSERT INTO Creature (id, name, level, exp, expNextLevel, selected, strength, defense, speed, feed, maxFeed, starveSpeed, happiness, life, maxLife, Creature_Base_id, User_id) " +
-				"VALUES ("+c.getId()+", '"+c.getName()+"', "+c.getLevel()+", "+c.getExp()+", "+c.getExpNextLevel()+", "+c.isSelected()+", "+c.getStrength()+", "+c.getDefense()+", "+c.getSpeed()+", "+c.getFeed()+", "+c.getMaxFeed()+", "+c.getStarveSpeed()+", "+c.getHappiness()+", "+c.getLife()+", "+c.getMaxLife()+", "+c.getCreatureBase().getId()+", "+u.getId()+")";
+				"VALUES ("+c.id+", '"+c.name+"', "+c.level+", "+c.exp+", "+c.expNextLevel+", "+c.selected+", "+c.strength+", "+c.defense+", "+c.speed+", "+c.feed+", "+c.maxFeed+", "+c.starveSpeed+", "+c.happiness+", "+c.life+", "+c.maxLife+", "+c.Creature_Base_id+", "+c.User_id+")";
 		
 		db.execSQL(sql);
 	}

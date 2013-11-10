@@ -104,9 +104,10 @@ public class CreatureListAdapter extends BaseAdapter {
 
 		Creature c=list.get(position);
 		
-		
-		
 		holder.levelView.setText(c.getLevel()+"");
+		
+		System.out.println("creature base: "+c.getCreatureBase());
+		System.out.println("creature base image: "+c.getCreatureBase().getImage());
 		
 		holder.imageView.setImageBitmap(c.getCreatureBase().getImage());
 		

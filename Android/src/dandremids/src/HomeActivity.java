@@ -30,7 +30,7 @@ import android.widget.Toast;
 
 public class HomeActivity extends Activity {
 
-	User player;
+	User user;
 	
 	TextView playerName;
 	TextView level;
@@ -57,7 +57,7 @@ public class HomeActivity extends Activity {
 		
 		DandremidsSQLiteHelper dsh = new DandremidsSQLiteHelper(this,"DandremidsDB",null,1);
 		DAO_User daoUser = new DAO_User(this, dsh.getWritableDatabase());
-		player = daoUser.getCurrentUser();
+		user = daoUser.getCurrentUser();
 		
 		
 		playerName = (TextView) this.findViewById(R.id.activity_home_player_name);
@@ -76,13 +76,13 @@ public class HomeActivity extends Activity {
 		creatureList = (ListView) this.findViewById(R.id.activity_home_creature_list);
 		scanButton = (Button) this.findViewById(R.id.activity_home_scan_button);
 		
-		playerName.setText(player.getPlayerName());
-		level.setText(player.getLevel()+"");
-		image.setImageBitmap(player.getImage());
-		name.setText(player.getName());
-		surname.setText(player.getSurname());
-		age.setText(player.getBirth());
-		gender.setText(player.getGender());
+		playerName.setText(user.getPlayerName());
+		level.setText(user.getLevel()+"");
+		image.setImageBitmap(user.getImage());
+		name.setText(user.getName());
+		surname.setText(user.getSurname());
+		age.setText(user.getBirth());
+		gender.setText(user.getGender());
 		editName.setOnClickListener(new OnClickListener(){
 
 			@Override
@@ -116,11 +116,12 @@ public class HomeActivity extends Activity {
 			}			
 		});
 		
-		expBar.setMax(player.getExpNextLevel());
-		expBar.setProgress(player.getExp());
-		expText.setText(player.getExp()+"/"+player.getExpNextLevel());
+		expBar.setMax(user.getExpNextLevel());
+		expBar.setProgress(user.getExp());
+		expText.setText(user.getExp()+"/"+user.getExpNextLevel());
 		
-		creatureList.setAdapter(new CreatureListAdapter(this, player.getCreatureList()));		
+		
+		creatureList.setAdapter(new CreatureListAdapter(this, user.getCreatureList()));		
 		creatureList.setOnItemClickListener(new OnItemClickListener (){
 
 			@Override
@@ -153,17 +154,17 @@ public class HomeActivity extends Activity {
 
 	protected void onCreatureListItemLongClick(int pos) {
 		
-		List<Creature> list = player.getCreatureList();
+		List<Creature> list = user.getCreatureList();
 		for (Creature c : list) {
 			c.setSelected(false);
 		}
 		list.get(pos).setSelected(true);
-		creatureList.setAdapter(new CreatureListAdapter(this, player.getCreatureList()));		
+		creatureList.setAdapter(new CreatureListAdapter(this, user.getCreatureList()));		
 	}
 
 	protected void onCreatureListItemClick(int pos) {
 		Intent i = new Intent(this, CreatureActivity.class);
-		i.putExtra("CREATURE_ID", this.player.getCreatureList().get(pos).getId());
+		i.putExtra("CREATURE_ID", this.user.getCreatureList().get(pos).getId());
 		this.startActivity(i);
 	}
 

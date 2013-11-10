@@ -19,11 +19,23 @@ public class DAO_CreatureBase {
 		this.db = db;
 	}
 
+	public void insertCreatureBase(dandremids.src.model.db.Creature_Base cb){
+				
+		String sql = "INSERT INTO Creature_Base (id, name, Element1_id, Element2_id, strength, defense, speed, feed, maxFeed, starveSpeed, maxLife)" +
+				" VALUES ("+cb.id+", '"+cb.name+"', "+cb.Element1_id+", "+cb.Element2_id+", "+cb.stregth+", "+cb.defense+", "+cb.speed+", "+cb.feed+", "+cb.maxFeed+", "+cb.starveSpeed+", "+cb.maxLife+")";
+		db.execSQL(sql);
+		
+	}
+	
+	public void deleteAll(){
+		String sql = "DELETE FROM Creature_Base";
+		db.execSQL(sql);
+	}
 
 	public CreatureBase getCreatureBaseById(int creatureBaseId) {
 		String sql = "SELECT id, name, " +
 				"(SELECT name FROM Element WHERE id = Element1_id) element1, " +
-				"(SELECT name FROM Element WHERE id = Element1_id) element2, " +
+				"(SELECT name FROM Element WHERE id = Element2_id) element2, " +
 				"strength, " +
 				"defense," +
 				"speed, " +
@@ -31,35 +43,35 @@ public class DAO_CreatureBase {
 				"maxFeed, " +
 				"starveSpeed, " +
 				"maxLife " +
-				"FROM CreatureBase WHERE id = " + creatureBaseId;
+				"FROM Creature_Base WHERE id = " + creatureBaseId;
 		Cursor c = db.rawQuery(sql, null);
 		
 		if (c.moveToFirst()){
+					
 			CreatureBase base = new CreatureBase(
-						c.getInt(1),								//int id;
-						c.getString(2),								//String name;
-						Creature.Type.valueOf(c.getString(3)),		//Creature.Type element1;
-						Creature.Type.valueOf(c.getString(4)),		//Creature.Type element2;					
-						c.getInt(5),								//int base_strength;
-						c.getInt(6),								//int base_defense;
-						c.getInt(7),								//int base_speed;
-						c.getInt(8),								//int base_feed;
-						c.getInt(9),								//int base_maxFeed;
-						c.getInt(10),								//int base_starveSpeed;
-						c.getInt(11),								//int base_maxLife;
+						c.getInt(0),								//int id;
+						c.getString(1),								//String name;
+						Creature.Type.valueOf(c.getString(2)),		//Creature.Type element1;
+						Creature.Type.valueOf(c.getString(3)),		//Creature.Type element2;					
+						c.getInt(4),								//int base_strength;
+						c.getInt(5),								//int base_defense;
+						c.getInt(6),								//int base_speed;
+						c.getInt(7),								//int base_feed;
+						c.getInt(8),								//int base_maxFeed;
+						c.getInt(9),								//int base_starveSpeed;
+						c.getInt(10),								//int base_maxLife;
 						getCreatureBaseImage()						//Bitmap image;
 				);
 			
-			return base;
-			
+			c.close();
+			return base;			
 		}		
 		
 		return null;
 	}
 
 
-	private Bitmap getCreatureBaseImage() {
-		
+	private Bitmap getCreatureBaseImage() {		
 		return BitmapFactory.decodeResource(context.getResources(), R.drawable.monster2);
 	}
 	

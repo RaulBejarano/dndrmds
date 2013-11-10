@@ -60,26 +60,26 @@ CREATE  TABLE IF NOT EXISTS User (
 					    FOREIGN KEY (Creature_Base_id ) 
 					    REFERENCES Creature_Base (id ));
 		
-		CREATE  TABLE IF NOT EXISTS Atack ( 
+		CREATE  TABLE IF NOT EXISTS Attack ( 
 					  id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT , 
 					  name VARCHAR(45) NOT NULL UNIQUE , 
 					  Element_id INTEGER NOT NULL , 
 					  strike INTEGER NOT NULL , 
 					  heal INTEGER NOT NULL , 
-					  CONSTRAINT fk_Atack_Element1 
+					  CONSTRAINT fk_Attack_Element1 
 					    FOREIGN KEY (Element_id ) 
 					    REFERENCES Element (id ));
 		
-		CREATE  TABLE IF NOT EXISTS Creature_Atack (  
-					  Atack_id INTEGER NOT NULL , 
+		CREATE  TABLE IF NOT EXISTS Creature_Attack (  
+					  Attack_id INTEGER NOT NULL , 
 					  Creature_id INTEGER NOT NULL , 
 					  level INTEGER NOT NULL , 
 					  uses INTEGER NOT NULL , 
 					  nextLevelUses INTEGER NOT NULL , 
-					  CONSTRAINT fk_Atack_has_Creature_Atack1 
-					    FOREIGN KEY (Atack_id ) 
-					    REFERENCES Atack (id ), 
-					  CONSTRAINT fk_Atack_has_Creature_Creature1 
+					  CONSTRAINT fk_Attack_has_Creature_Attack1 
+					    FOREIGN KEY (Attack_id ) 
+					    REFERENCES Attack (id ), 
+					  CONSTRAINT fk_Attack_has_Creature_Creature1 
 					    FOREIGN KEY (Creature_id ) 
 					    REFERENCES Creature (id ));
 		
@@ -88,16 +88,16 @@ CREATE  TABLE IF NOT EXISTS User (
 					  name VARCHAR(45) NOT NULL , 
 					  abreviation VARCHAR(3) NOT NULL ); 
 		
-		CREATE  TABLE IF NOT EXISTS Atack_State ( 
+		CREATE  TABLE IF NOT EXISTS Attack_State ( 
 					  State_id INTEGER NOT NULL , 
-					  Atack_id INTEGER NOT NULL , 
-					  PRIMARY KEY (State_id, Atack_id) , 
-					 CONSTRAINT fk_State_has_Atack_State1 
+					  Attack_id INTEGER NOT NULL , 
+					  PRIMARY KEY (State_id, Attack_id) , 
+					 CONSTRAINT fk_State_has_Attack_State1 
 					    FOREIGN KEY (State_id ) 
 					    REFERENCES State (id ), 
-					  CONSTRAINT fk_State_has_Atack_Atack1 
-					    FOREIGN KEY (Atack_id ) 
-					    REFERENCES Atack (id ));
+					  CONSTRAINT fk_State_has_Attack_Attack1 
+					    FOREIGN KEY (Attack_id ) 
+					    REFERENCES Attack (id ));
 		
 		CREATE  TABLE IF NOT EXISTS Creature_State ( 
 					  State_id INTEGER NOT NULL , 

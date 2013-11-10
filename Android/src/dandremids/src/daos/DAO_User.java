@@ -8,8 +8,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import dandremids.src.R;
-import dandremids.src.model.Creature;
 import dandremids.src.model.User;
+import dandremids.src.model.db.Creature;
 
 public class DAO_User {
 
@@ -23,14 +23,20 @@ public class DAO_User {
 		
 	}
 	
-	public void insertUser(User u){
-		db.execSQL("INSERT INTO User (playerName, password, name, email, surname, birth, gender, level, exp, expNextlevel) " +
-				"VALUES ('"+u.getPlayerName()+"', '', '"+u.getName()+"', '"+u.getEmail()+"', '"+u.getSurname()+"','"+u.getBirth()+"', '"+u.getGender()+"', "+u.getLevel()+" , "+u.getExp()+", "+u.getExpNextLevel()+")");
+	public void insertUser(dandremids.src.model.db.User u){
+		String sql = "DELETE FROM User";
+		db.execSQL(sql);
 		
-	}
-	
-	public void deleteAllUsers(){
-		db.execSQL("DELETE FROM User");		
+		sql = "INSERT INTO User (id, playerName, name, password, email, surname, birth, gender, level, exp, expNextLevel)" +
+				"VALUES ("+u.id+", '"+u.playerName+"', '"+u.name+"', '', '"+u.email+"', '"+u.surname+"', '"+u.birth+"', '"+u.gender+"', "+u.level+", "+u.exp+", "+u.expNextLevel+") ";
+		db.execSQL(sql);		
+		
+		sql = "DELETE FROM Creature";
+		db.execSQL(sql);
+		DAO_Creature daoCreature = new DAO_Creature(context, db);		
+		for (Creature c : u.creatures){
+			daoCreature.insertCreature(c);
+		}
 	}
 	
 	public void editUser(User u){
@@ -53,7 +59,7 @@ public class DAO_User {
 		Cursor c = db.rawQuery(sql, null);
 		
 		if(c.moveToFirst()){
-			
+						
 			User user = new User(
 					c.getInt(0), 		//id
 					getUserImage(), 	//image
@@ -85,35 +91,6 @@ public class DAO_User {
 		return BitmapFactory.decodeResource(context.getResources(), R.drawable.logo_text);
 	}
 
-
-	public boolean doLogIn(String user, String password){		
-
-		/////// ------------------------------------------------------------ ///////
-		/////// ------------------ Hacer login en la nube ------------------ ///////
-		/////// ------------------------------------------------------------ ///////
-		
-	
-		User u = new User(
-				0, 						//id
-				getUserImage(), 		//image
-				"Mi Player Name 123", 	//playerName
-				"Hola", 				//name			
-				"pepinillos",			//email
-				"que ase?", 			//surname
-				"18/8/2008", 			//birth
-				"Male", 				//gender
-				125, 					//level
-				121212, 				//exp
-				231232					//expNextLevel 
-			);
-		
-		
-		this.deleteAllUsers();
-		this.insertUser(u);
-		
-		
-		return true;
-	}
 	
 	public boolean doLogOut(){		
 		db.execSQL("REMOVE FROM Creature_Atack");
