@@ -60,7 +60,14 @@
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         </activity>
-        
+        <activity
+            android:name="dandremids.src.UserSettingsActivity"
+            android:label="@string/title_activity_user_settings" >
+        </activity>
+        <activity
+            android:name="dandremids.src.LoadCombatActivity"
+            android:label="@string/title_activity_load_combat" >
+        </activity>
     </application>
 
 </manifest>

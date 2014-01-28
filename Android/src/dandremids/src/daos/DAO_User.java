@@ -8,8 +8,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import dandremids.src.R;
+import dandremids.src.model.Creature;
 import dandremids.src.model.User;
-import dandremids.src.model.db.Creature;
 
 public class DAO_User {
 
@@ -34,23 +34,9 @@ public class DAO_User {
 		sql = "DELETE FROM Creature";
 		db.execSQL(sql);
 		DAO_Creature daoCreature = new DAO_Creature(context, db);		
-		for (Creature c : u.creatures){
+		for (dandremids.src.model.db.Creature c : u.creatures){
 			daoCreature.insertCreature(c);
 		}
-	}
-	
-	public void editUser(User u){
-		String sql = "UPDATE User SET " +
-				"playername='"+u.getPlayerName()+"'," +
-				"name='"+u.getName()+"'," +
-				"email='"+u.getEmail()+"'," +
-				"surname='"+u.getSurname()+"'," +
-				"birth='"+u.getBirth()+"'," +
-				"gender='"+u.getGender()+"'," +
-				" WHERE id = "+u.getId();
-		
-		db.execSQL(sql);
-		
 	}
 	
 	public User getCurrentUser(){ // Just one in the database, fetch = position
@@ -85,13 +71,11 @@ public class DAO_User {
 		return null;
 	}
 	
-
 	private Bitmap getUserImage() {
 		
 		return BitmapFactory.decodeResource(context.getResources(), R.drawable.logo_text);
 	}
 
-	
 	public boolean doLogOut(){		
 		db.execSQL("REMOVE FROM Creature_Atack");
 		db.execSQL("REMOVE FROM Creature_State");
@@ -104,10 +88,25 @@ public class DAO_User {
 		String sql="SELECT * FROM User";		
 		Cursor c = db.rawQuery(sql, null);		
 		if(c.moveToFirst()){
+			c.close();
 			return true;
 		}
 		c.close();
 		return false;
+	}
+
+	
+	public void updateUser(User user) {
+		String sql = "UPDATE User SET " +
+				"playerName ='"+user.getPlayerName()+"', name='"+user.getName()+"', email = '"+user.getEmail()+"', surname = '"+user.getSurname()+"', birth = '"+user.getBirth()+"', gender = '"+user.getGender()+"', level = "+user.getLevel()+", exp = "+user.getExp()+", expNextLevel = "+user.getExp()+" " +
+				"WHERE id = "+user.getId();
+		db.execSQL(sql);
+		
+		DAO_Creature dc = new DAO_Creature(context, db);		
+		for (Creature c : user.getCreatureList()){
+			dc.updateCreature(c);
+		}
+		
 	}
 	
 	

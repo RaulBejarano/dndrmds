@@ -2,7 +2,7 @@ package dandremids.src.model;
 
 
 public class Creature {
-	public enum Type {NONE, DROP, FLAME, THUNDER, NORMAL, LEAF, RARE};
+	public enum Type {NONE, RARE, NORMAL, FLAME, DROP, THUNDER, LEAF, COLD, FIST, VENOM, WING, MENTAL, INSECT, STONE, IRON};
 	
 	// General Attributes
 	int id;

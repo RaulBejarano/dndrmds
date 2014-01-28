@@ -9,8 +9,7 @@ public class DandremidsSQLiteHelper extends SQLiteOpenHelper {
 
 	Context context;
 	
-	public DandremidsSQLiteHelper(Context context, String name,
-			CursorFactory factory, int version) {
+	public DandremidsSQLiteHelper(Context context, String name, CursorFactory factory, int version) {
 		super(context, name, factory, version);
 		this.context = context;
 	}

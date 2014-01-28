@@ -158,6 +158,41 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+
+	public Creature getSelectedCreature() {
+		for (Creature c : creatureList){
+			if (c.isSelected()){
+				return c;
+			}
+		}
+		return null;
+	}
+
+
+	public List<Creature> getSelectedCreatureList() {
+		
+		List <Creature> list = new ArrayList<Creature>();
+		for (Creature c : creatureList) {
+			if (c.isSelected()) {
+				list.add(c);
+			}
+		}
+		
+		return list;
+	}
+	
+	public List<Creature> getUnselectedCreatureList() {
+		
+		List <Creature> list = new ArrayList<Creature>();
+		for (Creature c : creatureList) {
+			if (!c.isSelected()) {
+				list.add(c);
+			}
+		}
+		
+		return list;
+	}
 	
 	
 	

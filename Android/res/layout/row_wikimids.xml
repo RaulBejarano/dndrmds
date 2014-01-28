@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/row_wikimids_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <ImageView
+        android:id="@+id/row_wikimids_image"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/logo_dandremids" />
+
+    <TextView
+        android:id="@+id/row_wikimids_name"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/row_wikimids_element2"
+        android:layout_toRightOf="@+id/row_wikimids_image"
+        android:text="&lt;Dandremid Name>"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/row_wikimids_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/row_wikimids_image"
+        android:layout_alignRight="@+id/row_wikimids_name"
+        android:layout_below="@+id/row_wikimids_name"
+        android:layout_toRightOf="@+id/row_wikimids_image"
+        android:lines="5"
+        android:maxLines="100"
+        android:scrollbars="vertical"
+        android:text="&lt;description>"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <ImageView
+        android:id="@+id/row_wikimids_element1"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/icon_empty" />
+
+    <ImageView
+        android:id="@+id/row_wikimids_element2"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/row_wikimids_element1"
+        android:src="@drawable/icon_empty" />
+
+    <ImageButton
+        android:id="@+id/row_wikimids_button"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignBottom="@+id/row_wikimids_description"
+        android:layout_alignLeft="@+id/row_wikimids_element2"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/row_wikimids_description"
+        android:background="@drawable/background_green_button"
+        android:scaleType="fitCenter"
+        android:src="@drawable/lupa" />
+
+    <TextView
+        android:id="@+id/row_wikimids_number"
+        android:layout_width="wrap_content"
+        android:layout_height="15dp"
+        android:layout_alignBottom="@+id/row_wikimids_image"
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/icon_page_marker"
+        android:gravity="center"
+        android:paddingLeft="5dp"
+        android:paddingRight="10dp"
+        android:text="nº 000"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#FFFFFF"
+        android:textSize="10sp" />
+
+</RelativeLayout>

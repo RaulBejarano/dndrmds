@@ -23,6 +23,7 @@ public class DAO_Creature {
 		this.db=db;
 	}
 	
+		
 	public ArrayList<Creature> getUserCreatures (User u){
 		ArrayList<Creature> creatureList = new ArrayList<Creature>();
 		
@@ -67,11 +68,27 @@ public class DAO_Creature {
 		db.execSQL(sql);
 	}
 	
-	private boolean intToBoolean (int i){
+	private boolean intToBoolean (int i){		
 		if(i==0){
 			return false;
 		}else{
 			return true;
 		}
+	}
+	
+	private int booleanToInt (boolean b) {
+		if (b) {
+			return 1;
+		} else {
+			return 0;
+		}
+	}
+
+	public void updateCreature(Creature c) {
+		String sql = "UPDATE Creature SET " +
+				"name = '"+c.getName()+"', level = "+c.getLevel()+", exp = "+c.getExp()+", expNextLevel = "+c.getExpNextLevel()+", selected = "+booleanToInt(c.isSelected())+", strength = "+c.getStrength()+", defense = "+c.getDefense()+", speed = "+c.getSpeed()+", feed = "+c.getFeed()+", maxFeed = "+c.getMaxFeed()+", starveSpeed = "+c.getStarveSpeed()+", happiness = "+c.getHappiness()+", life = "+c.getLife()+", maxLife = "+c.getMaxLife()+
+				" WHERE id = "+c.getId();
+		db.execSQL(sql);
+		
 	}
 }

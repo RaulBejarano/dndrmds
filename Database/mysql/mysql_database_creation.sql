@@ -47,7 +47,6 @@ CREATE  TABLE IF NOT EXISTS `Creature_Base` (
   `strength` INT(11) NOT NULL ,
   `defense` INT(11) NOT NULL ,
   `speed` INT(11) NOT NULL ,
-  `feed` INT(11) NOT NULL ,
   `maxFeed` INT(11) NOT NULL ,
   `starveSpeed` INT(11) NOT NULL ,
   `maxLife` INT(11) NOT NULL ,

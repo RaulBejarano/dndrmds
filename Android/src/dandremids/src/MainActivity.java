@@ -23,6 +23,7 @@ public class MainActivity extends Activity {
 	TextView password;
 	Button login;
 	
+	DandremidsSQLiteHelper dsh;
 	SQLiteDatabase db;
 	DAO_User daoUser;
 	
@@ -32,17 +33,15 @@ public class MainActivity extends Activity {
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);
 		
-		DandremidsSQLiteHelper dsh = new DandremidsSQLiteHelper(this,"DandremidsDB",null,1);
+		dsh = new DandremidsSQLiteHelper(this,"DandremidsDB",null,1);
 		db = dsh.getWritableDatabase();
 		daoUser = new DAO_User(this, db);
 		
-		/*
+		
 		if(daoUser.isCurrentUser()){
-			Intent i=new Intent(this, HomeActivity.class);
-			this.startActivity(i);
-			this.finish();
+			goToHome();			
+			return;
 		} 
-		*/
 		
 		user = (TextView) this.findViewById(R.id.main_user_text);
 		password = (TextView) this.findViewById(R.id.main_password_text);
@@ -54,15 +53,12 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 				DoBackgroundTask task = new DoBackgroundTask("login");
 				task.execute();
-			}
-			
+			}			
 		});
-		
-		
+				
 		DoBackgroundTask task = new DoBackgroundTask("updateGameData");
 		task.execute();
-		
-		
+				
 	}
 
 	@Override
@@ -90,10 +86,8 @@ public class MainActivity extends Activity {
 				d.setMessage("Logging in...");
 				
 			} else if (mode.compareTo("updateGameData")==0){
-				d.setMessage("Please, wait while application makes first configuration");
-				
-			}
-				
+				d.setMessage("Please, wait while application makes first configuration");				
+			}				
 			d.show();
 		}
 
@@ -115,10 +109,8 @@ public class MainActivity extends Activity {
 		@Override
 		protected void onPostExecute(String result) {
 			showToast(result);
-			d.dismiss();
-			
-			if (mode.compareTo("login")==0 && result!=null) {
-				db.close();
+			d.dismiss();			
+			if (mode.compareTo("login")==0 && result!=null) {							
 				goToHome();
 			}
 		}
@@ -129,7 +121,9 @@ public class MainActivity extends Activity {
 		Toast.makeText(this, text, Toast.LENGTH_LONG).show();
 	}
 
-	public void goToHome() {
+	public void goToHome() {		
+		db.close();	
+		dsh.close();
 		Intent i=new Intent(this, HomeActivity.class);
 		this.startActivity(i);
 		this.finish();

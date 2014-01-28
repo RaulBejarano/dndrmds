@@ -12,7 +12,6 @@ import javax.net.ssl.HttpsURLConnection;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 

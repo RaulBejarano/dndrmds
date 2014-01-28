@@ -255,7 +255,7 @@ public class CreatureView extends SurfaceView {
 	        canvas.drawText(levelText,x1,y1, p);
 	        
 	        // Type 1
-	        bmp=BitmapFactory.decodeResource(getResources(), R.drawable.type_electric_icon);
+	        bmp=BitmapFactory.decodeResource(getResources(), R.drawable.type_thunder);
 	        src = new Rect(0, 0, bmp.getWidth(), bmp.getHeight());
 	        
 	        x1 = levelBackground.left + levelBackground.width() + (int)((double)dp.x * 1/50);
@@ -272,7 +272,7 @@ public class CreatureView extends SurfaceView {
 	        
 	        // Type 2
 	        
-	        bmp=BitmapFactory.decodeResource(getResources(), R.drawable.type_rare_icon);
+	        bmp=BitmapFactory.decodeResource(getResources(), R.drawable.type_rare);
 	        src = new Rect(0, 0, bmp.getWidth(), bmp.getHeight());
 	        
 	        x1 = type1Rect.left;

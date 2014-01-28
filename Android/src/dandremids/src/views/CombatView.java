@@ -33,9 +33,6 @@ public class CombatView extends SurfaceView {
 		super(context);
 		this.display=display;
 		
-		me = ((CombatActivity) this.getContext()).getMe();
-		rival = ((CombatActivity) this.getContext()).getRival();
-		
 		combatViewLoopThread = new CombatViewLoopThread(this);
 		holder = this.getHolder();
 		

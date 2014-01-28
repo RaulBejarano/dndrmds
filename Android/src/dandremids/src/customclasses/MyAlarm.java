@@ -1,7 +1,7 @@
 package dandremids.src.customclasses;
 
-import dandremids.src.CombatActivity;
-import dandremids.src.HomeActivity;
+
+import dandremids.src.LoadCombatActivity;
 import dandremids.src.R;
 import android.app.AlarmManager;
 import android.app.NotificationManager;
@@ -36,7 +36,7 @@ public class MyAlarm extends BroadcastReceiver {
 			.setContentTitle("Aaah!! What happens!?")
 			.setContentText("Wild Dandremid appeared").setAutoCancel(true);
 
-		Intent notIntent = new Intent(context.getApplicationContext(), CombatActivity.class);
+		Intent notIntent = new Intent(context.getApplicationContext(), LoadCombatActivity.class);
 		notIntent.putExtra("MODE", MyAlarm.WILD_COMBAT_MODE);
 		
 		PendingIntent contIntent = PendingIntent.getActivity(context, 0, notIntent, 0);
