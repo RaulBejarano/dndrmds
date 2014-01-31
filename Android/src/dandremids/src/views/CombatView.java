@@ -258,7 +258,7 @@ public class CombatView extends SurfaceView {
 	        
 	        
 	        // Central Action Sprite
-	        bmp = BitmapFactory.decodeResource(getResources(), R.drawable.test_creature_dim);
+	        bmp = BitmapFactory.decodeResource(getResources(), R.drawable.test_dandremid_dim);
 	        src = new Rect (0,0,bmp.getWidth(),bmp.getHeight()); //Esto tiene que ajustarse a los parametros de ROW y FRAME correspondientes a la animación
 	        
 	        x1=dp.x/3;		       

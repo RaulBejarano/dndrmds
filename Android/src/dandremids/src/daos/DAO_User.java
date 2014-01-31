@@ -8,7 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import dandremids.src.R;
-import dandremids.src.model.Creature;
+import dandremids.src.model.Dandremid;
 import dandremids.src.model.User;
 
 public class DAO_User {
@@ -24,6 +24,7 @@ public class DAO_User {
 	}
 	
 	public void insertUser(dandremids.src.model.db.User u){
+		
 		String sql = "DELETE FROM User";
 		db.execSQL(sql);
 		
@@ -31,11 +32,11 @@ public class DAO_User {
 				"VALUES ("+u.id+", '"+u.playerName+"', '"+u.name+"', '', '"+u.email+"', '"+u.surname+"', '"+u.birth+"', '"+u.gender+"', "+u.level+", "+u.exp+", "+u.expNextLevel+") ";
 		db.execSQL(sql);		
 		
-		sql = "DELETE FROM Creature";
+		sql = "DELETE FROM Dandremid";
 		db.execSQL(sql);
-		DAO_Creature daoCreature = new DAO_Creature(context, db);		
-		for (dandremids.src.model.db.Creature c : u.creatures){
-			daoCreature.insertCreature(c);
+		DAO_Dandremid daoDandremid = new DAO_Dandremid(context, db);		
+		for (dandremids.src.model.db.Dandremid c : u.dandremids){
+			daoDandremid.insertDandremid(c);
 		}
 	}
 	
@@ -60,8 +61,8 @@ public class DAO_User {
 					c.getInt(9)			//expNextLevel 
 				);
 			
-			DAO_Creature daoCreature = new DAO_Creature(context, db);
-			user.setCreatureList(daoCreature.getUserCreatures(user));	
+			DAO_Dandremid daoDandremid = new DAO_Dandremid(context, db);
+			user.setDandremidList(daoDandremid.getUserDandremids(user));	
 				
 			c.close();
 			return user;
@@ -77,9 +78,9 @@ public class DAO_User {
 	}
 
 	public boolean doLogOut(){		
-		db.execSQL("REMOVE FROM Creature_Atack");
-		db.execSQL("REMOVE FROM Creature_State");
-		db.execSQL("REMOVE FROM Creature");
+		db.execSQL("REMOVE FROM Dandremid_Atack");
+		db.execSQL("REMOVE FROM Dandremid_State");
+		db.execSQL("REMOVE FROM Dandremid");
 		db.execSQL("REMOVE FROM User");		
 		return true;
 	}
@@ -102,9 +103,9 @@ public class DAO_User {
 				"WHERE id = "+user.getId();
 		db.execSQL(sql);
 		
-		DAO_Creature dc = new DAO_Creature(context, db);		
-		for (Creature c : user.getCreatureList()){
-			dc.updateCreature(c);
+		DAO_Dandremid dc = new DAO_Dandremid(context, db);		
+		for (Dandremid c : user.getDandremidList()){
+			dc.updateDandremid(c);
 		}
 		
 	}

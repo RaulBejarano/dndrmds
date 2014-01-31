@@ -60,8 +60,9 @@
         android:layout_alignLeft="@+id/row_wikimids_element2"
         android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/row_wikimids_description"
+        android:layout_margin="10dp"
         android:background="@drawable/background_green_button"
-        android:scaleType="fitCenter"
+        android:scaleType="centerCrop"
         android:src="@drawable/lupa" />
 
     <TextView

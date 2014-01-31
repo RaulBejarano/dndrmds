@@ -16,11 +16,11 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public SelectedDandremidFragment getItem(int position) {
-    	return new SelectedDandremidFragment(user, user.getSelectedCreatureList().get(position));
+    	return new SelectedDandremidFragment(user, user.getSelectedDandremidList().get(position));
     }
 
     @Override
     public int getCount() {
-        return user.getSelectedCreatureList().size();
+        return user.getSelectedDandremidList().size();
     }
 }

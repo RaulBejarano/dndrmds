@@ -35,12 +35,12 @@ CREATE  TABLE IF NOT EXISTS `Element` (
 
 
 -- -----------------------------------------------------
--- Table `Creature_Base`
+-- Table `Dandremid_Base`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `Creature_Base` ;
+DROP TABLE IF EXISTS `Dandremid_Base` ;
 
-CREATE  TABLE IF NOT EXISTS `Creature_Base` (
-  `id` INT NOT NULL AUTO_INCREMENT,
+CREATE  TABLE IF NOT EXISTS `Dandremid_Base` (
+  `id` INT NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(45) NOT NULL ,
   `Element1_id` INT(11) NOT NULL ,
   `Element2_id` INT(11) NOT NULL ,
@@ -48,51 +48,50 @@ CREATE  TABLE IF NOT EXISTS `Creature_Base` (
   `defense` INT(11) NOT NULL ,
   `speed` INT(11) NOT NULL ,
   `maxFeed` INT(11) NOT NULL ,
-  `starveSpeed` INT(11) NOT NULL ,
   `maxLife` INT(11) NOT NULL ,
+  `description` VARCHAR(250) NOT NULL ,
   PRIMARY KEY (`id`) ,
-  INDEX `fk_Creature_Base_Element1` (`Element1_id` ASC) ,
-  INDEX `fk_Creature_Base_Element2` (`Element2_id` ASC) ,
-  CONSTRAINT `fk_Creature_Base_Element1`
+  INDEX `fk_Dandremid_Base_Element1` (`Element1_id` ASC) ,
+  INDEX `fk_Dandremid_Base_Element2` (`Element2_id` ASC) ,
+  CONSTRAINT `fk_Dandremid_Base_Element1`
     FOREIGN KEY (`Element1_id` )
     REFERENCES `Element` (`id` ),
-  CONSTRAINT `fk_Creature_Base_Element2`
+  CONSTRAINT `fk_Dandremid_Base_Element2`
     FOREIGN KEY (`Element2_id` )
     REFERENCES `Element` (`id` ));
 
 
 -- -----------------------------------------------------
--- Table `Creature`
+-- Table `Dandremid`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `Creature` ;
+DROP TABLE IF EXISTS `Dandremid` ;
 
-CREATE  TABLE IF NOT EXISTS `Creature` (
-  `id` INT NOT NULL AUTO_INCREMENT,
+CREATE  TABLE IF NOT EXISTS `Dandremid` (
+  `id` INT NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(45) NOT NULL ,
   `level` INT(11) NOT NULL ,
   `exp` INT(11) NOT NULL ,
   `expNextLevel` INT(11) NOT NULL ,
-  `selected` TINYINT(1) NOT NULL ,
+  `selected` INT(11) NOT NULL ,
   `strength` INT(11) NOT NULL ,
   `defense` INT(11) NOT NULL ,
   `speed` INT(11) NOT NULL ,
   `feed` INT(11) NOT NULL ,
   `maxFeed` INT(11) NOT NULL ,
-  `starveSpeed` INT(11) NOT NULL ,
   `life` INT(11) NOT NULL ,
   `maxLife` INT(11) NOT NULL ,
   `happiness` INT(11) NOT NULL ,
+  `Dandremid_Base_id` INT NOT NULL ,
   `User_id` INT NOT NULL ,
-  `Creature_Base_id` INT NOT NULL ,
   PRIMARY KEY (`id`) ,
-  INDEX `fk_Creature_User` (`User_id` ASC) ,
-  INDEX `fk_Creature_Creature_Base1` (`Creature_Base_id` ASC) ,
-  CONSTRAINT `fk_Creature_User`
+  INDEX `fk_Dandremid_User` (`User_id` ASC) ,
+  INDEX `fk_Dandremid_Dandremid_Base1` (`Dandremid_Base_id` ASC) ,
+  CONSTRAINT `fk_Dandremid_User`
     FOREIGN KEY (`User_id` )
     REFERENCES `User` (`id` ),
-  CONSTRAINT `fk_Creature_Creature_Base1`
-    FOREIGN KEY (`Creature_Base_id` )
-    REFERENCES `Creature_Base` (`id` ));
+  CONSTRAINT `fk_Dandremid_Dandremid_Base1`
+    FOREIGN KEY (`Dandremid_Base_id` )
+    REFERENCES `Dandremid_Base` (`id` ));
 
 
 -- -----------------------------------------------------
@@ -116,25 +115,25 @@ CREATE  TABLE IF NOT EXISTS `Attack` (
 
 
 -- -----------------------------------------------------
--- Table `Creature_Attack`
+-- Table `Dandremid_Attack`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `Creature_Attack` ;
+DROP TABLE IF EXISTS `Dandremid_Attack` ;
 
-CREATE  TABLE IF NOT EXISTS `Creature_Attack` (
+CREATE  TABLE IF NOT EXISTS `Dandremid_Attack` (
   `Attack_id` INT(11) NOT NULL ,
-  `Creature_id` INT(11) NOT NULL ,
+  `Dandremid_id` INT(11) NOT NULL ,
   `level` INT(11) NOT NULL ,
   `uses` INT(11) NOT NULL ,
   `nextLevelUses` INT(11) NOT NULL ,
-  PRIMARY KEY (`Attack_id`, `Creature_id`) ,
-  INDEX `fk_Attack_has_Creature_Creature1` (`Creature_id` ASC) ,
+  PRIMARY KEY (`Attack_id`, `Dandremid_id`) ,
+  INDEX `fk_Attack_has_Dandremid_Dandremid1` (`Dandremid_id` ASC) ,
   INDEX `fk_Attack_has_Creature_Attack1` (`Attack_id` ASC) ,
-  CONSTRAINT `fk_Attack_has_Creature_Attack1`
+  CONSTRAINT `fk_Attack_has_Dandremid_Attack1`
     FOREIGN KEY (`Attack_id` )
     REFERENCES `Attack` (`id` ),
-  CONSTRAINT `fk_Attack_has_Creature_Creature1`
-    FOREIGN KEY (`Creature_id` )
-    REFERENCES `Creature` (`id` ));
+  CONSTRAINT `fk_Attack_has_Dandremid_Dandremid1`
+    FOREIGN KEY (`Dandremid_id` )
+    REFERENCES `Dandremid` (`id` ));
 
 
 -- -----------------------------------------------------
@@ -143,7 +142,7 @@ CREATE  TABLE IF NOT EXISTS `Creature_Attack` (
 DROP TABLE IF EXISTS `State` ;
 
 CREATE  TABLE IF NOT EXISTS `State` (
-  `id` INT NOT NULL AUTO_INCREMENT,
+  `id` INT NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(45) NOT NULL ,
   `abreviation` VARCHAR(3) NOT NULL ,
   PRIMARY KEY (`id`) );
@@ -169,21 +168,23 @@ CREATE  TABLE IF NOT EXISTS `Attack_State` (
 
 
 -- -----------------------------------------------------
--- Table `Creature_State`
+-- Table `Dandremid_State`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `Creature_State` ;
+DROP TABLE IF EXISTS `Dandremid_State` ;
 
-CREATE  TABLE IF NOT EXISTS `Creature_State` (
+CREATE  TABLE IF NOT EXISTS `Dandremid_State` (
   `State_id` INT NOT NULL ,
-  `Creature_id` INT NOT NULL ,
-  PRIMARY KEY (`State_id`, `Creature_id`) ,
-  INDEX `fk_State_has_Creature_Creature1` (`Creature_id` ASC) ,
+  `Dandremid_id` INT NOT NULL ,
+  PRIMARY KEY (`State_id`, `Dandremid_id`) ,
+  INDEX `fk_State_has_Dandremid_Dandremid1` (`Dandremid_id` ASC) ,
   INDEX `fk_State_has_Creature_State1` (`State_id` ASC) ,
-  CONSTRAINT `fk_State_has_Creature_State1`
+  CONSTRAINT `fk_State_has_Dandremid_State1`
     FOREIGN KEY (`State_id` )
-    REFERENCES `State` (`id` ),
-  CONSTRAINT `fk_State_has_Creature_Creature1`
-    FOREIGN KEY (`Creature_id` )
-    REFERENCES `Creature` (`id` ));
+    REFERENCES `State` (`id` )
+    ON DELETE RESTRICT
+    ON UPDATE RESTRICT,
+  CONSTRAINT `fk_State_has_Dandremid_Dandremid1`
+    FOREIGN KEY (`Dandremid_id` )
+    REFERENCES `Dandremid` (`id` ));
 
 SET FOREIGN_KEY_CHECKS=1;

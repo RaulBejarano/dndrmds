@@ -1,15 +1,19 @@
 package dandremids.src.fragments;
 
-import dandremids.src.CombatActivity;
+
 import dandremids.src.HomeActivity;
+import dandremids.src.LoadCombatActivity;
 import dandremids.src.R;
 import dandremids.src.customclasses.DandremidsListAdapter;
 import dandremids.src.customclasses.DandremidsSQLiteHelper;
+import dandremids.src.daos.DAO_Dandremid;
 import dandremids.src.daos.DAO_User;
-import dandremids.src.model.Creature;
+import dandremids.src.model.Dandremid;
 import dandremids.src.model.User;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -29,25 +33,21 @@ public class MyDandremidsFragment extends Fragment {
 
 	User user;
 	
-	ListView creatureList;
+	ListView dandremidList;
 	Button scanButton;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,	Bundle savedInstanceState) {
 		
-		user = ((HomeActivity)this.getActivity()).getUser();		
-		
-		View v = inflater.inflate(dandremids.src.R.layout.fragment_my_dandremids, container, false);
-		
-		creatureList = (ListView) v.findViewById(R.id.fragment_my_dandremids_list);
-		scanButton = (Button) v.findViewById(R.id.fragment_my_dandremids_scan_button);
-				
-		creatureList.setAdapter(new DandremidsListAdapter(this.getActivity(), user.getUnselectedCreatureList()));		
-		
-		creatureList.setOnItemLongClickListener(new OnItemLongClickListener(){
+		user = ((HomeActivity)this.getActivity()).getUser();				
+		View v = inflater.inflate(dandremids.src.R.layout.fragment_my_dandremids, container, false);		
+		dandremidList = (ListView) v.findViewById(R.id.fragment_my_dandremids_list);
+		scanButton = (Button) v.findViewById(R.id.fragment_my_dandremids_scan_button);				
+		dandremidList.setAdapter(new DandremidsListAdapter(this.getActivity(), user.getUnselectedDandremidList()));		
+		dandremidList.setOnItemLongClickListener(new OnItemLongClickListener(){
 			@Override
 			public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
-				onCreatureListItemLongClick(pos);
+				onDandremidListItemLongClick(pos);
 				return false;
 			}
 		});
@@ -64,15 +64,35 @@ public class MyDandremidsFragment extends Fragment {
 	}
 		
 		
-	protected void onCreatureListItemLongClick(final int pos) {
-		final String [] items= new String[]{"Select"};			
-		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+	protected void onDandremidListItemLongClick(final int pos) {
+		final String [] items= new String[]{"Select", "Liberate"};
+		final FragmentActivity activity = this.getActivity();
 		
+		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());		
 	    builder.setItems(items, new DialogInterface.OnClickListener() {
 	    	public void onClick(DialogInterface dialog, int i) {
-	    		if (i==0) {		// Select	    			
-	    			onSelectCreature(user.getUnselectedCreatureList().get(pos));		    			
+	    		switch (i) {
+		    		case 0:
+		    			onSelectDandremid(user.getUnselectedDandremidList().get(pos));
+		    			break;
+		    		case 1:
+		    			final Dandremid c = user.getUnselectedDandremidList().get(pos);
+		    			
+		    			AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+		    	    	builder
+		    	    	.setMessage("Are you sure to release "+c.getName()+"?")
+		    	    	.setIcon(android.R.drawable.ic_dialog_alert)
+		    	    	.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+		    	    	    public void onClick(DialogInterface dialog, int which) {			      	
+		    	    	    	onLiberateDandremid(c);
+		    	    	    }
+		    	    	})
+		    	    	.setNegativeButton("No", null)						//Do nothing on no
+		    	    	.show();
+		    			
+		    			break;
 	    		}
+	    			    		
 	    	}
 	    });
 	    
@@ -82,11 +102,23 @@ public class MyDandremidsFragment extends Fragment {
 
 		
 	
-	protected void onSelectCreature(Creature creature) {
-		
-		if (user.getSelectedCreatureList().size()<3){
-			creature.setSelected(true);
-						
+	protected void onLiberateDandremid(final Dandremid c) {		    	
+    	user.getDandremidList().remove(c);    	
+    	
+    	DandremidsSQLiteHelper dsh = new DandremidsSQLiteHelper(this.getActivity(),"DandremidsDB",null,1);
+		SQLiteDatabase db = dsh.getWritableDatabase();
+		DAO_Dandremid dc = new DAO_Dandremid(this.getActivity(), db);
+		dc.deleteDandremid(c);
+		db.close();
+		dsh.close();
+    	
+    	updateDataList();
+	}
+
+	protected void onSelectDandremid(Dandremid dandremid) {
+		if (user.getSelectedDandremidList().size()<3){
+			dandremid.setSelected(3);			
+			
 			DandremidsSQLiteHelper dsh = new DandremidsSQLiteHelper(this.getActivity(),"DandremidsDB",null,1);
 			SQLiteDatabase db = dsh.getWritableDatabase();
 			DAO_User daoUser = new DAO_User(this.getActivity(), db);
@@ -94,23 +126,26 @@ public class MyDandremidsFragment extends Fragment {
 			db.close();
 			dsh.close();
 			
-			ViewPager pager = (ViewPager) this.getActivity().findViewById(R.id.fragment_home_pager);
-			pager.setAdapter(new ScreenSlidePagerAdapter(getFragmentManager(), user));
+			updateDataList();
 			
-			ListView list = (ListView) this.getActivity().findViewById(R.id.fragment_my_dandremids_list);
-			list.setAdapter(new DandremidsListAdapter(this.getActivity(), user.getUnselectedCreatureList()));
 		} else {
-			Toast.makeText(this.getActivity(), "Not allowed", Toast.LENGTH_LONG).show();
-			
+			Toast.makeText(this.getActivity(), "Not allowed", Toast.LENGTH_LONG).show();			
 		}
 		
 	}
-
-
-
+	
+	protected void updateDataList() {
+		ViewPager pager = (ViewPager) this.getActivity().findViewById(R.id.fragment_home_pager);
+		pager.setAdapter(new ScreenSlidePagerAdapter(getFragmentManager(), user));
+		
+		ListView list = (ListView) this.getActivity().findViewById(R.id.fragment_my_dandremids_list);
+		list.setAdapter(new DandremidsListAdapter(this.getActivity(), user.getUnselectedDandremidList()));
+	}
+	
+	
 	protected void onClickScanButton() {
 		
-		Intent intent = new Intent(this.getActivity(), CombatActivity.class);
+		Intent intent = new Intent(this.getActivity(), LoadCombatActivity.class);
 		startActivityForResult(intent, 0);
 		
 		

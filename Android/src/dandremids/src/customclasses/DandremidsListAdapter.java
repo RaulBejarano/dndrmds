@@ -3,8 +3,8 @@ package dandremids.src.customclasses;
 import java.util.List;
 
 import dandremids.src.R;
-import dandremids.src.model.Creature;
-import dandremids.src.model.Creature.Type;
+import dandremids.src.model.Dandremid;
+import dandremids.src.model.DandremidBase;
 
 
 
@@ -19,7 +19,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class DandremidsListAdapter extends BaseAdapter {
@@ -42,11 +41,11 @@ public class DandremidsListAdapter extends BaseAdapter {
 		
 	}
 	
-	private List<Creature> list;
+	private List<Dandremid> list;
 	private LayoutInflater inflater = null;
 	private Context context;
 	
-	public DandremidsListAdapter(Context c, List<Creature> list){
+	public DandremidsListAdapter(Context c, List<Dandremid> list){
 		this.context=c;
 		this.inflater = LayoutInflater.from(c);
 		this.list=list;
@@ -74,21 +73,21 @@ public class DandremidsListAdapter extends BaseAdapter {
 		
 		if (view == null)
 		{
-			view = inflater.inflate(R.layout.row_my_creature, null); 
+			view = inflater.inflate(R.layout.row_my_dandremid, null); 
 			holder = new ViewHolder(); 
 			
-			holder.levelView = (TextView) view.findViewById(R.id.row_my_creature_level);
-			holder.imageView = (ImageView) view.findViewById(R.id.row_my_creature_image);
-			holder.type1View = (ImageView) view.findViewById(R.id.row_my_creature_type_1);
-			holder.type2View = (ImageView) view.findViewById(R.id.row_my_creature_type_2);
-			holder.expBar = (ProgressBar) view.findViewById(R.id.row_my_creature_exp);
-			holder.nameView = (TextView) view.findViewById(R.id.row_my_creature_name);
-			holder.foodBar = (ProgressBar) view.findViewById(R.id.row_my_creature_food);
-			holder.healthBar = (ProgressBar) view.findViewById(R.id.row_my_creature_health);
-			holder.happinessBar = (ProgressBar) view.findViewById(R.id.row_my_creature_happiness);
-			holder.foodText = (TextView) view.findViewById(R.id.row_my_creature_food_text);
-			holder.healthText = (TextView) view.findViewById(R.id.row_my_creature_health_text);
-			holder.happinessText = (TextView) view.findViewById(R.id.row_my_creature_happiness_text);
+			holder.levelView = (TextView) view.findViewById(R.id.row_my_dandremid_level);
+			holder.imageView = (ImageView) view.findViewById(R.id.row_my_dandremid_image);
+			holder.type1View = (ImageView) view.findViewById(R.id.row_my_dandremid_type_1);
+			holder.type2View = (ImageView) view.findViewById(R.id.row_my_dandremid_type_2);
+			holder.expBar = (ProgressBar) view.findViewById(R.id.row_my_dandremid_exp);
+			holder.nameView = (TextView) view.findViewById(R.id.row_my_dandremid_name);
+			holder.foodBar = (ProgressBar) view.findViewById(R.id.row_my_dandremid_food);
+			holder.healthBar = (ProgressBar) view.findViewById(R.id.row_my_dandremid_health);
+			holder.happinessBar = (ProgressBar) view.findViewById(R.id.row_my_dandremid_happiness);
+			holder.foodText = (TextView) view.findViewById(R.id.row_my_dandremid_food_text);
+			holder.healthText = (TextView) view.findViewById(R.id.row_my_dandremid_health_text);
+			holder.happinessText = (TextView) view.findViewById(R.id.row_my_dandremid_happiness_text);
 						
 			view.setTag(holder);
  
@@ -96,13 +95,13 @@ public class DandremidsListAdapter extends BaseAdapter {
 			holder = (ViewHolder) view.getTag();
 		}
 		
-		Creature c=list.get(position);		
+		Dandremid c=list.get(position);		
 		
 		
 		holder.levelView.setText(""+c.getLevel());
-		holder.imageView.setImageBitmap(c.getCreatureBase().getImage());
-		holder.type1View.setImageBitmap(this.getTypeImage(c.getCreatureBase().getElement1()));		
-		holder.type2View.setImageBitmap(this.getTypeImage(c.getCreatureBase().getElement2()));
+		holder.imageView.setImageBitmap(c.getDandremidBase().getImage());
+		holder.type1View.setImageBitmap(this.getTypeImage(c.getDandremidBase().getElement1()));		
+		holder.type2View.setImageBitmap(this.getTypeImage(c.getDandremidBase().getElement2()));
 		holder.expBar.setMax(c.getExpNextLevel());
 		holder.expBar.setProgress(c.getExp());
 		holder.nameView.setText(c.getName());
@@ -120,8 +119,8 @@ public class DandremidsListAdapter extends BaseAdapter {
 	}
 
 
-	private Bitmap getTypeImage(Type type) {
-		if (type.equals(Type.NONE)) return BitmapFactory.decodeResource(context.getResources(), R.drawable.icon_empty);		
+	private Bitmap getTypeImage(DandremidBase.Element type) {
+		if (type.equals(DandremidBase.Element.NONE)) return BitmapFactory.decodeResource(context.getResources(), R.drawable.icon_empty);		
 		return BitmapFactory.decodeResource(context.getResources() , context.getResources().getIdentifier("type_"+type.name().toLowerCase(), "drawable", context.getPackageName()));
 	}
 	

@@ -1,6 +1,5 @@
 package dandremids.src;
 
-import dandremids.src.model.User;
 import dandremids.src.views.CombatView;
 import android.os.Bundle;
 import android.app.Activity;
@@ -8,8 +7,6 @@ import android.view.Menu;
 import android.view.Window;
 
 public class CombatActivity extends Activity {
-
-	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

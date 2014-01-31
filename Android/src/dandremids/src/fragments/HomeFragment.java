@@ -6,10 +6,8 @@ import dandremids.src.R;
 import dandremids.src.UserSettingsActivity;
 import dandremids.src.model.User;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -90,11 +88,12 @@ public class HomeFragment extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-		mPager = (ViewPager) this.getActivity().findViewById(R.id.fragment_home_pager);
-		mPagerAdapter = new ScreenSlidePagerAdapter(getFragmentManager(), user);
-		mPager.setAdapter(mPagerAdapter);		
-		
-		System.out.println("Paso por onResume");
+		try {
+			mPager = (ViewPager) this.getActivity().findViewById(R.id.fragment_home_pager);
+			mPagerAdapter = new ScreenSlidePagerAdapter(getFragmentManager(), user);
+			mPager.setAdapter(mPagerAdapter);
+		} catch (Exception e) {			
+		}
 	}
 
 

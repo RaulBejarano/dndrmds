@@ -1,13 +1,13 @@
 package dandremids.src.fragments;
 
-import dandremids.src.CreatureActivity;
+import dandremids.src.DandremidActivity;
 import dandremids.src.R;
 import dandremids.src.customclasses.DandremidsListAdapter;
 import dandremids.src.customclasses.DandremidsSQLiteHelper;
 import dandremids.src.daos.DAO_User;
-import dandremids.src.model.Creature;
+import dandremids.src.model.Dandremid;
+import dandremids.src.model.DandremidBase;
 import dandremids.src.model.User;
-import dandremids.src.model.Creature.Type;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.app.AlertDialog;
@@ -44,49 +44,50 @@ public class SelectedDandremidFragment extends Fragment {
 	ProgressBar happiness;	
 	
 	User user;
-	Creature creature;
+	Dandremid dandremid;
 	
-	public SelectedDandremidFragment(User user, Creature creature) {
+	public SelectedDandremidFragment(User user, Dandremid dandremid) {
 		this.user = user;
-		this.creature=creature;
+		this.dandremid=dandremid;
 	}
 	 
 	 public SelectedDandremidFragment() {
 		 super();
 	 }
 
+	 
 	@Override
 	    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-	        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_selected_creature, container, false);
+	        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_selected_dandremid, container, false);
 
-	        level = (TextView) rootView.findViewById(R.id.fragment_selected_creature_level);
-	        name = (TextView) rootView.findViewById(R.id.fragment_selected_creature_name);
-	        element1 = (ImageView) rootView.findViewById(R.id.fragment_selected_creature_element1);
-	        element2 = (ImageView) rootView.findViewById(R.id.fragment_selected_creature_element2);	        
-	        exp = (ProgressBar) rootView.findViewById(R.id.fragment_selected_creature_exp);
-	        str = (TextView) rootView.findViewById(R.id.fragment_selected_creature_strength);
-	        defense = (TextView) rootView.findViewById(R.id.fragment_selected_creature_defense);
-	        speed = (TextView) rootView.findViewById(R.id.fragment_selected_creature_speed);
-	        image = (ImageView) rootView.findViewById(R.id.fragment_selected_creature_img);
-	        health = (ProgressBar) rootView.findViewById(R.id.fragment_selected_creature_health);
-	        food = (ProgressBar) rootView.findViewById(R.id.fragment_selected_creature_food);
-	        happiness = (ProgressBar) rootView.findViewById(R.id.fragment_selected_creature_happiness);
+	        level = (TextView) rootView.findViewById(R.id.fragment_selected_dandremid_level);
+	        name = (TextView) rootView.findViewById(R.id.fragment_selected_dandremid_name);
+	        element1 = (ImageView) rootView.findViewById(R.id.fragment_selected_dandremid_element1);
+	        element2 = (ImageView) rootView.findViewById(R.id.fragment_selected_dandremid_element2);	        
+	        exp = (ProgressBar) rootView.findViewById(R.id.fragment_selected_dandremid_exp);
+	        str = (TextView) rootView.findViewById(R.id.fragment_selected_dandremid_strength);
+	        defense = (TextView) rootView.findViewById(R.id.fragment_selected_dandremid_defense);
+	        speed = (TextView) rootView.findViewById(R.id.fragment_selected_dandremid_speed);
+	        image = (ImageView) rootView.findViewById(R.id.fragment_selected_dandremid_img);
+	        health = (ProgressBar) rootView.findViewById(R.id.fragment_selected_dandremid_health);
+	        food = (ProgressBar) rootView.findViewById(R.id.fragment_selected_dandremid_food);
+	        happiness = (ProgressBar) rootView.findViewById(R.id.fragment_selected_dandremid_happiness);
 	        
 	        
-	        level.setText(creature.getLevel()+"");
-	        name.setText(creature.getName());
-	        element1.setImageBitmap(getTypeImage(creature.getCreatureBase().getElement1()));
-	        exp.setMax(creature.getExpNextLevel());
-	        exp.setProgress(creature.getExp());
-	        str.setText(creature.getStrength()+"");
-	        defense.setText(creature.getDefense()+"");
-	        speed.setText(creature.getSpeed()+"");
-	        image.setImageBitmap(creature.getCreatureBase().getImage());
-	        health.setMax(creature.getMaxLife());
-	        health.setProgress(creature.getLife());
-	        food.setMax(creature.getMaxFeed());
-	        food.setProgress(creature.getFeed());
-	        happiness.setProgress(creature.getHappiness());
+	        level.setText(dandremid.getLevel()+"");
+	        name.setText(dandremid.getName());
+	        element1.setImageBitmap(getTypeImage(dandremid.getDandremidBase().getElement1()));
+	        exp.setMax(dandremid.getExpNextLevel());
+	        exp.setProgress(dandremid.getExp());
+	        str.setText(dandremid.getStrength()+"");
+	        defense.setText(dandremid.getDefense()+"");
+	        speed.setText(dandremid.getSpeed()+"");
+	        image.setImageBitmap(dandremid.getDandremidBase().getImage());
+	        health.setMax(dandremid.getMaxLife());
+	        health.setProgress(dandremid.getLife());
+	        food.setMax(dandremid.getMaxFeed());
+	        food.setProgress(dandremid.getFeed());
+	        happiness.setProgress(dandremid.getHappiness());
 	        
 	        image.setOnLongClickListener(new OnLongClickListener(){
 
@@ -111,8 +112,8 @@ public class SelectedDandremidFragment extends Fragment {
 	
 	
 		protected void onDandremidClick() {
-			Intent i = new Intent(this.getActivity(), CreatureActivity.class);
-			i.putExtra("CREATURE_ID", creature.getId());
+			Intent i = new Intent(this.getActivity(), DandremidActivity.class);
+			i.putExtra("CREATURE_ID", dandremid.getId());
 			this.startActivity(i);		
 		}
 
@@ -124,7 +125,7 @@ public class SelectedDandremidFragment extends Fragment {
 		    builder.setItems(items, new DialogInterface.OnClickListener() {
 		    	public void onClick(DialogInterface dialog, int i) {
 		    		if (i==0) {		// Unselect
-		    			onUnselectCreature();		    			
+		    			onUnselectDandremid();		    			
 		    		}
 		    	}
 		    });
@@ -133,8 +134,8 @@ public class SelectedDandremidFragment extends Fragment {
 		    ad.show();			
 		}
 
-		private void onUnselectCreature() {
-			creature.setSelected(false);
+		private void onUnselectDandremid() {
+			dandremid.setSelected(-1);
 			
 			DandremidsSQLiteHelper dsh = new DandremidsSQLiteHelper(this.getActivity(),"DandremidsDB",null,1);
 			SQLiteDatabase db = dsh.getWritableDatabase();
@@ -144,7 +145,7 @@ public class SelectedDandremidFragment extends Fragment {
 			dsh.close();
 			
 			ListView list = (ListView) this.getActivity().findViewById(R.id.fragment_my_dandremids_list);
-			list.setAdapter(new DandremidsListAdapter(this.getActivity(), user.getUnselectedCreatureList()));
+			list.setAdapter(new DandremidsListAdapter(this.getActivity(), user.getUnselectedDandremidList()));
 			
 			ViewPager pager = (ViewPager) this.getActivity().findViewById(R.id.fragment_home_pager);
 			pager.setAdapter(new ScreenSlidePagerAdapter(getFragmentManager(), user));
@@ -152,8 +153,8 @@ public class SelectedDandremidFragment extends Fragment {
 		}
 		
 		
-		private Bitmap getTypeImage(Type type) {
-			if (type.equals(Type.NONE)) return BitmapFactory.decodeResource(this.getActivity().getResources(), R.drawable.icon_empty);		
+		private Bitmap getTypeImage(DandremidBase.Element type) {
+			if (type.equals(DandremidBase.Element.NONE)) return BitmapFactory.decodeResource(this.getActivity().getResources(), R.drawable.icon_empty);		
 			return BitmapFactory.decodeResource(this.getActivity().getResources() , this.getActivity().getResources().getIdentifier("type_"+type.name().toLowerCase(), "drawable", this.getActivity().getPackageName()));
 		}
 }

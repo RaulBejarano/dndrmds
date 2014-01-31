@@ -4,10 +4,10 @@ import java.util.List;
 
 import dandremids.src.customclasses.DandremidsSQLiteHelper;
 import dandremids.src.customclasses.MyAlarm;
-import dandremids.src.daos.DAO_CreatureBase;
+import dandremids.src.daos.DAO_DandremidBase;
 import dandremids.src.daos.DAO_User;
 import dandremids.src.fragments.TabPagerAdapter;
-import dandremids.src.model.CreatureBase;
+import dandremids.src.model.DandremidBase;
 import dandremids.src.model.User;
 
 import android.os.Bundle;
@@ -23,7 +23,7 @@ import android.widget.Toast;
 public class HomeActivity extends FragmentActivity {
 
 	User user;	
-	List <CreatureBase> dandremidsBaseList;
+	List <DandremidBase> dandremidsBaseList;
 	
 	public TabPagerAdapter tabPagerAdapter;
 	public ViewPager mViewPager;
@@ -70,11 +70,11 @@ public class HomeActivity extends FragmentActivity {
 		DAO_User daoUser = new DAO_User(this, db);
 		user = daoUser.getCurrentUser();
 		
-		DAO_CreatureBase daoDB = new DAO_CreatureBase(this, db);
-		dandremidsBaseList = daoDB.getAllCreatureBase();
+		DAO_DandremidBase daoDB = new DAO_DandremidBase(this, db);
+		dandremidsBaseList = daoDB.getAllDandremidBase();
 		db.close();
 		dsh.close();
-		// "Wild Creature" Notification System		
+		// "Wild Dandremid" Notification System		
 		MyAlarm.setNextAlarm(this, 0, 1);	
 		
 	}
@@ -103,7 +103,7 @@ public class HomeActivity extends FragmentActivity {
 		}
 	}
 
-	public List<CreatureBase> getAllDandremidsList() {
+	public List<DandremidBase> getAllDandremidsList() {
 		return dandremidsBaseList;
 	}
 

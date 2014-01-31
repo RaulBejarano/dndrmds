@@ -3,25 +3,18 @@ package dandremids.src.customclasses;
 import java.util.List;
 
 import dandremids.src.R;
-import dandremids.src.customclasses.DandremidsListAdapter.ViewHolder;
-import dandremids.src.model.Creature;
-import dandremids.src.model.CreatureBase;
-import dandremids.src.model.Creature.Type;
+import dandremids.src.model.DandremidBase;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
-import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,11 +33,11 @@ public class WikimidsListAdapter extends BaseAdapter {
 		
 	}
 	
-	private List<CreatureBase> list;
+	private List<DandremidBase> list;
 	private LayoutInflater inflater = null;
 	private Context context;
 	
-	public WikimidsListAdapter(Context c, List<CreatureBase> list) {
+	public WikimidsListAdapter(Context c, List<DandremidBase> list) {
 		this.context=c;
 		this.inflater = LayoutInflater.from(c);
 		this.list=list;
@@ -88,7 +81,7 @@ public class WikimidsListAdapter extends BaseAdapter {
 			holder = (ViewHolder) view.getTag();
 		}
 		
-		final CreatureBase c = list.get(position);
+		final DandremidBase c = list.get(position);
 		
 		holder.number.setText("nº"+c.getId());
 		holder.number.setTypeface(null, Typeface.BOLD);
@@ -96,12 +89,11 @@ public class WikimidsListAdapter extends BaseAdapter {
 		holder.element2.setImageBitmap(getTypeImage(c.getElement2()));
 		holder.image.setImageBitmap(c.getImage());
 		holder.name.setText(c.getName());
-		holder.description.setText("<La descripción aqui> \n Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus semper magna ante, nec pretium enim venenatis vitae. Ut tincidunt erat in tortor semper egestas. Etiam ut ligula augue. Aliquam elit odio, egestas nec orci ut, gravida placerat tellus. Praesent ac lorem luctus, suscipit lacus eu, vehicula mi. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Pellentesque ligula purus, lacinia vel laoreet sed, eleifend at neque. Cras nec suscipit magna, ac accumsan nunc.");
+		holder.description.setText(c.getDescription());
 		holder.findButton.setOnClickListener(new OnClickListener(){
 
 			@Override
-			public void onClick(View v) {
-				
+			public void onClick(View v) {				
 				onClickFindButton(c);				
 			}});
 		
@@ -109,12 +101,12 @@ public class WikimidsListAdapter extends BaseAdapter {
 		return view;
 	}
 
-	protected void onClickFindButton(CreatureBase c) {
+	protected void onClickFindButton(DandremidBase c) {
 		Toast.makeText(context, c.getId()+"  - Va al mapa y muestra la localización", Toast.LENGTH_LONG).show();		
 	}
 
-	private Bitmap getTypeImage(Type type) {
-		if (type.equals(Type.NONE)) return BitmapFactory.decodeResource(context.getResources(), R.drawable.icon_empty);		
+	private Bitmap getTypeImage(DandremidBase.Element type) {
+		if (type.equals(DandremidBase.Element.NONE)) return BitmapFactory.decodeResource(context.getResources(), R.drawable.icon_empty);		
 		return BitmapFactory.decodeResource(context.getResources() , context.getResources().getIdentifier("type_"+type.name().toLowerCase(), "drawable", context.getPackageName()));
 	}
 }

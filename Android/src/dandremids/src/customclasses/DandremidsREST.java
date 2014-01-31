@@ -76,7 +76,7 @@ public class DandremidsREST {
 			String urlParameters = "key="+key+"&user="+user+"&password="+password;	
 			String result = sendRequest(urlParameters);
 
-			User usr = new Gson().fromJson(result, User.class);
+			User usr = new Gson().fromJson(result, User.class);			
 			if (usr==null){
 				return null;
 			}

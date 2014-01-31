@@ -16,8 +16,8 @@ public class DAO_Attack {
 	}
 
 	public void insertAttack(Attack a) {
-		String sql = "INSERT INTO Attack (id, name, Element_id, strike, heal) " +
-				"VALUES ("+a.id+", '"+a.name+"', "+a.Element_id+", "+a.strike+", "+a.heal+")";
+		String sql = "INSERT INTO Attack (id, name, Element_id, strike, heal, minimumLevel) " +
+				"VALUES ("+a.id+", '"+a.name+"', "+a.Element_id+", "+a.strike+", "+a.heal+", "+a.minimumLevel+")";
 		db.execSQL(sql);
 	}
 
@@ -26,4 +26,5 @@ public class DAO_Attack {
 		db.execSQL(sql);
 	}
 
+	
 }

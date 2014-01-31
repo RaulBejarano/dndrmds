@@ -2,13 +2,13 @@ package dandremids.src.threads;
 
 import android.annotation.SuppressLint;
 import android.graphics.Canvas;
-import dandremids.src.views.CreatureView;
+import dandremids.src.views.DandremidView;
 
 public class CreatureViewLoopThread extends Thread {
-    private CreatureView view;
+    private DandremidView view;
     private boolean running = false;
    
-    public CreatureViewLoopThread(CreatureView view) {
+    public CreatureViewLoopThread(DandremidView view) {
           this.view = view;
     }
 

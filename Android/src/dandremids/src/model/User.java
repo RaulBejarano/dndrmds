@@ -16,7 +16,7 @@ public class User {
 	private String gender;
 	private int level;
 	private int exp, expNextLevel;
-	private List<Creature> creatureList;
+	private List<Dandremid> dandremidList;
 	
 
 
@@ -36,7 +36,7 @@ public class User {
 		this.level = level;
 		this.exp = exp;
 		this.expNextLevel = expNextLevel;
-		this.creatureList = new ArrayList<Creature>();
+		this.dandremidList = new ArrayList<Dandremid>();
 	}
 
 
@@ -130,13 +130,13 @@ public class User {
 	}
 
 
-	public List<Creature> getCreatureList() {
-		return creatureList;
+	public List<Dandremid> getDandremidList() {
+		return dandremidList;
 	}
 
 
-	public void setCreatureList(ArrayList<Creature> creatureList) {
-		this.creatureList = creatureList;
+	public void setDandremidList(ArrayList<Dandremid> dandremidList) {
+		this.dandremidList = dandremidList;
 	}
 
 
@@ -160,21 +160,11 @@ public class User {
 	}
 
 
-	public Creature getSelectedCreature() {
-		for (Creature c : creatureList){
-			if (c.isSelected()){
-				return c;
-			}
-		}
-		return null;
-	}
-
-
-	public List<Creature> getSelectedCreatureList() {
+	public List<Dandremid> getSelectedDandremidList() {
 		
-		List <Creature> list = new ArrayList<Creature>();
-		for (Creature c : creatureList) {
-			if (c.isSelected()) {
+		List <Dandremid> list = new ArrayList<Dandremid>();
+		for (Dandremid c : dandremidList) {
+			if (c.getSelected()!=-1) {
 				list.add(c);
 			}
 		}
@@ -182,11 +172,11 @@ public class User {
 		return list;
 	}
 	
-	public List<Creature> getUnselectedCreatureList() {
+	public List<Dandremid> getUnselectedDandremidList() {
 		
-		List <Creature> list = new ArrayList<Creature>();
-		for (Creature c : creatureList) {
-			if (!c.isSelected()) {
+		List <Dandremid> list = new ArrayList<Dandremid>();
+		for (Dandremid c : dandremidList) {
+			if (c.getSelected()==-1) {
 				list.add(c);
 			}
 		}

@@ -32,7 +32,7 @@ public class MyAlarm extends BroadcastReceiver {
 		
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
 			.setSmallIcon(R.drawable.ic_launcher)
-			.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.notification_wild_creature_icon))
+			.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.notification_wild_dandremid_icon))
 			.setContentTitle("Aaah!! What happens!?")
 			.setContentText("Wild Dandremid appeared").setAutoCancel(true);
 

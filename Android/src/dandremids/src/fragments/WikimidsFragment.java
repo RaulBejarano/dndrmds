@@ -5,8 +5,8 @@ import java.util.List;
 import dandremids.src.HomeActivity;
 import dandremids.src.R;
 import dandremids.src.customclasses.WikimidsListAdapter;
-import dandremids.src.model.Creature;
-import dandremids.src.model.CreatureBase;
+import dandremids.src.model.Dandremid;
+import dandremids.src.model.DandremidBase;
 import dandremids.src.model.User;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -28,7 +28,7 @@ public class WikimidsFragment extends Fragment{
 		
 		View v = inflater.inflate(dandremids.src.R.layout.fragment_wikimids, container, false);
 		
-		List<CreatureBase> list = ((HomeActivity) this.getActivity()).getAllDandremidsList();
+		List<DandremidBase> list = ((HomeActivity) this.getActivity()).getAllDandremidsList();
 		
 		dandremidsList = (ListView) v.findViewById(R.id.fragment_wikimids_list);
 		dandremidsList.setAdapter(new WikimidsListAdapter(this.getActivity(), list));

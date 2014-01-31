@@ -14,5 +14,5 @@ public class User {
 	public int level;
 	public int exp;
 	public int expNextLevel;
-	public List<Creature> creatures;
+	public List<Dandremid> dandremids;
 }
