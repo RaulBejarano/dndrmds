@@ -63,8 +63,8 @@ public class DAO_DandremidBase {
 						c.getInt(6),								//int base_speed;
 						c.getInt(7),								//int base_maxFeed;
 						c.getInt(8),								//int base_maxLife;
-						c.getString(9),								//String description
-						getDandremidBaseImage(c.getString(1))		//Bitmap image;
+						c.getString(9), 							//String description
+						getDandremidImage(c.getString(1))
 				);
 			
 			c.close();
@@ -99,8 +99,8 @@ public class DAO_DandremidBase {
 						c.getInt(6),								//int base_speed;
 						c.getInt(7),								//int base_maxFeed;
 						c.getInt(8),								//int base_maxLife;
-						c.getString(9),								//String description
-						getDandremidBaseImage(c.getString(1))		//Bitmap image;
+						c.getString(9), 							//String description
+						getDandremidImage(c.getString(1))				
 				);
 			
 			c.close();
@@ -110,10 +110,6 @@ public class DAO_DandremidBase {
 		return null;
 	}
 
-
-	private Bitmap getDandremidBaseImage(String name) {		
-		return BitmapFactory.decodeResource(context.getResources() , context.getResources().getIdentifier("dndrmd_"+name.toLowerCase(), "drawable", context.getPackageName()));
-	}
 
 	public List<DandremidBase> getAllDandremidBase() {
 		List<DandremidBase> list = new ArrayList<DandremidBase>();
@@ -142,8 +138,8 @@ public class DAO_DandremidBase {
 						c.getInt(6),								//int base_speed;
 						c.getInt(7),								//int base_maxFeed;
 						c.getInt(8),								//int base_maxLife;
-						c.getString(9),								//description
-						getDandremidBaseImage(c.getString(1))		//Bitmap image;
+						c.getString(9), 							//String description
+						getDandremidImage(c.getString(1))
 				);
 			
 			list.add(base);	
@@ -154,5 +150,8 @@ public class DAO_DandremidBase {
 	}
 	
 	
+	private Bitmap getDandremidImage (String name) {
+		return BitmapFactory.decodeResource(context.getResources(), context.getResources().getIdentifier("dndrmd_"+name.toLowerCase(), "drawable", context.getPackageName()));
+	}
 	
 }

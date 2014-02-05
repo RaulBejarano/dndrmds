@@ -1,6 +1,8 @@
 package dandremids.src.fragments;
 
 
+import com.google.gson.Gson;
+
 import dandremids.src.HomeActivity;
 import dandremids.src.LoadCombatActivity;
 import dandremids.src.R;
@@ -87,12 +89,10 @@ public class MyDandremidsFragment extends Fragment {
 		    	    	    	onLiberateDandremid(c);
 		    	    	    }
 		    	    	})
-		    	    	.setNegativeButton("No", null)						//Do nothing on no
-		    	    	.show();
-		    			
+		    	    	.setNegativeButton("No", null)
+		    	    	.show();		    			
 		    			break;
-	    		}
-	    			    		
+	    		}	    			    		
 	    	}
 	    });
 	    
@@ -117,7 +117,7 @@ public class MyDandremidsFragment extends Fragment {
 
 	protected void onSelectDandremid(Dandremid dandremid) {
 		if (user.getSelectedDandremidList().size()<3){
-			dandremid.setSelected(3);			
+			dandremid.setSelected(user.getSelectedDandremidList().size()+1);			
 			
 			DandremidsSQLiteHelper dsh = new DandremidsSQLiteHelper(this.getActivity(),"DandremidsDB",null,1);
 			SQLiteDatabase db = dsh.getWritableDatabase();
@@ -130,8 +130,7 @@ public class MyDandremidsFragment extends Fragment {
 			
 		} else {
 			Toast.makeText(this.getActivity(), "Not allowed", Toast.LENGTH_LONG).show();			
-		}
-		
+		}		
 	}
 	
 	protected void updateDataList() {
@@ -142,11 +141,10 @@ public class MyDandremidsFragment extends Fragment {
 		list.setAdapter(new DandremidsListAdapter(this.getActivity(), user.getUnselectedDandremidList()));
 	}
 	
-	
 	protected void onClickScanButton() {
 		
 		Intent intent = new Intent(this.getActivity(), LoadCombatActivity.class);
-		startActivityForResult(intent, 0);
+		this.startActivity(intent);
 		
 		
 		//Intent intent = new Intent("com.google.zxing.client.android.SCAN");

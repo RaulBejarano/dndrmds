@@ -112,46 +112,102 @@ public class SelectedDandremidFragment extends Fragment {
 	
 	
 		protected void onDandremidClick() {
+			/*
 			Intent i = new Intent(this.getActivity(), DandremidActivity.class);
 			i.putExtra("CREATURE_ID", dandremid.getId());
-			this.startActivity(i);		
+			this.startActivity(i);	*/
 		}
 
 		private void onDandremidLongClick() {
-			
-			final String [] items= new String[]{"Unselect"};			
-			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-			
+			String [] items;		
+			switch (dandremid.getSelected()){
+				case 1:
+					items = new String[]{"Unselect", "Move rigth"};
+					break;
+				case 2:
+					items = new String[]{"Unselect", "Move rigth", "Move left"};
+					break;
+				case 3:
+					items = new String[]{"Unselect", "Move left"};
+					break;
+				default:
+					return;
+			}
+						
+			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());			
 		    builder.setItems(items, new DialogInterface.OnClickListener() {
 		    	public void onClick(DialogInterface dialog, int i) {
-		    		if (i==0) {		// Unselect
-		    			onUnselectDandremid();		    			
-		    		}
+		    		switch (dandremid.getSelected()){
+						case 1:
+							if (i==0) onUnselectDandremid();
+							else onMoveRightDandremid();							
+							break;
+						case 2:
+							if (i==0) onUnselectDandremid();
+							else if (i==1)	onMoveRightDandremid();
+							else onMoveLeftDandremid();							
+							break;
+						case 3:
+							if (i==0) onUnselectDandremid();
+							else onMoveLeftDandremid();							
+							break;
+						default:
+							return;
+					}
 		    	}
-		    });
-		    
+		    });		    
 		    AlertDialog ad = builder.create();
 		    ad.show();			
 		}
 
 		private void onUnselectDandremid() {
-			dandremid.setSelected(-1);
-			
-			DandremidsSQLiteHelper dsh = new DandremidsSQLiteHelper(this.getActivity(),"DandremidsDB",null,1);
-			SQLiteDatabase db = dsh.getWritableDatabase();
-			DAO_User daoUser = new DAO_User(this.getActivity(), db);
-			daoUser.updateUser(user);	
-			db.close();
-			dsh.close();
+			user.setUnselectedDandremid(dandremid);
+						
+			saveDandremidsChanges();
 			
 			ListView list = (ListView) this.getActivity().findViewById(R.id.fragment_my_dandremids_list);
 			list.setAdapter(new DandremidsListAdapter(this.getActivity(), user.getUnselectedDandremidList()));
 			
 			ViewPager pager = (ViewPager) this.getActivity().findViewById(R.id.fragment_home_pager);
 			pager.setAdapter(new ScreenSlidePagerAdapter(getFragmentManager(), user));
-			
 		}
 		
+		private void onMoveLeftDandremid(){
+			// 1. Get the Dandremid on the left and change order attribute
+			Dandremid d = user.getSelectedDandremidList().get((dandremid.getSelected()-1)-1);
+			d.setSelected(d.getSelected()+1);
+			
+			// 2. Add one at selected attribute in the clicked Dandremid
+			dandremid.setSelected(dandremid.getSelected()-1);			
+			
+			saveDandremidsChanges();
+			
+			ViewPager pager = (ViewPager) this.getActivity().findViewById(R.id.fragment_home_pager);
+			pager.setAdapter(new ScreenSlidePagerAdapter(getFragmentManager(), user));
+		}
+		
+		private void onMoveRightDandremid() {
+			// 1. Get the Dandremid on the right and change order attribute
+			Dandremid d = user.getSelectedDandremidList().get((dandremid.getSelected()-1)+1);
+			d.setSelected(d.getSelected()-1);
+			
+			// 2. Substract one at selected attribute in the clicked Dandremid
+			dandremid.setSelected(dandremid.getSelected()+1);			
+			
+			saveDandremidsChanges();
+			
+			ViewPager pager = (ViewPager) this.getActivity().findViewById(R.id.fragment_home_pager);
+			pager.setAdapter(new ScreenSlidePagerAdapter(getFragmentManager(), user));
+		}
+		
+		private void saveDandremidsChanges(){
+			DandremidsSQLiteHelper dsh = new DandremidsSQLiteHelper(this.getActivity(),"DandremidsDB",null,1);
+			SQLiteDatabase db = dsh.getWritableDatabase();
+			DAO_User daoUser = new DAO_User(this.getActivity(), db);
+			daoUser.updateUser(user);	
+			db.close();
+			dsh.close();
+		}
 		
 		private Bitmap getTypeImage(DandremidBase.Element type) {
 			if (type.equals(DandremidBase.Element.NONE)) return BitmapFactory.decodeResource(this.getActivity().getResources(), R.drawable.icon_empty);		

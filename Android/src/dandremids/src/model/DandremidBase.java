@@ -1,9 +1,13 @@
 package dandremids.src.model;
 
+import dandremids.src.R;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 
-public class DandremidBase {
+public class DandremidBase implements Parcelable {
 	public enum Element {NONE, RARE, NORMAL, FLAME, DROP, THUNDER, LEAF, COLD, FIST, VENOM, WING, MENTAL, INSECT, STONE, IRON};
 	
 	
@@ -22,6 +26,23 @@ public class DandremidBase {
 	String description;
 	
 	Bitmap image;
+	
+	
+	public static final Parcelable.Creator<DandremidBase> CREATOR =
+            new Parcelable.Creator<DandremidBase>()
+            {
+                @Override
+                public DandremidBase createFromParcel(Parcel parcel)
+                {
+                    return new DandremidBase(parcel);
+                }
+ 
+                @Override
+                public DandremidBase[] newArray(int size)
+                {
+                    return new DandremidBase[size];
+                }
+        };
 
 	public DandremidBase(int id, String name, Element element1,
 			Element element2, int base_strength, int base_defense,
@@ -41,6 +62,39 @@ public class DandremidBase {
 		this.image=image;
 	}
 
+	
+	public DandremidBase (Parcel p) {
+		id = p.readInt();
+		name = p.readString();
+		element1 = Element.valueOf(p.readString());
+		element2 = Element.valueOf(p.readString());
+		base_strength = p.readInt();
+		base_defense = p.readInt();
+		base_speed = p.readInt();
+		base_maxFeed = p.readInt();
+		base_maxLife = p.readInt();
+		description = p.readString();		
+	}
+		
+	@Override
+	public void writeToParcel(Parcel p, int flags) {
+		p.writeInt(id);
+		p.writeString(name);
+		p.writeString(element1.toString());
+		p.writeString(element2.toString());
+		p.writeInt(base_strength);
+		p.writeInt(base_defense);
+		p.writeInt(base_speed);
+		p.writeInt(base_maxFeed);
+		p.writeInt(base_maxLife);
+		p.writeString(description);
+	}	
+	
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+	
 	public int getId() {
 		return id;
 	}
@@ -127,8 +181,5 @@ public class DandremidBase {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-	
-	
-		
+	}		
 }

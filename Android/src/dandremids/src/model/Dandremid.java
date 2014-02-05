@@ -1,7 +1,10 @@
 package dandremids.src.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class Dandremid {
+
+public class Dandremid implements Parcelable {
 	
 	// General Attributes
 	int id;
@@ -23,6 +26,25 @@ public class Dandremid {
 	int maxLife;
 	
 	DandremidBase dandremidBase;
+	
+	
+	public static final Parcelable.Creator<Dandremid> CREATOR =
+            new Parcelable.Creator<Dandremid>()
+            {
+                @Override
+                public Dandremid createFromParcel(Parcel parcel)
+                {
+                    return new Dandremid(parcel);
+                }
+ 
+                @Override
+                public Dandremid[] newArray(int size)
+                {
+                    return new Dandremid[size];
+                }
+        };
+	
+	
 
 	public Dandremid(int id, String name, int level, int exp, int expNextLevel,
 			int selected, int strength, int defense, int speed, int feed,
@@ -43,6 +65,48 @@ public class Dandremid {
 		this.life = life;
 		this.maxLife = maxLife;
 		this.dandremidBase = null;
+	}
+	
+	public Dandremid (Parcel p) {
+		id = p.readInt();
+		name = p.readString();
+		level = p.readInt();
+		exp = p.readInt();
+		expNextLevel = p.readInt();
+		selected = p.readInt();
+		strength = p.readInt();
+		defense = p.readInt();
+		speed = p.readInt();
+		feed = p.readInt();
+		maxFeed = p.readInt();
+		happiness = p.readInt();
+		life = p.readInt();
+		maxLife = p.readInt();
+		dandremidBase = (DandremidBase) p.readParcelable(getClass().getClassLoader());
+	}
+	
+	@Override
+	public void writeToParcel(Parcel p, int flags) {
+		p.writeInt(id);
+		p.writeString(name);
+		p.writeInt(level);
+		p.writeInt(exp);
+		p.writeInt(expNextLevel);
+		p.writeInt(selected);
+		p.writeInt(strength);
+		p.writeInt(defense);
+		p.writeInt(speed);
+		p.writeInt(feed);
+		p.writeInt(maxFeed);
+		p.writeInt(happiness);
+		p.writeInt(life);
+		p.writeInt(maxLife);
+		p.writeParcelable(dandremidBase, flags);		
+	}
+	
+	@Override
+	public int describeContents() {
+		return 0;
 	}
 
 	public int getId() {
@@ -164,9 +228,5 @@ public class Dandremid {
 	public void setDandremidBase(DandremidBase dandremidBase) {
 		this.dandremidBase = dandremidBase;
 	}
-	
-	
-	
-	
 	
 }
