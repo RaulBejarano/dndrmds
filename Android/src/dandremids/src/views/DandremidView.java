@@ -209,7 +209,7 @@ public class DandremidView extends SurfaceView {
 	        canvas.drawBitmap(bmp, src, rightPanel, null);
 	        
 	        // Creature
-	        bmp = BitmapFactory.decodeResource(getResources(), R.drawable.monster2);						
+	        bmp = BitmapFactory.decodeResource(getResources(), R.drawable.dndrmd_lasentu);						
 	        src = new Rect(0, 0, bmp.getWidth(), bmp.getHeight());
 						
 			x1 = (int) ((double)dp.x - rightPanel.width()) * 1/10;

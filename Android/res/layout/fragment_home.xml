@@ -2,9 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFE1" >
-    
-	<TextView
+    android:background="@drawable/background_home" >
+
+    <TextView
         android:id="@+id/fragment_home_player_name"
         android:layout_width="150dp"
         android:layout_height="40dp"
@@ -15,6 +15,7 @@
         android:layout_toLeftOf="@+id/fragment_home_edit_button"
         android:text="Agarosh"
         android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#FFFFFF"
         android:textSize="30sp" />
 
     <ImageView
@@ -23,6 +24,7 @@
         android:layout_height="100dp"
         android:layout_alignLeft="@+id/fragment_home_player_name"
         android:layout_below="@+id/fragment_home_player_name"
+        android:background="#E0ECF8"
         android:src="@drawable/logo_dandremids" />
 
     <TextView
@@ -32,8 +34,10 @@
         android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/fragment_home_image"
         android:layout_toRightOf="@+id/fragment_home_image"
+        android:paddingLeft="10dp"
         android:text="Name"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#FFFFFF" />
 
     <TextView
         android:id="@+id/fragment_home_age"
@@ -42,8 +46,10 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/fragment_home_surname"
         android:layout_toRightOf="@+id/fragment_home_image"
+        android:paddingLeft="10dp"
         android:text="Age"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#FFFFFF" />
 
     <TextView
         android:id="@+id/fragment_home_gender"
@@ -52,8 +58,10 @@
         android:layout_alignLeft="@+id/fragment_home_age"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/fragment_home_age"
+        android:paddingLeft="10dp"
         android:text="Gender"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#FFFFFF" />
 
     <TextView
         android:id="@+id/fragment_home_level"
@@ -75,8 +83,10 @@
         android:layout_alignLeft="@+id/fragment_home_name"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/fragment_home_name"
+        android:paddingLeft="10dp"
         android:text="Surname"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#FFFFFF" />
 
     <ProgressBar
         android:id="@+id/fragment_home_exp"
@@ -87,9 +97,10 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/fragment_home_image"
         android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
         android:max="500"
         android:progress="125"
-        android:progressDrawable="@android:drawable/progress_horizontal" />
+        android:progressDrawable="@drawable/style_progress_bar" />
 
     <TextView
         android:id="@+id/fragment_home_exp_text"
@@ -102,8 +113,8 @@
         android:text="125/500"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textSize="10sp" />
-    
-     <ImageButton
+
+    <ImageButton
         android:id="@+id/fragment_home_edit_button"
         android:layout_width="60dp"
         android:layout_height="40dp"
@@ -111,29 +122,42 @@
         android:layout_alignParentTop="true"
         android:layout_marginRight="10dp"
         android:layout_marginTop="5dp"
-        android:background="@drawable/background_green_button"
+        android:background="@drawable/green_button"
         android:scaleType="fitCenter"
         android:src="@drawable/edit" />
 
-     <TextView
-         android:id="@+id/fragment_home_text1"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_alignParentLeft="true"
-         android:layout_alignParentRight="true"
-         android:layout_below="@+id/fragment_home_exp"
-         android:layout_marginTop="5dp"
-         android:background="#084B8A"
-         android:gravity="center"
-         android:text="Selected Creatures"
-         android:textAppearance="?android:attr/textAppearanceMedium"
-         android:textColor="#FFFFFF" />
-     
-     <android.support.v4.view.ViewPager
-         xmlns:android="http://schemas.android.com/apk/res/android"
-         android:id="@+id/fragment_home_pager"
-         android:layout_width="match_parent"
-         android:layout_height="match_parent"
-         android:layout_below="@+id/fragment_home_text1" />
-    
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/fragment_home_exp"
+        android:layout_marginTop="5dp"
+        android:background="#FFFFFF" >
+
+        <android.support.v4.view.ViewPager
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/fragment_home_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/fragment_home_text1"
+            android:background="#FFFFFF" >
+
+        </android.support.v4.view.ViewPager>
+
+        <TextView
+            android:id="@+id/fragment_home_text1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/background_title_2"
+            android:gravity="center"
+            android:text="Selected Creatures"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp" />
+
+    </RelativeLayout>
+
 </RelativeLayout>

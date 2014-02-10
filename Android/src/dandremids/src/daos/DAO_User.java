@@ -74,7 +74,7 @@ public class DAO_User {
 	
 	private Bitmap getUserImage() {
 		
-		return BitmapFactory.decodeResource(context.getResources(), R.drawable.logo_text);
+		return BitmapFactory.decodeResource(context.getResources(), R.drawable.carnet);
 	}
 
 	public boolean doLogOut(){		
@@ -99,7 +99,7 @@ public class DAO_User {
 	
 	public void updateUser(User user) {
 		String sql = "UPDATE User SET " +
-				"playerName ='"+user.getPlayerName()+"', name='"+user.getName()+"', email = '"+user.getEmail()+"', surname = '"+user.getSurname()+"', birth = '"+user.getBirth()+"', gender = '"+user.getGender()+"', level = "+user.getLevel()+", exp = "+user.getExp()+", expNextLevel = "+user.getExp()+" " +
+				"playerName ='"+user.getPlayerName()+"', name='"+user.getName()+"', email = '"+user.getEmail()+"', surname = '"+user.getSurname()+"', birth = '"+user.getBirth()+"', gender = '"+user.getGender()+"', level = "+user.getLevel()+", exp = "+user.getExp()+", expNextLevel = "+user.getExpNextLevel()+" " +
 				"WHERE id = "+user.getId();
 		db.execSQL(sql);
 		
@@ -109,7 +109,4 @@ public class DAO_User {
 		}
 		
 	}
-	
-	
-	
 }

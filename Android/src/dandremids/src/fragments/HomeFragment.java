@@ -79,7 +79,8 @@ public class HomeFragment extends Fragment {
 			
 		});
 		
-		mPager.setAdapter(mPagerAdapter);		
+		mPager.setAdapter(mPagerAdapter);
+		mPager.setPageTransformer(true, new ZoomOutPageTransformer());
 		return v;
 	}
 	

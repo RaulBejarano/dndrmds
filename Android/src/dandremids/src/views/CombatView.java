@@ -1,9 +1,9 @@
 package dandremids.src.views;
 
 import dandremids.src.R;
+import dandremids.src.model.Dandremid;
 import dandremids.src.model.User;
 import dandremids.src.threads.CombatViewLoopThread;
-import dandremids.src.CombatActivity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -21,21 +21,27 @@ import android.view.SurfaceView;
 @SuppressLint("DrawAllocation")
 public class CombatView extends SurfaceView {
  
-	private User me;
+	private User local;
 	private User rival;
+	
+	private Dandremid dandremidLocal;
+	private Dandremid dandremidRival;
 	
 	private Display display;
 	private SurfaceHolder holder;
 	private CombatViewLoopThread combatViewLoopThread;
 	
 	
-	public CombatView(Context context, Display display) {
+	public CombatView(Context context, Display display, User local, User rival) {
 		super(context);
 		this.display=display;
+		this.local=local;
+		this.rival=rival;
+		this.dandremidLocal = local.getSelectedDandremidList().get(0);
+		this.dandremidRival = rival.getSelectedDandremidList().get(0);		
 		
-		combatViewLoopThread = new CombatViewLoopThread(this);
-		holder = this.getHolder();
-		
+		combatViewLoopThread = new CombatViewLoopThread(this);		
+		holder = this.getHolder();		
 		holder.addCallback(new SurfaceHolder.Callback() {
 
             @Override
@@ -61,7 +67,8 @@ public class CombatView extends SurfaceView {
             public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
             }
 		});
-				
+			
+		
 	}
 		
 	
@@ -79,7 +86,7 @@ public class CombatView extends SurfaceView {
 			Point dp = new Point();
 			display.getSize(dp);
 			
-			canvas.drawColor(Color.CYAN);
+			canvas.drawColor(Color.WHITE);
 			
 			// Combat Top Panel			
 			Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.combat_top_panel);						
@@ -99,8 +106,8 @@ public class CombatView extends SurfaceView {
 	        //Top life Bar	        
 	        p.setColor(Color.GREEN);
 	        
-	        barMaxValue=300;
-	        barValue=300;	        		
+	        barMaxValue=dandremidRival.getMaxLife();
+	        barValue=dandremidRival.getLife();	        		
 	        
 	        proportion = barValue/barMaxValue;
 	        
@@ -126,7 +133,7 @@ public class CombatView extends SurfaceView {
 	        canvas.drawText(text,x1,y1, p);
 	        
 	        // Top Level Text	   
-	        level=88;
+	        level=dandremidRival.getLevel();
 	        
 	        p.setColor(Color.BLACK);
 	        p.setTextSize((int)(dp.x*1/20.0));	       
@@ -138,7 +145,7 @@ public class CombatView extends SurfaceView {
 	        canvas.drawText(text,x1,y1, p);	
 	        
 	        // Top Creature Name
-	        text = "Top Creature Name";
+	        text = dandremidRival.getName();
 	        
 	        p.setColor(Color.BLACK);
 	        p.setTextSize((int)(dp.x*1/30.0));		        
@@ -169,8 +176,9 @@ public class CombatView extends SurfaceView {
 	        
 	        //Bot life Bar
 	        p.setColor(Color.GREEN);
-	        barMaxValue=242;
-	        barValue=242;	        		
+	        
+	        barMaxValue=dandremidLocal.getMaxLife();
+	        barValue=dandremidLocal.getLife();	        		
 	        
 	        proportion = barValue/barMaxValue;
 	        
@@ -195,7 +203,7 @@ public class CombatView extends SurfaceView {
 	        canvas.drawText(text,x1,y1, p);
 	        
 	        // Bot Level Text	   
-	        level=88;
+	        level=dandremidLocal.getLevel();
 	        
 	        p.setColor(Color.BLACK);
 	        p.setTextSize((int)(dp.x*1/20.0));	       
@@ -210,7 +218,7 @@ public class CombatView extends SurfaceView {
 	        
 	        
 	        // Bot Creature Name
-	        text = "Bottom Creature Name";
+	        text = dandremidLocal.getName();
 	        
 	        p.setColor(Color.BLACK);
 	        p.setTextSize((int)(dp.x*1/30.0));		        
@@ -223,16 +231,14 @@ public class CombatView extends SurfaceView {
 	        canvas.drawText(text,x1,y1, p);	
 	        
 	        
-	        
-	        
 	        // Top Creature (Rival)
-	        bmp = BitmapFactory.decodeResource(getResources(), R.drawable.monster1);
+	        bmp = dandremidRival.getDandremidBase().getImage();
 	        src = new Rect (0,0,bmp.getWidth(),bmp.getHeight()); //Esto tiene que ajustarse a los parametros de ROW y FRAME correspondientes a la animación
 	        
-	        x1=0;
+	        x1=(int) (dp.x* 1/8);
 	        y1=0;
 	        
-	        x2 = (int) (dp.x/2);
+	        x2 = (int) (dp.x* 3/8);
 	        proportion = ((double)(x2-x1))/bmp.getWidth();
 	        y2 = (int) (bmp.getHeight()*proportion);
 	       
@@ -240,16 +246,15 @@ public class CombatView extends SurfaceView {
 	        canvas.drawBitmap(bmp, src, topCreature, null);
 	        
 	        
-	        // Bot Creature (Mine)
+	        // Bot Creature (Local)
 	        
-	        bmp = BitmapFactory.decodeResource(getResources(), R.drawable.monster5);
+	        bmp = dandremidLocal.getDandremidBase().getImage();
 	        src = new Rect (0,0,bmp.getWidth(),bmp.getHeight()); //Esto tiene que ajustarse a los parametros de ROW y FRAME correspondientes a la animación
 	        
-	        
-	        x2=dp.x;
+	        x2= (int) (dp.x * 7/8);
 	        y2=dp.y;
 	        
-	        x1=dp.x/2;
+	        x1=(int)(dp.x * 5/8);
 	        proportion = ((double)(x2-x1))/bmp.getWidth();
 	        y1 = (int) (dp.y-bmp.getHeight()*proportion);
 	       

@@ -61,7 +61,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/row_wikimids_description"
         android:layout_margin="10dp"
-        android:background="@drawable/background_green_button"
+        android:background="@drawable/green_button"
         android:scaleType="centerCrop"
         android:src="@drawable/lupa" />
 

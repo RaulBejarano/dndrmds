@@ -13,11 +13,16 @@ import dandremids.src.model.User;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.app.ActionBar.Tab;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class HomeActivity extends FragmentActivity {
@@ -37,33 +42,29 @@ public class HomeActivity extends FragmentActivity {
 		tabPagerAdapter = new TabPagerAdapter(this.getSupportFragmentManager());
 		mViewPager = (ViewPager) this.findViewById(R.id.fragment_holder_pager);
 		mViewPager.setAdapter(tabPagerAdapter);		
+		mViewPager.setOnPageChangeListener(new OnPageChangeListener(){
+
+			@Override
+			public void onPageScrollStateChanged(int arg0) {}
+
+			@Override
+			public void onPageScrolled(int arg0, float arg1, int arg2) {}
+
+			@Override
+			public void onPageSelected(int i) {
+				getActionBar().setSelectedNavigationItem(i);
+			}
+			
+		});
 		
 		ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setDisplayShowHomeEnabled(false);
 		
-		ActionBar.TabListener tabListener = new ActionBar.TabListener() {
-			
-			@Override
-			public void onTabUnselected(Tab tab, FragmentTransaction ft) {
-								
-			}
-			
-			@Override
-			public void onTabSelected(Tab tab, FragmentTransaction ft) {
-				mViewPager.setCurrentItem(tab.getPosition());				
-			}
-			
-			@Override
-			public void onTabReselected(Tab tab, FragmentTransaction ft) {
-			
-			}
-		};
-		
-		actionBar.addTab(actionBar.newTab().setText("Home").setTabListener(tabListener));
-		actionBar.addTab(actionBar.newTab().setText("My Dandremids").setTabListener(tabListener));
-		actionBar.addTab(actionBar.newTab().setText("Wikimids").setTabListener(tabListener));
+		actionBar.addTab(createTab(actionBar, R.drawable.icon_home, "Home"));
+		actionBar.addTab(createTab(actionBar, R.drawable.icon_my_dandremids, "My Dandremids"));
+		actionBar.addTab(createTab(actionBar, R.drawable.icon_wikimids, "Wikimids"));
 		
 		DandremidsSQLiteHelper dsh = new DandremidsSQLiteHelper(this,"DandremidsDB",null,1);
 		SQLiteDatabase db = dsh.getWritableDatabase();
@@ -75,10 +76,43 @@ public class HomeActivity extends FragmentActivity {
 		db.close();
 		dsh.close();
 		// "Wild Dandremid" Notification System		
-		MyAlarm.setNextAlarm(this, 0, 1);	
+		MyAlarm.setNextAlarm(this, 0, 1);
 		
 	}
 
+	private Tab createTab(ActionBar actionBar, int drawable, String text){
+		View tabView = getLayoutInflater().inflate(R.layout.tab_actionbar, null);
+		TextView tabText = (TextView) tabView.findViewById(R.id.tab_actionbar_text);
+		tabText.setText(text);
+
+		ImageView tabImage = (ImageView) tabView.findViewById(R.id.tab_actionbar_image);
+		tabImage.setImageDrawable(getResources().getDrawable(drawable));
+		Tab tab = actionBar.newTab().setCustomView(tabView);
+		
+		ActionBar.TabListener tabListener = new ActionBar.TabListener() {
+			
+			@Override
+			public void onTabUnselected(Tab tab, FragmentTransaction ft) {}
+			
+			@Override
+			public void onTabSelected(Tab tab, FragmentTransaction ft) {
+				if(mViewPager.getCurrentItem()!=tab.getPosition()){
+					mViewPager.setCurrentItem(tab.getPosition());
+				}
+				
+			}
+			
+			@Override
+			public void onTabReselected(Tab tab, FragmentTransaction ft) {
+			
+			}
+		};
+		
+		tab.setTabListener(tabListener);
+		
+		return tab;
+	}
+	
 	protected void onSaveInstanceState(Bundle outState) {
         outState.putInt("tab",  getActionBar().getSelectedTab().getPosition());    
     }
