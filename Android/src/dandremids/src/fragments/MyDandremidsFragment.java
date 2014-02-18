@@ -20,6 +20,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +29,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -117,7 +119,7 @@ public class MyDandremidsFragment extends Fragment {
 
 	protected void onSelectDandremid(Dandremid dandremid) {
 		if (user.getSelectedDandremidList().size()<3){
-			dandremid.setSelected(user.getSelectedDandremidList().size()+1);			
+			dandremid.setSelected(user.getSelectedDandremidList().size()+1);
 			
 			DandremidsSQLiteHelper dsh = new DandremidsSQLiteHelper(this.getActivity(),"DandremidsDB",null,1);
 			SQLiteDatabase db = dsh.getWritableDatabase();
@@ -136,9 +138,12 @@ public class MyDandremidsFragment extends Fragment {
 	protected void updateDataList() {
 		ViewPager pager = (ViewPager) this.getActivity().findViewById(R.id.fragment_home_pager);
 		pager.setAdapter(new ScreenSlidePagerAdapter(getFragmentManager(), user));
+		this.setSelectedCircle(pager.getCurrentItem());
 		
 		ListView list = (ListView) this.getActivity().findViewById(R.id.fragment_my_dandremids_list);
 		list.setAdapter(new DandremidsListAdapter(this.getActivity(), user.getUnselectedDandremidList()));
+		
+		
 	}
 	
 	protected void onClickScanButton() {
@@ -146,9 +151,29 @@ public class MyDandremidsFragment extends Fragment {
 		Intent intent = new Intent(this.getActivity(), LoadCombatActivity.class);
 		this.startActivity(intent);
 		
-		
 		//Intent intent = new Intent("com.google.zxing.client.android.SCAN");
 		//intent.putExtra("SCAN_MODE", "QR_CODE_MODE");
 		//startActivityForResult(intent, 0);
+	}
+	
+	public void setSelectedCircle (int i) {
+		ImageView c1 = (ImageView) this.getActivity().findViewById(R.id.fragment_home_circle1);
+		ImageView c2 = (ImageView) this.getActivity().findViewById(R.id.fragment_home_circle2);
+		ImageView c3 = (ImageView) this.getActivity().findViewById(R.id.fragment_home_circle3);
+		
+		c1.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.icon_circle_unselected));
+		c2.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.icon_circle_unselected));
+		c3.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.icon_circle_unselected));
+				
+		if (i==0) c1.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.icon_circle_selected));
+		if (i==1) c2.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.icon_circle_selected));
+		if (i==2) c3.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.icon_circle_selected));
+			
+		switch(user.getSelectedDandremidList().size()){
+			case 0: c1.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.icon_empty));
+			case 1: c2.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.icon_empty));
+			case 2: c3.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.icon_empty));
+			default:
+		}
 	}
 }

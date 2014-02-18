@@ -1,5 +1,7 @@
 package dandremids.src.model;
 
+import java.util.List;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -26,6 +28,7 @@ public class Dandremid implements Parcelable {
 	int maxLife;
 	
 	DandremidBase dandremidBase;
+	private List<Attack> attackList;
 	
 	
 	public static final Parcelable.Creator<Dandremid> CREATOR =
@@ -228,5 +231,14 @@ public class Dandremid implements Parcelable {
 	public void setDandremidBase(DandremidBase dandremidBase) {
 		this.dandremidBase = dandremidBase;
 	}
+
+	public List<Attack> getAttackList() {
+		return attackList;
+	}
+
+	public void setAttackList(List<Attack> attackList) {
+		this.attackList = attackList;
+	}
+	
 	
 }

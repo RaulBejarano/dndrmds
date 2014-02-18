@@ -13,6 +13,7 @@ import dandremids.src.model.DandremidBase;
 import dandremids.src.model.User;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -43,8 +44,8 @@ public class LoadCombatActivity extends Activity {
 		spinner.animate();
 		message = (TextView) this.findViewById(R.id.activity_load_combat_message);
 		action = (TextView) this.findViewById(R.id.activity_load_combat_action);
-		topImage = (ImageView) this.findViewById(R.id.activity_load_combat_top_image);
-		bottomImage = (ImageView) this.findViewById(R.id.activity_load_combat_bottom_image);
+		topImage = (ImageView) this.findViewById(R.id.activity_load_combat_rival_image);
+		bottomImage = (ImageView) this.findViewById(R.id.activity_load_combat_local_image);
 		
 		Bundle extra = this.getIntent().getExtras();
 		
@@ -90,15 +91,16 @@ public class LoadCombatActivity extends Activity {
 		if (level < 1) {
 			level = 1;
 		}
-		int exp = 0;
-		int expNextLevel = 100;
-		int strength = 0;
-		int defense = 0;
-		int speed = 0;
+		int exp = level ^ 4;
+		int expNextLevel = (level + 1) ^ 4;
+		int strength = cb.getBase_strength() * level;
+		int defense = cb.getBase_defense() * level;
+		int speed = cb.getBase_speed() * level;
 		int feed = 0;
 		int maxFeed = 0;
 		int life = 100;
 		int maxLife = 100;
+		
 		
 		//Dandremid(int id, String name, int level, int exp, int expNextLevel,int selected, int strength, int defense, int speed, int feed, int maxFeed, int happiness, int life, int maxLife)
 		Dandremid d = new Dandremid (-1, cb.getName(), level, exp, expNextLevel, 1, strength, defense, speed, feed, maxFeed, 0, life, maxLife);

@@ -42,23 +42,23 @@
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/activity_load_combat_top_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/linearLayout1"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:src="@drawable/icon_empty" />
-
-    <ImageView
-        android:id="@+id/activity_load_combat_bottom_image"
+        android:id="@+id/activity_load_combat_local_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/linearLayout1"
+        android:src="@drawable/icon_empty" />
+
+    <ImageView
+        android:id="@+id/activity_load_combat_rival_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/linearLayout1"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/linearLayout1"
         android:src="@drawable/icon_empty" />
 
 </RelativeLayout>

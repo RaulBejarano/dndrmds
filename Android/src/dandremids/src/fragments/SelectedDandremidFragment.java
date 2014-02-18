@@ -1,18 +1,16 @@
 package dandremids.src.fragments;
 
-import dandremids.src.DandremidActivity;
 import dandremids.src.R;
 import dandremids.src.customclasses.DandremidsListAdapter;
 import dandremids.src.customclasses.DandremidsSQLiteHelper;
 import dandremids.src.daos.DAO_User;
 import dandremids.src.model.Dandremid;
-import dandremids.src.model.DandremidBase;
+import dandremids.src.model.Element;
 import dandremids.src.model.User;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -30,6 +28,7 @@ import android.widget.TextView;
 
 public class SelectedDandremidFragment extends Fragment {
 
+	ViewGroup rootView;
 	TextView level;
 	TextView name;
 	ImageView element1;
@@ -55,10 +54,9 @@ public class SelectedDandremidFragment extends Fragment {
 		 super();
 	 }
 
-	 
 	@Override
 	    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-	        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_selected_dandremid, container, false);
+	        rootView = (ViewGroup) inflater.inflate(R.layout.fragment_selected_dandremid, container, false);
 
 	        level = (TextView) rootView.findViewById(R.id.fragment_selected_dandremid_level);
 	        name = (TextView) rootView.findViewById(R.id.fragment_selected_dandremid_name);
@@ -169,7 +167,11 @@ public class SelectedDandremidFragment extends Fragment {
 			list.setAdapter(new DandremidsListAdapter(this.getActivity(), user.getUnselectedDandremidList()));
 			
 			ViewPager pager = (ViewPager) this.getActivity().findViewById(R.id.fragment_home_pager);
+			int i = 0;
+			this.setSelectedCircle(i);
+			
 			pager.setAdapter(new ScreenSlidePagerAdapter(getFragmentManager(), user));
+			pager.setCurrentItem(i);
 		}
 		
 		private void onMoveLeftDandremid(){
@@ -183,7 +185,11 @@ public class SelectedDandremidFragment extends Fragment {
 			saveDandremidsChanges();
 			
 			ViewPager pager = (ViewPager) this.getActivity().findViewById(R.id.fragment_home_pager);
+			int i = pager.getCurrentItem()-1;
+			this.setSelectedCircle(i);
+			
 			pager.setAdapter(new ScreenSlidePagerAdapter(getFragmentManager(), user));
+			pager.setCurrentItem(i);
 		}
 		
 		private void onMoveRightDandremid() {
@@ -195,11 +201,36 @@ public class SelectedDandremidFragment extends Fragment {
 			dandremid.setSelected(dandremid.getSelected()+1);			
 			
 			saveDandremidsChanges();
-			
+						
 			ViewPager pager = (ViewPager) this.getActivity().findViewById(R.id.fragment_home_pager);
+			int i = pager.getCurrentItem()+1;
+			this.setSelectedCircle(pager.getCurrentItem()+1);
+			
 			pager.setAdapter(new ScreenSlidePagerAdapter(getFragmentManager(), user));
+			pager.setCurrentItem(i);
 		}
 		
+		public void setSelectedCircle (int i) {
+			ImageView c1 = (ImageView) this.getActivity().findViewById(R.id.fragment_home_circle1);
+			ImageView c2 = (ImageView) this.getActivity().findViewById(R.id.fragment_home_circle2);
+			ImageView c3 = (ImageView) this.getActivity().findViewById(R.id.fragment_home_circle3);
+			
+			c1.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.icon_circle_unselected));
+			c2.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.icon_circle_unselected));
+			c3.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.icon_circle_unselected));
+						
+			if (i==0) c1.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.icon_circle_selected));
+			if (i==1) c2.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.icon_circle_selected));
+			if (i==2) c3.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.icon_circle_selected));
+				
+			switch(user.getSelectedDandremidList().size()){
+			case 0: c1.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.icon_empty));
+			case 1: c2.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.icon_empty));
+			case 2: c3.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.icon_empty));
+			default:
+		}
+		}
+
 		private void saveDandremidsChanges(){
 			DandremidsSQLiteHelper dsh = new DandremidsSQLiteHelper(this.getActivity(),"DandremidsDB",null,1);
 			SQLiteDatabase db = dsh.getWritableDatabase();
@@ -209,8 +240,10 @@ public class SelectedDandremidFragment extends Fragment {
 			dsh.close();
 		}
 		
-		private Bitmap getTypeImage(DandremidBase.Element type) {
-			if (type.equals(DandremidBase.Element.NONE)) return BitmapFactory.decodeResource(this.getActivity().getResources(), R.drawable.icon_empty);		
+		private Bitmap getTypeImage(Element type) {
+			if (type.equals(Element.NONE)) return BitmapFactory.decodeResource(this.getActivity().getResources(), R.drawable.icon_empty);		
 			return BitmapFactory.decodeResource(this.getActivity().getResources() , this.getActivity().getResources().getIdentifier("type_"+type.name().toLowerCase(), "drawable", this.getActivity().getPackageName()));
 		}
+		
+		
 }

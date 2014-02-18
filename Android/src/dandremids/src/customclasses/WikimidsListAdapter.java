@@ -4,6 +4,7 @@ import java.util.List;
 
 import dandremids.src.R;
 import dandremids.src.model.DandremidBase;
+import dandremids.src.model.Element;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -105,8 +106,8 @@ public class WikimidsListAdapter extends BaseAdapter {
 		Toast.makeText(context, c.getId()+"  - Va al mapa y muestra la localización", Toast.LENGTH_LONG).show();		
 	}
 
-	private Bitmap getTypeImage(DandremidBase.Element type) {
-		if (type.equals(DandremidBase.Element.NONE)) return BitmapFactory.decodeResource(context.getResources(), R.drawable.icon_empty);		
+	private Bitmap getTypeImage(Element type) {
+		if (type.equals(Element.NONE)) return BitmapFactory.decodeResource(context.getResources(), R.drawable.icon_empty);		
 		return BitmapFactory.decodeResource(context.getResources() , context.getResources().getIdentifier("type_"+type.name().toLowerCase(), "drawable", context.getPackageName()));
 	}
 }

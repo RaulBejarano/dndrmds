@@ -19,7 +19,6 @@ import android.app.FragmentTransaction;
 import android.app.ActionBar.Tab;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -62,9 +61,9 @@ public class HomeActivity extends FragmentActivity {
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setDisplayShowHomeEnabled(false);
 		
-		actionBar.addTab(createTab(actionBar, R.drawable.icon_home, "Home"));
-		actionBar.addTab(createTab(actionBar, R.drawable.icon_my_dandremids, "My Dandremids"));
-		actionBar.addTab(createTab(actionBar, R.drawable.icon_wikimids, "Wikimids"));
+		actionBar.addTab(createTab(actionBar, R.drawable.icon_home));
+		actionBar.addTab(createTab(actionBar, R.drawable.icon_my_dandremids));
+		actionBar.addTab(createTab(actionBar, R.drawable.icon_wikimids));
 		
 		DandremidsSQLiteHelper dsh = new DandremidsSQLiteHelper(this,"DandremidsDB",null,1);
 		SQLiteDatabase db = dsh.getWritableDatabase();
@@ -80,11 +79,9 @@ public class HomeActivity extends FragmentActivity {
 		
 	}
 
-	private Tab createTab(ActionBar actionBar, int drawable, String text){
+	private Tab createTab(ActionBar actionBar, int drawable){
 		View tabView = getLayoutInflater().inflate(R.layout.tab_actionbar, null);
-		TextView tabText = (TextView) tabView.findViewById(R.id.tab_actionbar_text);
-		tabText.setText(text);
-
+		
 		ImageView tabImage = (ImageView) tabView.findViewById(R.id.tab_actionbar_image);
 		tabImage.setImageDrawable(getResources().getDrawable(drawable));
 		Tab tab = actionBar.newTab().setCustomView(tabView);
@@ -98,8 +95,7 @@ public class HomeActivity extends FragmentActivity {
 			public void onTabSelected(Tab tab, FragmentTransaction ft) {
 				if(mViewPager.getCurrentItem()!=tab.getPosition()){
 					mViewPager.setCurrentItem(tab.getPosition());
-				}
-				
+				}				
 			}
 			
 			@Override

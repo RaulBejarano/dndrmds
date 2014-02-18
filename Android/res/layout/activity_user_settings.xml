@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_home"
     tools:context=".UserSettingsActivity" >
 
     <ScrollView
@@ -21,17 +22,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
 
-                <Button
-                    android:id="@+id/activity_user_settings_save"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/green_button"
-                    android:text="Save" />
-
                 <TextView
                     android:id="@+id/activity_load_combat_action"
                     android:layout_width="wrap_content"
@@ -43,7 +33,18 @@
                     android:layout_toLeftOf="@+id/activity_user_settings_save"
                     android:text="Settings"
                     android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="#FFFFFF"
                     android:textSize="35sp" />
+
+                <Button
+                    android:id="@+id/activity_user_settings_save"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignTop="@+id/activity_load_combat_action"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/green_button"
+                    android:text="Save" />
 
             </RelativeLayout>
 
@@ -56,7 +57,8 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:text="Player Name:"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="#FFFFFF" />
 
             <EditText
                 android:id="@+id/activity_user_settings_playerName"
@@ -65,10 +67,8 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:ems="10"
                 android:hint="Player Name"
                 android:inputType="textPersonName" >
-
                 
             </EditText>
 
@@ -81,7 +81,8 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:text="Name:"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="#FFFFFF" />
 
             <EditText
                 android:id="@+id/activity_user_settings_name"
@@ -103,7 +104,8 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:text="Surname:"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="#FFFFFF" />
 
             <EditText
                 android:id="@+id/activity_user_settings_surname"
@@ -125,7 +127,8 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:text="Email:"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="#FFFFFF" />
 
             <EditText
                 android:id="@+id/activity_user_settings_email"
@@ -147,7 +150,8 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:text="Birthday:"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="#FFFFFF" />
 
             <EditText
                 android:id="@+id/activity_user_settings_birthday"
@@ -170,20 +174,22 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:text="Gender:"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
-
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="#FFFFFF" />
            
                 <RadioGroup
         			android:layout_width="fill_parent"
 				    android:layout_height="wrap_content"
 				    android:orientation="vertical">
+
 	                <RadioButton
 	                    android:id="@+id/activity_user_settings_rb_female"
 	                    android:layout_width="wrap_content"
 	                    android:layout_height="wrap_content"
 	                    android:layout_marginLeft="20dp"
 	                    android:layout_marginRight="30dp"
-	                    android:text="Female" />
+	                    android:text="Female"
+	                    android:textColor="#FFFFFF" />
 	
 	                <RadioButton
 	                    android:id="@+id/activity_user_settings_rb_male"
@@ -191,7 +197,9 @@
 	                    android:layout_height="wrap_content"
 	                    android:layout_marginLeft="20dp"
 	                    android:layout_marginRight="30dp"
-	                   android:text="Male" />
+	                    android:text="Male"
+	                    android:textColor="#FFFFFF" />
+
 	            </RadioGroup>
 
         </LinearLayout>

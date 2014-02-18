@@ -3,8 +3,8 @@ package dandremids.src.daos;
 import java.util.ArrayList;
 import java.util.List;
 
-import dandremids.src.model.Dandremid;
 import dandremids.src.model.DandremidBase;
+import dandremids.src.model.Element;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -56,8 +56,8 @@ public class DAO_DandremidBase {
 			DandremidBase base = new DandremidBase(
 						c.getInt(0),								//int id;
 						c.getString(1),								//String name;
-						DandremidBase.Element.valueOf(c.getString(2)),		//Dandremid.Type element1;
-						DandremidBase.Element.valueOf(c.getString(3)),		//Dandremid.Type element2;					
+						Element.valueOf(c.getString(2)),		//Dandremid.Type element1;
+						Element.valueOf(c.getString(3)),		//Dandremid.Type element2;					
 						c.getInt(4),								//int base_strength;
 						c.getInt(5),								//int base_defense;
 						c.getInt(6),								//int base_speed;
@@ -92,8 +92,8 @@ public class DAO_DandremidBase {
 			DandremidBase base = new DandremidBase(
 						c.getInt(0),								//int id;
 						c.getString(1),								//String name;
-						DandremidBase.Element.valueOf(c.getString(2)),		//Dandremid.Type element1;
-						DandremidBase.Element.valueOf(c.getString(3)),		//Dandremid.Type element2;					
+						Element.valueOf(c.getString(2)),		//Dandremid.Type element1;
+						Element.valueOf(c.getString(3)),		//Dandremid.Type element2;					
 						c.getInt(4),								//int base_strength;
 						c.getInt(5),								//int base_defense;
 						c.getInt(6),								//int base_speed;
@@ -131,8 +131,8 @@ public class DAO_DandremidBase {
 			DandremidBase base = new DandremidBase(
 						c.getInt(0),								//int id;
 						c.getString(1),								//String name;
-						DandremidBase.Element.valueOf(c.getString(2)),		//Dandremid.Type element1;
-						DandremidBase.Element.valueOf(c.getString(3)),		//Dandremid.Type element2;					
+						Element.valueOf(c.getString(2)),		//Dandremid.Type element1;
+						Element.valueOf(c.getString(3)),		//Dandremid.Type element2;					
 						c.getInt(4),								//int base_strength;
 						c.getInt(5),								//int base_defense;
 						c.getInt(6),								//int base_speed;

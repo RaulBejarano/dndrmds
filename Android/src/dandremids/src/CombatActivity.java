@@ -8,10 +8,12 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.Menu;
 import android.view.Window;
+import android.widget.Toast;
 
 public class CombatActivity extends Activity {
 	
@@ -60,11 +62,59 @@ public class CombatActivity extends Activity {
 	public void doGameLoopRoutine() {
 		endGame = false;
 		
-		while (!endGame){
-			
-		    
-		    
-		}			
+		Intent intent = new Intent(this, DialogCombatActivity.class);
+		intent.putExtra("mode", 1);
+		this.startActivityForResult(intent, 0);			
 		
 	}
+	
+	private void actionSelectedHandler(int selection){
+		Intent intent;
+		
+		switch (selection){
+			case 0:		// Attack				
+				intent = new Intent(this, DialogCombatActivity.class);
+				intent.putExtra("mode", 2);		// Attack List Mode
+				intent.putExtra("attacks", new String [] {"attack 1","attack 2","attack 3"});
+				this.startActivityForResult(intent, 0);	
+				
+				break;
+			case 1:		// Use Object
+				intent = new Intent(this, DialogCombatActivity.class);
+				intent.putExtra("mode", 3);		// Object List Mode
+				intent.putExtra("objects", new String [] {"object 1","object 2","object 3","object 4","object 5","object 6","object 7","object 8","object 9","object 10","object 11","object 12"});
+				this.startActivityForResult(intent, 0);	
+				
+				break;
+			case 2:		// Change Dandremid
+				break;
+			case 3:		// Escape
+				break;
+			default:
+		}		
+	}
+
+	private void attackSelectedHandler(int selection) {
+		Toast.makeText(this, ""+selection, Toast.LENGTH_LONG).show();
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == 0 && resultCode == Activity.RESULT_OK && data != null){
+			int mode = data.getIntExtra("mode", -1);
+			switch (mode){
+			case 0:
+				break;
+			case 1:
+				actionSelectedHandler(data.getIntExtra("result", -1));
+				break;	
+			case 2:
+				attackSelectedHandler(data.getIntExtra("result", -1));
+				break;
+			}
+			
+		}
+	}
+
+		
 }

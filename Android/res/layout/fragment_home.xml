@@ -158,6 +158,34 @@
             android:textColor="#FFFFFF"
             android:textSize="15sp" />
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/fragment_home_pager"
+            android:layout_centerHorizontal="true"
+            android:alpha="0.7"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" >
+
+            <ImageView
+                android:id="@+id/fragment_home_circle1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_circle_selected" />
+
+            <ImageView
+                android:id="@+id/fragment_home_circle2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_circle_selected" />
+
+            <ImageView
+                android:id="@+id/fragment_home_circle3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_circle_unselected" />
+        </LinearLayout>
+
     </RelativeLayout>
 
 </RelativeLayout>

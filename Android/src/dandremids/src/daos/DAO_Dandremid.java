@@ -30,9 +30,9 @@ public class DAO_Dandremid {
 		String sql = "SELECT id, name, level, exp, expNextLevel, selected, strength, defense, speed, feed, maxFeed, happiness, life, maxLife, Dandremid_Base_id FROM Dandremid WHERE User_id = " + u.getId();
 		Cursor c = db.rawQuery(sql, null);
 				
-		Dandremid creature;
+		Dandremid dandremid;
 		while(c.moveToNext()){			
-				creature = new Dandremid(
+				dandremid = new Dandremid(
 							c.getInt(0),				//	int id;
 							c.getString(1),				//	String name;
 							c.getInt(2),				//	int level;
@@ -50,10 +50,12 @@ public class DAO_Dandremid {
 						);
 				
 				DAO_DandremidBase daoDandremidBase = new DAO_DandremidBase(context, db);
+				dandremid.setDandremidBase(daoDandremidBase.getDandremidBaseById(c.getInt(14)));
 				
-				creature.setDandremidBase(daoDandremidBase.getDandremidBaseById(c.getInt(14)));
+				DAO_Attack daoAttack = new DAO_Attack (context, db);
+				dandremid.setAttackList(daoAttack.getDandremidAttackList(dandremid));
 				
-				creatureList.add(creature);
+				creatureList.add(dandremid);
 		}
 		
 		c.close();

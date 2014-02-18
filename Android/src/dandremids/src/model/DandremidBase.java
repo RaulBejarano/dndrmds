@@ -1,15 +1,11 @@
 package dandremids.src.model;
 
-import dandremids.src.R;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 
 public class DandremidBase implements Parcelable {
-	public enum Element {NONE, RARE, NORMAL, FLAME, DROP, THUNDER, LEAF, COLD, FIST, VENOM, WING, MENTAL, INSECT, STONE, IRON};
-	
 	
 	int id;
 	String name;
