@@ -21,7 +21,7 @@ public class DAO_DandremidBase {
 		this.db = db;
 	}
 
-	public void insertDandremidBase(dandremids.src.model.db.Dandremid_Base cb){
+	public void insertDandremidBase(dandremids.src.model.db.DandremidBase cb){
 				
 		String sql = "INSERT INTO Dandremid_Base (id, name, Element1_id, Element2_id, strength, defense, speed, maxFeed, maxLife, description)" +
 				" VALUES ("+cb.id+", '"+cb.name+"', "+cb.Element1_id+", "+cb.Element2_id+", "+cb.stregth+", "+cb.defense+", "+cb.speed+", "+cb.maxFeed+", "+cb.maxLife+", \""+cb.description+"\")";

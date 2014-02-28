@@ -29,8 +29,6 @@
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword" >
-
-        <requestFocus />
     </EditText>
 
     <EditText
@@ -42,8 +40,7 @@
         android:layout_toLeftOf="@+id/main_user_new"
         android:ems="10"
         android:hint="User"
-        android:lines="1"
-        android:maxLines="1" />
+        android:inputType="textPersonName" />
 
     <ImageView
         android:id="@+id/main_image"

@@ -1,6 +1,9 @@
 package dandremids.src.model;
 
-public class Attack {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Attack implements Parcelable{
 	int id;
 	String name;
 	Element element;
@@ -11,6 +14,23 @@ public class Attack {
 	int level;
 	int uses;
 	int nextLevelUses;
+	
+	
+	public static final Parcelable.Creator<Attack> CREATOR =
+            new Parcelable.Creator<Attack>()
+            {
+                @Override
+                public Attack createFromParcel(Parcel parcel)
+                {
+                    return new Attack(parcel);
+                }
+ 
+                @Override
+                public Attack[] newArray(int size)
+                {
+                    return new Attack[size];
+                }
+        };
 	
 	
 	public Attack(int id, String name, Element element, int strike, int heal,
@@ -25,6 +45,33 @@ public class Attack {
 		this.uses = uses;
 		this.nextLevelUses = nextLevelUses;
 	}
+	
+	
+	public Attack(Parcel p) {
+		this.id = p.readInt();
+		this.name=p.readString();
+		this.element = Element.valueOf(p.readString());
+		this.strike = p.readInt();
+		this.heal = p.readInt();
+		this.minimumLevel = p.readInt();
+		this.level = p.readInt();
+		this.uses = p.readInt();
+		this.nextLevelUses = p.readInt();
+	}
+	
+	@Override
+	public void writeToParcel(Parcel p, int flags) {
+		p.writeInt(id);
+		p.writeString(name);
+		p.writeString(element.toString());
+		p.writeInt(strike);
+		p.writeInt(heal);
+		p.writeInt(minimumLevel);
+		p.writeInt(level);
+		p.writeInt(uses);
+		p.writeInt(nextLevelUses);
+	}
+	
 	public int getId() {
 		return id;
 	}
@@ -79,5 +126,14 @@ public class Attack {
 	public void setNextLevelUses(int nextLevelUses) {
 		this.nextLevelUses = nextLevelUses;
 	}
+
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+
+	
 		
 }

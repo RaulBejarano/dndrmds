@@ -1,8 +1,8 @@
 package dandremids.src.daos;
 
 import dandremids.src.model.db.Attack;
-import dandremids.src.model.db.Attack_State;
-import dandremids.src.model.db.Dandremid_Base;
+import dandremids.src.model.db.AttackState;
+import dandremids.src.model.db.DandremidBase;
 import dandremids.src.model.db.Element;
 import dandremids.src.model.db.GameData;
 import dandremids.src.model.db.State;
@@ -27,10 +27,10 @@ public class DAO_GameData {
 		DAO_Element daoElement = new DAO_Element(context, db);
 		DAO_State daoState = new DAO_State(context, db);
 		DAO_Attack daoAttack = new DAO_Attack(context, db);
-		DAO_Attack_State daoAttackState = new DAO_Attack_State(context, db);
+		DAO_AttackState daoAttackState = new DAO_AttackState(context, db);
 		
 		daoDandremidBase.deleteAll();
-		for (Dandremid_Base cb : gm.dandremidBases) {
+		for (DandremidBase cb : gm.dandremidBases) {
 			daoDandremidBase.insertDandremidBase(cb);
 		}
 		
@@ -50,7 +50,7 @@ public class DAO_GameData {
 		}
 		
 		daoAttackState.deleteAll();
-		for (Attack_State as : gm.attackStates) {
+		for (AttackState as : gm.attackStates) {
 			daoAttackState.insertAttack_State(as);
 		}
 		

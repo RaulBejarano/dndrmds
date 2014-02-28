@@ -1,5 +1,6 @@
 package dandremids.src.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.os.Parcel;
@@ -68,6 +69,7 @@ public class Dandremid implements Parcelable {
 		this.life = life;
 		this.maxLife = maxLife;
 		this.dandremidBase = null;
+		this.attackList = null;
 	}
 	
 	public Dandremid (Parcel p) {
@@ -86,6 +88,7 @@ public class Dandremid implements Parcelable {
 		life = p.readInt();
 		maxLife = p.readInt();
 		dandremidBase = (DandremidBase) p.readParcelable(getClass().getClassLoader());
+		attackList = (ArrayList<Attack>) p.readArrayList(getClass().getClassLoader());
 	}
 	
 	@Override
@@ -104,7 +107,8 @@ public class Dandremid implements Parcelable {
 		p.writeInt(happiness);
 		p.writeInt(life);
 		p.writeInt(maxLife);
-		p.writeParcelable(dandremidBase, flags);		
+		p.writeParcelable(dandremidBase, flags);
+		p.writeList(attackList);
 	}
 	
 	@Override
@@ -238,6 +242,12 @@ public class Dandremid implements Parcelable {
 
 	public void setAttackList(List<Attack> attackList) {
 		this.attackList = attackList;
+	}
+
+	public void makeAttack(Attack attack, Dandremid target) {
+		int total = attack.getLevel() * attack.getStrike() + this.getStrength();
+		total = total - target.getDefense();
+		target.setLife(target.getLife()-total);
 	}
 	
 	

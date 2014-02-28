@@ -19,6 +19,6 @@ public class Dandremid {
 	public int happiness;
 	public int User_id;
 	public int Dandremid_Base_id;
-	public List<Attack> attacks;
+	public List<DandremidAttack> attacks;
 	public List<State> states;
 }

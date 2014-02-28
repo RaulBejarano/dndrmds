@@ -1,25 +1,26 @@
 package dandremids.src;
 
+import dandremids.src.customclasses.MyAlarm;
+import dandremids.src.model.Attack;
 import dandremids.src.model.Dandremid;
 import dandremids.src.model.User;
 import dandremids.src.views.CombatView;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.view.Menu;
 import android.view.Window;
 import android.widget.Toast;
 
 public class CombatActivity extends Activity {
 	
-	User local, rival;
+	int mode;
 	
-	boolean endGame;
+	User local, rival;
+	Dandremid dLocal, dRival;
+	CombatView combatView;
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +28,7 @@ public class CombatActivity extends Activity {
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);				
 		
 		// 1. Get the data from LoadCombatActivity
+		mode = this.getIntent().getExtras().getInt("mode");
 		local = (User) this.getIntent().getExtras().get("local");
 		rival = (User) this.getIntent().getExtras().get("rival");
 		
@@ -38,14 +40,12 @@ public class CombatActivity extends Activity {
 		for (Dandremid d : rival.getDandremidList()) {
 			d.getDandremidBase().setImage(getDandremidImage(d.getDandremidBase().getName()));
 		}	
-		setContentView(new CombatView(this, getWindowManager().getDefaultDisplay(), local, rival));
-	
-		this.runOnUiThread(new Runnable(){
-			@Override
-			public void run() {
-				doGameLoopRoutine();			
-			}			
-		});
+		
+		dLocal = local.getSelectedDandremidList().get(0);
+		dRival = rival.getSelectedDandremidList().get(0);
+		
+		combatView = new CombatView(this, getWindowManager().getDefaultDisplay(), dLocal, dRival);
+		setContentView(combatView);
 		
 	}
 	
@@ -53,35 +53,35 @@ public class CombatActivity extends Activity {
 		return BitmapFactory.decodeResource(getResources(), getResources().getIdentifier("dndrmd_"+name.toLowerCase(), "drawable", getPackageName()));
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.combat, menu);
-		return true;
-	}
 	
-	public void doGameLoopRoutine() {
-		endGame = false;
+	
+	public void launchActionSelectorDialog() {
+		combatView.dialogLaunched=true;
 		
-		Intent intent = new Intent(this, DialogCombatActivity.class);
-		intent.putExtra("mode", 1);
-		this.startActivityForResult(intent, 0);			
-		
+		this.runOnUiThread(new Runnable(){
+			@Override
+			public void run() {
+				Intent intent = new Intent(CombatActivity.this, DialogCombatActivity.class);
+				intent.putExtra("mode", DialogCombatActivity.ACTION_SELECTION_MODE);
+				CombatActivity.this.startActivityForResult(intent, 0);					
+			}			
+		});
 	}
 	
 	private void actionSelectedHandler(int selection){
 		Intent intent;
 		
 		switch (selection){
-			case 0:		// Attack				
+			case 0:		// Attack	
 				intent = new Intent(this, DialogCombatActivity.class);
-				intent.putExtra("mode", 2);		// Attack List Mode
-				intent.putExtra("attacks", new String [] {"attack 1","attack 2","attack 3"});
+				intent.putExtra("mode", DialogCombatActivity.ATTACK_LIST_MODE);		// Attack List Mode
+				intent.putExtra("dandremid", dLocal);
 				this.startActivityForResult(intent, 0);	
 				
 				break;
 			case 1:		// Use Object
 				intent = new Intent(this, DialogCombatActivity.class);
-				intent.putExtra("mode", 3);		// Object List Mode
+				intent.putExtra("mode", DialogCombatActivity.OBJECT_LIST_MODE);		// Object List Mode
 				intent.putExtra("objects", new String [] {"object 1","object 2","object 3","object 4","object 5","object 6","object 7","object 8","object 9","object 10","object 11","object 12"});
 				this.startActivityForResult(intent, 0);	
 				
@@ -89,32 +89,66 @@ public class CombatActivity extends Activity {
 			case 2:		// Change Dandremid
 				break;
 			case 3:		// Escape
+				
+				/* Hacer cosicas aqui */				
+				finish();
 				break;
-			default:
+			default: // User closes dialog
+				combatView.dialogLaunched = false;
 		}		
 	}
 
 	private void attackSelectedHandler(int selection) {
-		Toast.makeText(this, ""+selection, Toast.LENGTH_LONG).show();
+		if (selection != -1){
+			Attack attack = dLocal.getAttackList().get(selection);
+			Toast.makeText(this, "Selected Attack: "+attack.getName(), Toast.LENGTH_LONG).show();
+			
+			// Make attack animation
+			
+			// Perform attack logic
+			dLocal.makeAttack(attack, dRival);	
+			
+			doFinalTurnStep();
+		} else { // If User closes dialog, Launch action selector			
+			this.launchActionSelectorDialog();
+		}
 	}
 	
+	private void doFinalTurnStep() {
+		if (mode == MyAlarm.WILD_COMBAT_MODE){
+			doWildDandremidAttack();
+		} else {
+			
+		}
+		
+	}
+
+	private void doWildDandremidAttack() {
+		/*
+		// Select Random Attack
+		int size = dRival.getAttackList().size();		
+		Attack attack = dRival.getAttackList().get((int)(Math.random() * size));
+				
+		Toast.makeText(this, "Enemy "+dRival.getName()+" uses "+attack.getName(), Toast.LENGTH_SHORT);
+		// Make Attack Animation
+		
+		// Perform Attack Logic
+		dRival.makeAttack(attack, dLocal);
+		*/
+	}
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == 0 && resultCode == Activity.RESULT_OK && data != null){
 			int mode = data.getIntExtra("mode", -1);
-			switch (mode){
-			case 0:
-				break;
-			case 1:
-				actionSelectedHandler(data.getIntExtra("result", -1));
-				break;	
-			case 2:
-				attackSelectedHandler(data.getIntExtra("result", -1));
-				break;
+			switch (mode){				
+				case DialogCombatActivity.ACTION_SELECTION_MODE:
+					actionSelectedHandler(data.getIntExtra("result", -1));
+					break;	
+				case DialogCombatActivity.ATTACK_LIST_MODE:
+					attackSelectedHandler(data.getIntExtra("result", -1));
+					break;
 			}
-			
 		}
 	}
-
-		
 }

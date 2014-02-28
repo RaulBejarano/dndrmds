@@ -32,9 +32,8 @@ public class DAO_User {
 				"VALUES ("+u.id+", '"+u.playerName+"', '"+u.name+"', '', '"+u.email+"', '"+u.surname+"', '"+u.birth+"', '"+u.gender+"', "+u.level+", "+u.exp+", "+u.expNextLevel+") ";
 		db.execSQL(sql);		
 		
-		sql = "DELETE FROM Dandremid";
-		db.execSQL(sql);
-		DAO_Dandremid daoDandremid = new DAO_Dandremid(context, db);		
+		DAO_Dandremid daoDandremid = new DAO_Dandremid(context, db);
+		daoDandremid.deleteAll();
 		for (dandremids.src.model.db.Dandremid c : u.dandremids){
 			daoDandremid.insertDandremid(c);
 		}

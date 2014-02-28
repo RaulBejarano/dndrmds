@@ -1,6 +1,7 @@
 package dandremids.src.views;
 
 import dandremids.src.R;
+import dandremids.src.CombatActivity;
 import dandremids.src.model.Dandremid;
 import dandremids.src.model.User;
 import dandremids.src.threads.CombatViewLoopThread;
@@ -13,32 +14,33 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.view.Display;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.widget.Toast;
 
 
 @SuppressLint("DrawAllocation")
 public class CombatView extends SurfaceView {
  
-	private User local;
-	private User rival;
-	
-	private Dandremid dandremidLocal;
-	private Dandremid dandremidRival;
+		
+	private Dandremid dLocal;
+	private Dandremid dRival;
 	
 	private Display display;
 	private SurfaceHolder holder;
 	private CombatViewLoopThread combatViewLoopThread;
+	public boolean dialogLaunched;
 	
 	
-	public CombatView(Context context, Display display, User local, User rival) {
+	public CombatView(Context context, Display display, Dandremid dLocal, Dandremid dRival) {
 		super(context);
 		this.display=display;
-		this.local=local;
-		this.rival=rival;
-		this.dandremidLocal = local.getSelectedDandremidList().get(0);
-		this.dandremidRival = rival.getSelectedDandremidList().get(0);		
+		this.dLocal=dLocal;
+		this.dRival=dRival;
+		this.dialogLaunched = false;
 		
 		combatViewLoopThread = new CombatViewLoopThread(this);		
 		holder = this.getHolder();		
@@ -71,6 +73,17 @@ public class CombatView extends SurfaceView {
 		
 	}
 		
+	public boolean onTouchEvent(MotionEvent event) {
+
+		if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE) {
+			if (this.dialogLaunched == false){
+				((CombatActivity) this.getContext()).launchActionSelectorDialog();
+			}
+		} 
+		
+		return true;
+	}
+	
 	
 	@SuppressLint("DrawAllocation")
 	@Override
@@ -87,6 +100,10 @@ public class CombatView extends SurfaceView {
 			display.getSize(dp);
 			
 			canvas.drawColor(Color.WHITE);
+			Drawable background = getResources().getDrawable(R.drawable.background_my_dandremids);
+			background.setBounds(0, 0, dp.x, dp.y);
+			background.draw(canvas);
+			
 			
 			// Combat Top Panel			
 			Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.combat_top_panel);						
@@ -106,8 +123,8 @@ public class CombatView extends SurfaceView {
 	        //Top life Bar	        
 	        p.setColor(Color.GREEN);
 	        
-	        barMaxValue=dandremidRival.getMaxLife();
-	        barValue=dandremidRival.getLife();	        		
+	        barMaxValue=dRival.getMaxLife();
+	        barValue=dRival.getLife();	        		
 	        
 	        proportion = barValue/barMaxValue;
 	        
@@ -133,7 +150,7 @@ public class CombatView extends SurfaceView {
 	        canvas.drawText(text,x1,y1, p);
 	        
 	        // Top Level Text	   
-	        level=dandremidRival.getLevel();
+	        level=dRival.getLevel();
 	        
 	        p.setColor(Color.BLACK);
 	        p.setTextSize((int)(dp.x*1/20.0));	       
@@ -145,7 +162,7 @@ public class CombatView extends SurfaceView {
 	        canvas.drawText(text,x1,y1, p);	
 	        
 	        // Top Creature Name
-	        text = dandremidRival.getName();
+	        text = dRival.getName();
 	        
 	        p.setColor(Color.BLACK);
 	        p.setTextSize((int)(dp.x*1/30.0));		        
@@ -177,8 +194,8 @@ public class CombatView extends SurfaceView {
 	        //Bot life Bar
 	        p.setColor(Color.GREEN);
 	        
-	        barMaxValue=dandremidLocal.getMaxLife();
-	        barValue=dandremidLocal.getLife();	        		
+	        barMaxValue=dLocal.getMaxLife();
+	        barValue=dLocal.getLife();	        		
 	        
 	        proportion = barValue/barMaxValue;
 	        
@@ -203,7 +220,7 @@ public class CombatView extends SurfaceView {
 	        canvas.drawText(text,x1,y1, p);
 	        
 	        // Bot Level Text	   
-	        level=dandremidLocal.getLevel();
+	        level=dLocal.getLevel();
 	        
 	        p.setColor(Color.BLACK);
 	        p.setTextSize((int)(dp.x*1/20.0));	       
@@ -218,7 +235,7 @@ public class CombatView extends SurfaceView {
 	        
 	        
 	        // Bot Creature Name
-	        text = dandremidLocal.getName();
+	        text = dLocal.getName();
 	        
 	        p.setColor(Color.BLACK);
 	        p.setTextSize((int)(dp.x*1/30.0));		        
@@ -232,25 +249,36 @@ public class CombatView extends SurfaceView {
 	        
 	        
 	        // Top Creature (Rival)
-	        bmp = dandremidRival.getDandremidBase().getImage();
-	        src = new Rect (0,0,bmp.getWidth(),bmp.getHeight()); //Esto tiene que ajustarse a los parametros de ROW y FRAME correspondientes a la animación
+	        bmp = dRival.getDandremidBase().getImage();
 	        
 	        x1=(int) (dp.x* 1/8);
 	        y1=0;
 	        
 	        x2 = (int) (dp.x* 3/8);
 	        proportion = ((double)(x2-x1))/bmp.getWidth();
-	        y2 = (int) (bmp.getHeight()*proportion);
-	       
+	        y2 = (int) (bmp.getHeight()*proportion);	        
+	        
 	        Rect topCreature = new Rect(x1, y1, x2, y2);
-	        canvas.drawBitmap(bmp, src, topCreature, null);
 	        
+	        // Top Creature Background
+	        bmp = BitmapFactory.decodeResource(getResources(), R.drawable.background_combat_ground);
+	        src = new Rect (0,0,bmp.getWidth(),bmp.getHeight());
+	        x1 = (int) (topCreature.left - topCreature.left/1.5);
+	        x2 = (int) (topCreature.right + topCreature.left/1.5);
+	        proportion = ((double)(x2-x1))/bmp.getWidth();	       
+	        y1 = (int) (topCreature.bottom - bmp.getHeight()*proportion/1.75);
+	        y2 = (int) (y1 + bmp.getHeight()*proportion);
+	        	        
+	        Rect topCreatureBackground = new Rect(x1, y1, x2, y2);
+	        canvas.drawBitmap(bmp, src, topCreatureBackground, null);
 	        
-	        // Bot Creature (Local)
-	        
-	        bmp = dandremidLocal.getDandremidBase().getImage();
+	        bmp = dRival.getDandremidBase().getImage();
 	        src = new Rect (0,0,bmp.getWidth(),bmp.getHeight()); //Esto tiene que ajustarse a los parametros de ROW y FRAME correspondientes a la animación
-	        
+	        canvas.drawBitmap(bmp, src, topCreature, null);
+	        	        
+	        // Bot Creature (Local)
+	        bmp = dLocal.getDandremidBase().getImage();
+	         
 	        x2= (int) (dp.x * 7/8);
 	        y2=dp.y;
 	        
@@ -259,23 +287,23 @@ public class CombatView extends SurfaceView {
 	        y1 = (int) (dp.y-bmp.getHeight()*proportion);
 	       
 	        Rect botCreature = new Rect(x1, y1, x2, y2);
-	        canvas.drawBitmap(bmp, src, botCreature, null);
 	        
+	        // Bot Creature Background
+	        bmp = BitmapFactory.decodeResource(getResources(), R.drawable.background_combat_ground);
+	        src = new Rect (0,0,bmp.getWidth(),bmp.getHeight());
+	        x1 = (int) (botCreature.left - botCreature.left/4);
+	        x2 = (int) (botCreature.right + botCreature.left/4);
+	        proportion = ((double)(x2-x1))/bmp.getWidth();	       
+	        y1 = (int) (botCreature.bottom - bmp.getHeight()*proportion/1.75);
+	        y2 = (int) (y1 + bmp.getHeight()*proportion);
 	        
-	        // Central Action Sprite
-	        bmp = BitmapFactory.decodeResource(getResources(), R.drawable.test_dandremid_dim);
+	        Rect botCreatureBackground = new Rect(x1, y1, x2, y2);
+	        canvas.drawBitmap(bmp, src, botCreatureBackground, null);
+	        
+	        bmp = dLocal.getDandremidBase().getImage();
 	        src = new Rect (0,0,bmp.getWidth(),bmp.getHeight()); //Esto tiene que ajustarse a los parametros de ROW y FRAME correspondientes a la animación
-	        
-	        x1=dp.x/3;		       
-	        y1=dp.y/3;
-	        
-	        x2=dp.x*2/3;
-	        y2=dp.y*2/3;
-	        
-	       
-	        Rect centralSprite = new Rect(x1, y1, x2, y2);
-	        //canvas.drawBitmap(bmp, src, centralSprite, null);
-	        
+	        canvas.drawBitmap(bmp, src, botCreature, null);
+	        	        
 		}
          
     }

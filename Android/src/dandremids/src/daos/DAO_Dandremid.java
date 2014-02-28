@@ -67,6 +67,12 @@ public class DAO_Dandremid {
 				"VALUES ("+c.id+", '"+c.name+"', "+c.level+", "+c.exp+", "+c.expNextLevel+", "+c.selected+", "+c.strength+", "+c.defense+", "+c.speed+", "+c.feed+", "+c.maxFeed+", "+c.happiness+", "+c.life+", "+c.maxLife+", "+c.Dandremid_Base_id+", "+c.User_id+")";
 		
 		db.execSQL(sql);
+		
+		DAO_DandremidAttack daoDA = new DAO_DandremidAttack(context,db);
+		for (dandremids.src.model.db.DandremidAttack da : c.attacks) {
+			daoDA.insertDandremidAttack(da);
+		}
+		
 	}
 	
 	
@@ -82,6 +88,12 @@ public class DAO_Dandremid {
 	public void deleteDandremid(Dandremid c) {
 		String sql = "DELETE FROM Dandremid WHERE id = "+c.getId();
 		db.execSQL(sql);
+		
+	}
+
+
+	public void deleteAll() {
+		String sql = "DELETE FROM Dandremid";
 		
 	}
 }

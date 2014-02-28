@@ -117,33 +117,45 @@ public class SelectedDandremidFragment extends Fragment {
 		}
 
 		private void onDandremidLongClick() {
-			String [] items;		
+			String [] items = null;
+			final int size = user.getSelectedDandremidList().size();
+			
 			switch (dandremid.getSelected()){
 				case 1:
-					items = new String[]{"Unselect", "Move rigth"};
+					if (size > 1)	items = new String[]{"Unselect", "Move rigth"};
 					break;
 				case 2:
-					items = new String[]{"Unselect", "Move rigth", "Move left"};
+					if (size < 3)	items = new String[]{"Unselect", "Move left"};
+					else 			items = new String[]{"Unselect", "Move rigth", "Move left"};
 					break;
-				case 3:
+				case 3:					
 					items = new String[]{"Unselect", "Move left"};
 					break;
 				default:
 					return;
 			}
-						
+				
+			if (items==null) return;
+			
 			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());			
 		    builder.setItems(items, new DialogInterface.OnClickListener() {
 		    	public void onClick(DialogInterface dialog, int i) {
 		    		switch (dandremid.getSelected()){
 						case 1:
-							if (i==0) onUnselectDandremid();
-							else onMoveRightDandremid();							
+							if (size > 1) {
+								if (i == 0) onUnselectDandremid();
+								else onMoveRightDandremid();
+							}
 							break;
-						case 2:
-							if (i==0) onUnselectDandremid();
-							else if (i==1)	onMoveRightDandremid();
-							else onMoveLeftDandremid();							
+						case 2:	
+							if (size < 3) {
+								if (i == 0) onUnselectDandremid();
+								else onMoveLeftDandremid();
+							} else {
+								if (i == 0) onUnselectDandremid();
+								else if (i == 1) onMoveRightDandremid();
+								else onMoveLeftDandremid();
+							}																
 							break;
 						case 3:
 							if (i==0) onUnselectDandremid();

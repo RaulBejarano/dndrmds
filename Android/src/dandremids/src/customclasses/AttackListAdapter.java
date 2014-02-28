@@ -22,6 +22,7 @@ public class AttackListAdapter extends BaseAdapter{
 	static class ViewHolder {
 		ImageView image;
 		TextView text;
+		TextView level;
 	}
 		
 	Context context;
@@ -59,7 +60,8 @@ public class AttackListAdapter extends BaseAdapter{
 			holder = new ViewHolder(); 
 			
 			holder.image = (ImageView) view.findViewById(R.id.row_attack_image);
-			holder.text = (TextView) view.findViewById(R.id.row_attack_text);
+			holder.text = (TextView) view.findViewById(R.id.row_attack_name);
+			holder.level = (TextView) view.findViewById(R.id.row_attack_level);
 			
 			view.setTag(holder);
 			
@@ -71,6 +73,7 @@ public class AttackListAdapter extends BaseAdapter{
 		
 		holder.image.setImageBitmap(getTypeImage(attack.getElement()));
 		holder.text.setText(attack.getName());
+		holder.level.setText(""+attack.getLevel());
 		
 		return view;
 	}

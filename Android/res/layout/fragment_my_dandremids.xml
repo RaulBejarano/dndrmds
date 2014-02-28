@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/fragment_my_dandremids_scan_button"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/textView1" >
+        android:layout_below="@+id/row_attack_level" >
 
     </ListView>
 
@@ -28,7 +28,7 @@
         android:textSize="20sp" />
 
      <TextView
-         android:id="@+id/textView1"
+         android:id="@+id/row_attack_level"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
          android:layout_alignParentLeft="true"

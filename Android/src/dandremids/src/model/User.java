@@ -39,7 +39,6 @@ public class User implements Parcelable{
 	
 	
 	public User(int id, Bitmap image, String playerName, String name, String email, String surname, String birth, String gender, int level, int exp, int expNextLevel) {
-		super();
 		this.id=id;
 		this.image = image;
 		this.playerName = playerName;

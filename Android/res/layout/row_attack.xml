@@ -14,16 +14,29 @@
         android:src="@drawable/icon_empty" />
 
     <TextView
-        android:id="@+id/row_attack_text"
+        android:id="@+id/row_attack_name"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_alignBottom="@+id/row_attack_image"
-        android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/row_attack_image"
+        android:layout_toLeftOf="@+id/row_attack_level"
         android:layout_toRightOf="@+id/row_attack_image"
-        android:gravity="center|left"
+        android:gravity="center"
         android:paddingLeft="10dp"
-        android:text="Small Text"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:text="Medium Text"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/row_attack_level"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/row_attack_name"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/background_level"
+        android:gravity="center"
+        android:text="0"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp" />
 
 </RelativeLayout>

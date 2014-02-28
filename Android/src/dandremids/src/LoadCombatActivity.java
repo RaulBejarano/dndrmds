@@ -118,6 +118,7 @@ public class LoadCombatActivity extends Activity {
 		}
 		
 		Intent i = new Intent(this, CombatActivity.class);
+		i.putExtra("mode", MyAlarm.WILD_COMBAT_MODE);
 		i.putExtra("rival", u);
 		i.putExtra("local", currentUser);
 		this.startActivity(i);

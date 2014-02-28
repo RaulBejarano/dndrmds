@@ -9,13 +9,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/textView1"
+        android:layout_below="@+id/row_attack_level"
         android:background="#FFFFE1" >
 
     </ListView>
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/row_attack_level"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
