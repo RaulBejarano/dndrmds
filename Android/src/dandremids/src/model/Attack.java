@@ -1,5 +1,8 @@
 package dandremids.src.model;
 
+import dandremids.src.daos.DAO_Attack;
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -33,8 +36,7 @@ public class Attack implements Parcelable{
         };
 	
 	
-	public Attack(int id, String name, Element element, int strike, int heal,
-			int minimumLevel, int level, int uses, int nextLevelUses) {
+	public Attack(int id, String name, Element element, int strike, int heal,	int minimumLevel, int level, int uses, int nextLevelUses) {
 		this.id = id;
 		this.name = name;
 		this.element = element;
@@ -50,7 +52,7 @@ public class Attack implements Parcelable{
 	public Attack(Parcel p) {
 		this.id = p.readInt();
 		this.name=p.readString();
-		this.element = Element.valueOf(p.readString());
+		this.element = p.readParcelable(getClass().getClassLoader());
 		this.strike = p.readInt();
 		this.heal = p.readInt();
 		this.minimumLevel = p.readInt();
@@ -63,7 +65,7 @@ public class Attack implements Parcelable{
 	public void writeToParcel(Parcel p, int flags) {
 		p.writeInt(id);
 		p.writeString(name);
-		p.writeString(element.toString());
+		p.writeParcelable(element, flags);
 		p.writeInt(strike);
 		p.writeInt(heal);
 		p.writeInt(minimumLevel);
@@ -127,10 +129,15 @@ public class Attack implements Parcelable{
 		this.nextLevelUses = nextLevelUses;
 	}
 
-
 	@Override
 	public int describeContents() {
 		return 0;
+	}
+
+	public static Attack getRandomAttackForDandremid(Context context, SQLiteDatabase db, Dandremid d) {
+		DAO_Attack daoAttack = new DAO_Attack(context, db);
+		Attack attack = daoAttack.getRandomAttackForDandremid(d);
+		return attack;
 	}
 
 

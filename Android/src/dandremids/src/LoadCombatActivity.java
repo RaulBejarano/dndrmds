@@ -30,7 +30,9 @@ public class LoadCombatActivity extends Activity {
 
 	ProgressBar spinner;
 	TextView message, action;
-	ImageView topImage, bottomImage;
+	ImageView rivalImage, localImage;
+	
+	TextView localName, localLevel, rivalName, rivalLevel;
 		
 	
 	@Override
@@ -44,8 +46,12 @@ public class LoadCombatActivity extends Activity {
 		spinner.animate();
 		message = (TextView) this.findViewById(R.id.activity_load_combat_message);
 		action = (TextView) this.findViewById(R.id.activity_load_combat_action);
-		topImage = (ImageView) this.findViewById(R.id.activity_load_combat_rival_image);
-		bottomImage = (ImageView) this.findViewById(R.id.activity_load_combat_local_image);
+		rivalImage = (ImageView) this.findViewById(R.id.activity_load_combat_rival_image);
+		localImage = (ImageView) this.findViewById(R.id.activity_load_combat_local_image);
+		localName = (TextView) this.findViewById(R.id.activity_load_combat_local_name);
+		localLevel = (TextView) this.findViewById(R.id.activity_load_combat_local_level);
+		rivalName = (TextView) this.findViewById(R.id.activity_load_combat_rival_name);
+		rivalLevel = (TextView) this.findViewById(R.id.activity_load_combat_rival_level);
 		
 		Bundle extra = this.getIntent().getExtras();
 		
@@ -60,6 +66,16 @@ public class LoadCombatActivity extends Activity {
 	}
 
 	private void startWildCombatMode () {
+		runOnUiThread(new Runnable(){
+
+			@Override
+			public void run() {
+				action.setText("Getting user's information");
+				
+			}
+			
+		});
+		
 		DandremidsSQLiteHelper dsh = new DandremidsSQLiteHelper(this,"DandremidsDB",null,1);
 		SQLiteDatabase db = dsh.getWritableDatabase();
 		
@@ -69,47 +85,43 @@ public class LoadCombatActivity extends Activity {
 				
 		// 2. Set up Load User Interface	
 		runOnUiThread(new Runnable(){
+			@Override
+			public void run() {
+				rivalImage.setImageBitmap( BitmapFactory.decodeResource(getResources(), R.drawable.notification_wild_dandremid_icon));
+				rivalName.setText("Wild Dandremid");
+				rivalLevel.setText("?");
+				
+				localImage.setImageBitmap(currentUser.getImage());
+				localName.setText(currentUser.getName());
+				localLevel.setText(currentUser.getLevel()+"");
+				
+				action.setText("Analizing dandremid with Wikimid");
+				
+			}			
+		});
+		
+		final Dandremid d = Dandremid.getWildDandremid(this, currentUser, db);
+		
+		runOnUiThread(new Runnable(){
 
 			@Override
 			public void run() {
-				topImage.setImageBitmap( BitmapFactory.decodeResource(getResources(), R.drawable.notification_wild_dandremid_icon));
-				bottomImage.setImageBitmap(currentUser.getImage());
-				
+				rivalImage.setImageBitmap(d.getDandremidBase().getImage());
+				rivalName.setText(d.getName());
+				rivalLevel.setText(d.getLevel()+"");
+				action.setText("Starting combat");
 			}
 			
 		});
 		
-		// 3. Get Dandremid Base
-		DAO_DandremidBase dcb = new DAO_DandremidBase(this, db);				
-		DandremidBase cb = dcb.getRandomDandremidBase();
-			
-		// 4. Close database connection
-		db.close();
 		
-		// 5. Set Dandremid parameters
-		int level = currentUser.getLevel() - 3 + (int) (Math.random()*6);
-		if (level < 1) {
-			level = 1;
-		}
-		int exp = level ^ 4;
-		int expNextLevel = (level + 1) ^ 4;
-		int strength = cb.getBase_strength() * level;
-		int defense = cb.getBase_defense() * level;
-		int speed = cb.getBase_speed() * level;
-		int feed = 0;
-		int maxFeed = 0;
-		int life = 100;
-		int maxLife = 100;
-		
-		
-		//Dandremid(int id, String name, int level, int exp, int expNextLevel,int selected, int strength, int defense, int speed, int feed, int maxFeed, int happiness, int life, int maxLife)
-		Dandremid d = new Dandremid (-1, cb.getName(), level, exp, expNextLevel, 1, strength, defense, speed, feed, maxFeed, 0, life, maxLife);
-		d.setDandremidBase(cb);
 		//User(int id, Bitmap image, String playerName, String name, String email, String surname, String birth, String gender, int level, int exp, int expNextLevel) {
 		User u = new User (-1, null, null, null, null, null, null, null, 0,0,0);
 		ArrayList<Dandremid> auxList = new ArrayList<Dandremid>();
 		auxList.add(d);
 		u.setDandremidList(auxList);
+		
+		db.close();
 		
 		try {
 			Thread.sleep(5000);
@@ -117,11 +129,14 @@ public class LoadCombatActivity extends Activity {
 			e.printStackTrace();
 		}
 		
+				
 		Intent i = new Intent(this, CombatActivity.class);
 		i.putExtra("mode", MyAlarm.WILD_COMBAT_MODE);
 		i.putExtra("rival", u);
 		i.putExtra("local", currentUser);
-		this.startActivity(i);
+		
+		
+		this.startActivity(i);	
 		this.finish();
 	}
 	

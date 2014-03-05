@@ -86,8 +86,8 @@ public class WikimidsListAdapter extends BaseAdapter {
 		
 		holder.number.setText("nº"+c.getId());
 		holder.number.setTypeface(null, Typeface.BOLD);
-		holder.element1.setImageBitmap(getTypeImage(c.getElement1()));
-		holder.element2.setImageBitmap(getTypeImage(c.getElement2()));
+		holder.element1.setImageBitmap(Element.getElementImage(this.context, c.getElement1()));
+		holder.element2.setImageBitmap(Element.getElementImage(this.context, c.getElement2()));
 		holder.image.setImageBitmap(c.getImage());
 		holder.name.setText(c.getName());
 		holder.description.setText(c.getDescription());
@@ -106,8 +106,4 @@ public class WikimidsListAdapter extends BaseAdapter {
 		Toast.makeText(context, c.getId()+"  - Va al mapa y muestra la localización", Toast.LENGTH_LONG).show();		
 	}
 
-	private Bitmap getTypeImage(Element type) {
-		if (type.equals(Element.NONE)) return BitmapFactory.decodeResource(context.getResources(), R.drawable.icon_empty);		
-		return BitmapFactory.decodeResource(context.getResources() , context.getResources().getIdentifier("type_"+type.name().toLowerCase(), "drawable", context.getPackageName()));
-	}
 }

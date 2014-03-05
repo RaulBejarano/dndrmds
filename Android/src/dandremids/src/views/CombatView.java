@@ -25,13 +25,15 @@ import android.widget.Toast;
 @SuppressLint("DrawAllocation")
 public class CombatView extends SurfaceView {
  
-		
+	private long milis;	
+	
 	private Dandremid dLocal;
 	private Dandremid dRival;
 	
 	private Display display;
 	private SurfaceHolder holder;
 	private CombatViewLoopThread combatViewLoopThread;
+
 	public boolean dialogLaunched;
 	
 	
@@ -39,8 +41,9 @@ public class CombatView extends SurfaceView {
 		super(context);
 		this.display=display;
 		this.dLocal=dLocal;
+		this.dLocal.setLife(1);
 		this.dRival=dRival;
-		this.dialogLaunched = false;
+		this.dialogLaunched=false;
 		
 		combatViewLoopThread = new CombatViewLoopThread(this);		
 		holder = this.getHolder();		
@@ -74,11 +77,11 @@ public class CombatView extends SurfaceView {
 	}
 		
 	public boolean onTouchEvent(MotionEvent event) {
-
+		
 		if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE) {
-			if (this.dialogLaunched == false){
+			if (!dialogLaunched){
 				((CombatActivity) this.getContext()).launchActionSelectorDialog();
-			}
+			}			
 		} 
 		
 		return true;
@@ -173,8 +176,6 @@ public class CombatView extends SurfaceView {
 	        y1 = (int) (combatTopPanel.bottom - combatTopPanel.height() * 15/100.0);	        
 	        
 	        canvas.drawText(text,x1,y1, p);	
-	        
-	        
 	        
 	        
 	        //Combat Bot Panel
@@ -307,5 +308,9 @@ public class CombatView extends SurfaceView {
 		}
          
     }
+
+	public void changeLocalDandremid(Dandremid d) {
+		dLocal=d;		
+	}
 
 }

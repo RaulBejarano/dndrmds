@@ -1,6 +1,9 @@
 package dandremids.src.model;
 
+
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -62,8 +65,8 @@ public class DandremidBase implements Parcelable {
 	public DandremidBase (Parcel p) {
 		id = p.readInt();
 		name = p.readString();
-		element1 = Element.valueOf(p.readString());
-		element2 = Element.valueOf(p.readString());
+		element1 = p.readParcelable(getClass().getClassLoader());
+		element2 = p.readParcelable(getClass().getClassLoader());
 		base_strength = p.readInt();
 		base_defense = p.readInt();
 		base_speed = p.readInt();
@@ -76,8 +79,8 @@ public class DandremidBase implements Parcelable {
 	public void writeToParcel(Parcel p, int flags) {
 		p.writeInt(id);
 		p.writeString(name);
-		p.writeString(element1.toString());
-		p.writeString(element2.toString());
+		p.writeParcelable(element1, flags);
+		p.writeParcelable(element2, flags);
 		p.writeInt(base_strength);
 		p.writeInt(base_defense);
 		p.writeInt(base_speed);
@@ -178,4 +181,8 @@ public class DandremidBase implements Parcelable {
 	public void setDescription(String description) {
 		this.description = description;
 	}		
+	
+	public void refreshDandremidImage (Context context) {
+		image = BitmapFactory.decodeResource(context.getResources(), context.getResources().getIdentifier("dndrmd_"+name.toLowerCase(), "drawable", context.getPackageName()));
+	}
 }

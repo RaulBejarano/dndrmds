@@ -71,16 +71,13 @@ public class AttackListAdapter extends BaseAdapter{
 		
 		Attack attack = list.get(position);
 		
-		holder.image.setImageBitmap(getTypeImage(attack.getElement()));
+		holder.image.setImageBitmap(Element.getElementImage(this.context, attack.getElement()));
 		holder.text.setText(attack.getName());
 		holder.level.setText(""+attack.getLevel());
 		
 		return view;
 	}
 	
-	private Bitmap getTypeImage(Element type) {
-		if (type.equals(Element.NONE)) return BitmapFactory.decodeResource(context.getResources(), R.drawable.icon_empty);		
-		return BitmapFactory.decodeResource(context.getResources() , context.getResources().getIdentifier("type_"+type.name().toLowerCase(), "drawable", context.getPackageName()));
-	}
+	
 
 }

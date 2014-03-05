@@ -74,7 +74,7 @@ public class SelectedDandremidFragment extends Fragment {
 	        
 	        level.setText(dandremid.getLevel()+"");
 	        name.setText(dandremid.getName());
-	        element1.setImageBitmap(getTypeImage(dandremid.getDandremidBase().getElement1()));
+	        element1.setImageBitmap(Element.getElementImage(this.getActivity(), dandremid.getDandremidBase().getElement1()));
 	        exp.setMax(dandremid.getExpNextLevel());
 	        exp.setProgress(dandremid.getExp());
 	        str.setText(dandremid.getStrength()+"");
@@ -251,11 +251,5 @@ public class SelectedDandremidFragment extends Fragment {
 			db.close();
 			dsh.close();
 		}
-		
-		private Bitmap getTypeImage(Element type) {
-			if (type.equals(Element.NONE)) return BitmapFactory.decodeResource(this.getActivity().getResources(), R.drawable.icon_empty);		
-			return BitmapFactory.decodeResource(this.getActivity().getResources() , this.getActivity().getResources().getIdentifier("type_"+type.name().toLowerCase(), "drawable", this.getActivity().getPackageName()));
-		}
-		
-		
+				
 }

@@ -251,6 +251,16 @@ public class User implements Parcelable{
 		}
 		
 	}
+
+	public int getAvailableDandremids() {
+		int i=0;
+		for (Dandremid d : this.getSelectedDandremidList()){
+			if (d.getLife()>0){
+				i++;
+			}
+		}
+		return i;
+	}
 	
 	
 

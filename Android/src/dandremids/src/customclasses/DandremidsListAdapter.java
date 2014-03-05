@@ -8,8 +8,6 @@ import dandremids.src.model.Element;
 
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -97,8 +95,8 @@ public class DandremidsListAdapter extends BaseAdapter {
 		
 		holder.levelView.setText(""+c.getLevel());
 		holder.imageView.setImageBitmap(c.getDandremidBase().getImage());
-		holder.type1View.setImageBitmap(this.getTypeImage(c.getDandremidBase().getElement1()));		
-		holder.type2View.setImageBitmap(this.getTypeImage(c.getDandremidBase().getElement2()));
+		holder.type1View.setImageBitmap(Element.getElementImage(this.context, c.getDandremidBase().getElement1()));		
+		holder.type2View.setImageBitmap(Element.getElementImage(this.context, c.getDandremidBase().getElement2()));
 		holder.expBar.setMax(c.getExpNextLevel());
 		holder.expBar.setProgress(c.getExp());
 		holder.nameView.setText(c.getName());
@@ -115,10 +113,4 @@ public class DandremidsListAdapter extends BaseAdapter {
 		return view;
 	}
 
-
-	private Bitmap getTypeImage(Element type) {
-		if (type.equals(Element.NONE)) return BitmapFactory.decodeResource(context.getResources(), R.drawable.icon_empty);		
-		return BitmapFactory.decodeResource(context.getResources() , context.getResources().getIdentifier("type_"+type.name().toLowerCase(), "drawable", context.getPackageName()));
-	}
-	
 }

@@ -3,6 +3,11 @@ package dandremids.src.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import dandremids.src.LoadCombatActivity;
+import dandremids.src.daos.DAO_DandremidBase;
+
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -69,7 +74,7 @@ public class Dandremid implements Parcelable {
 		this.life = life;
 		this.maxLife = maxLife;
 		this.dandremidBase = null;
-		this.attackList = null;
+		this.attackList = new ArrayList<Attack>();
 	}
 	
 	public Dandremid (Parcel p) {
@@ -245,10 +250,53 @@ public class Dandremid implements Parcelable {
 	}
 
 	public void makeAttack(Attack attack, Dandremid target) {
+		// STRIKE
 		int total = attack.getLevel() * attack.getStrike() + this.getStrength();
-		total = total - target.getDefense();
+		total = total -  target.getDefense()/3;
+		if (total <= 0) total = 1;
 		target.setLife(target.getLife()-total);
+		if (target.getLife()<=0) target.setLife(0);
+		
+		// HEAL
+		total = attack.getLevel() * attack.getHeal();
+		this.setLife(this.getLife()+total);
+		if(this.getLife()<0) this.setLife(0);
+		if(this.getLife()>this.getMaxLife()) this.setLife(this.getMaxLife());
+		
+		// APPLY STATES
+		
 	}
-	
+
+	public static Dandremid getWildDandremid(Context context, User currentUser, SQLiteDatabase db) {
+		
+			DAO_DandremidBase dcb = new DAO_DandremidBase(context, db);				
+			DandremidBase cb = dcb.getRandomDandremidBase();
+					
+			// Set Dandremid parameters
+			int level = currentUser.getLevel() - 3 + (int) (Math.random()*6);
+			if (level < 1) {
+				level = 1;
+			}
+			int exp = (int)Math.pow(level, 4);
+			int expNextLevel = (int)Math.pow(level+1, 4);
+			int strength = (int) (cb.getBase_strength() + level * 2);
+			int defense = (int) (cb.getBase_defense() + level *2 );
+			int speed = (int) (cb.getBase_speed() + level * 2 );
+			int feed = 0;
+			int maxFeed = 0;
+			int life = 100;
+			int maxLife = 100;
+			
+			//Dandremid(int id, String name, int level, int exp, int expNextLevel,int selected, int strength, int defense, int speed, int feed, int maxFeed, int happiness, int life, int maxLife)
+			Dandremid d = new Dandremid (-1, cb.getName(), level, exp, expNextLevel, 1, strength, defense, speed, feed, maxFeed, 0, life, maxLife);
+			d.setDandremidBase(cb);
+			
+			int nAttacks = (int) (Math.random()*2 + 1); // 1 - 3 Attacks
+			for (int i=0; i<nAttacks; i++){
+				d.getAttackList().add(Attack.getRandomAttackForDandremid(context, db, d));
+			}			
+			return d;
+	}
+
 	
 }

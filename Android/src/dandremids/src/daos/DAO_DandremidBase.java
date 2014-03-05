@@ -24,7 +24,7 @@ public class DAO_DandremidBase {
 	public void insertDandremidBase(dandremids.src.model.db.DandremidBase cb){
 				
 		String sql = "INSERT INTO Dandremid_Base (id, name, Element1_id, Element2_id, strength, defense, speed, maxFeed, maxLife, description)" +
-				" VALUES ("+cb.id+", '"+cb.name+"', "+cb.Element1_id+", "+cb.Element2_id+", "+cb.stregth+", "+cb.defense+", "+cb.speed+", "+cb.maxFeed+", "+cb.maxLife+", \""+cb.description+"\")";
+				" VALUES ("+cb.id+", '"+cb.name+"', "+cb.Element1_id+", "+cb.Element2_id+", "+cb.strength+", "+cb.defense+", "+cb.speed+", "+cb.maxFeed+", "+cb.maxLife+", \""+cb.description+"\")";
 		db.execSQL(sql);
 		
 	}
@@ -35,11 +35,10 @@ public class DAO_DandremidBase {
 	}
 
 	public DandremidBase getRandomDandremidBase(){
-		
-				
+			
 		String sql = "SELECT id, name, " +
-				"(SELECT name FROM Element WHERE id = Element1_id) element1, " +
-				"(SELECT name FROM Element WHERE id = Element2_id) element2, " +
+				"Element1_id, " +
+				"Element2_id, " +
 				"strength, " +
 				"defense," +
 				"speed, " +
@@ -52,12 +51,13 @@ public class DAO_DandremidBase {
 		int row = (int)(Math.random()*c.getCount());
 		
 		if (c.moveToPosition(row)){
-					
+			DAO_Element daoElement = new DAO_Element (context, db);
+						
 			DandremidBase base = new DandremidBase(
 						c.getInt(0),								//int id;
 						c.getString(1),								//String name;
-						Element.valueOf(c.getString(2)),		//Dandremid.Type element1;
-						Element.valueOf(c.getString(3)),		//Dandremid.Type element2;					
+						daoElement.getElementById(c.getInt(2)),		//Dandremid.Type element1;
+						daoElement.getElementById(c.getInt(3)),		//Dandremid.Type element2;					
 						c.getInt(4),								//int base_strength;
 						c.getInt(5),								//int base_defense;
 						c.getInt(6),								//int base_speed;
@@ -76,8 +76,8 @@ public class DAO_DandremidBase {
 	
 	public DandremidBase getDandremidBaseById(int dandremidBaseId) {
 		String sql = "SELECT id, name, " +
-				"(SELECT name FROM Element WHERE id = Element1_id) element1, " +
-				"(SELECT name FROM Element WHERE id = Element2_id) element2, " +
+				"Element1_id, " +
+				"Element2_id, " +
 				"strength, " +
 				"defense," +
 				"speed, " +
@@ -88,25 +88,26 @@ public class DAO_DandremidBase {
 		Cursor c = db.rawQuery(sql, null);
 		
 		if (c.moveToFirst()){
-					
+			DAO_Element daoElement = new DAO_Element (context, db);
+			
 			DandremidBase base = new DandremidBase(
 						c.getInt(0),								//int id;
 						c.getString(1),								//String name;
-						Element.valueOf(c.getString(2)),		//Dandremid.Type element1;
-						Element.valueOf(c.getString(3)),		//Dandremid.Type element2;					
+						daoElement.getElementById(c.getInt(2)),		//Dandremid.Type element1;
+						daoElement.getElementById(c.getInt(3)),		//Dandremid.Type element2;					
 						c.getInt(4),								//int base_strength;
 						c.getInt(5),								//int base_defense;
 						c.getInt(6),								//int base_speed;
 						c.getInt(7),								//int base_maxFeed;
 						c.getInt(8),								//int base_maxLife;
 						c.getString(9), 							//String description
-						getDandremidImage(c.getString(1))				
+						getDandremidImage(c.getString(1))
 				);
 			
 			c.close();
 			return base;			
 		}		
-		
+		c.close();
 		return null;
 	}
 
@@ -115,8 +116,8 @@ public class DAO_DandremidBase {
 		List<DandremidBase> list = new ArrayList<DandremidBase>();
 		
 		String sql = "SELECT id, name, " +
-				"(SELECT name FROM Element WHERE id = Element1_id) element1, " +
-				"(SELECT name FROM Element WHERE id = Element2_id) element2, " +
+				"Element1_id, " +
+				"Element2_id, " +
 				"strength, " +
 				"defense," +
 				"speed, " +
@@ -126,13 +127,14 @@ public class DAO_DandremidBase {
 				"FROM Dandremid_Base ORDER BY id ";
 		Cursor c = db.rawQuery(sql, null);
 		
-		while (c.moveToNext()){
-					
+		DAO_Element daoElement = new DAO_Element (context, db);
+		
+		while (c.moveToNext()){						
 			DandremidBase base = new DandremidBase(
 						c.getInt(0),								//int id;
 						c.getString(1),								//String name;
-						Element.valueOf(c.getString(2)),		//Dandremid.Type element1;
-						Element.valueOf(c.getString(3)),		//Dandremid.Type element2;					
+						daoElement.getElementById(c.getInt(2)),		//Dandremid.Type element1;
+						daoElement.getElementById(c.getInt(3)),		//Dandremid.Type element2;					
 						c.getInt(4),								//int base_strength;
 						c.getInt(5),								//int base_defense;
 						c.getInt(6),								//int base_speed;
