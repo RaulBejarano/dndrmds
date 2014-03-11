@@ -18,9 +18,10 @@ public class User implements Parcelable{
 	private String gender;
 	private int level;
 	private int exp, expNextLevel;
-	private List<Dandremid> dandremidList;
-	
+	private boolean fighting;
+	private List<Dandremid> dandremidList;	
 	private Bitmap image;
+	
 	
 	public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
                 @Override
@@ -38,7 +39,7 @@ public class User implements Parcelable{
 	
 	
 	
-	public User(int id, Bitmap image, String playerName, String name, String email, String surname, String birth, String gender, int level, int exp, int expNextLevel) {
+	public User(int id, Bitmap image, String playerName, String name, String email, String surname, String birth, String gender, int level, int exp, int expNextLevel, boolean fighting) {
 		this.id=id;
 		this.image = image;
 		this.playerName = playerName;
@@ -50,6 +51,7 @@ public class User implements Parcelable{
 		this.level = level;
 		this.exp = exp;
 		this.expNextLevel = expNextLevel;
+		this.fighting= fighting;
 		this.dandremidList = new ArrayList<Dandremid>();
 	}
 	
@@ -64,6 +66,7 @@ public class User implements Parcelable{
 		level = p.readInt();
 		exp = p.readInt();
 		expNextLevel = p.readInt();	
+		fighting = p.readInt()>0;
 		dandremidList = (ArrayList<Dandremid>) p.readArrayList(getClass().getClassLoader());		
 	}
 
@@ -79,6 +82,10 @@ public class User implements Parcelable{
 		p.writeInt(level);
 		p.writeInt(exp);
 		p.writeInt(expNextLevel);
+		int aux;
+		if (fighting) aux = 1;
+		else aux = 0;
+		p.writeInt(aux);
 		p.writeList(dandremidList);
 	}
 	
@@ -176,7 +183,15 @@ public class User implements Parcelable{
 		this.expNextLevel = expNextLevel;
 	}
 
-
+	
+	public boolean isFighting() {
+		return fighting;
+	}
+	
+	public void setFighting(boolean val){
+		this.fighting=val;
+	}
+	
 	public List<Dandremid> getDandremidList() {
 		return dandremidList;
 	}
@@ -261,7 +276,7 @@ public class User implements Parcelable{
 		}
 		return i;
 	}
-	
+
 	
 
 	

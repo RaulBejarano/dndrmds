@@ -37,7 +37,7 @@ public class LoginActivity extends Activity {
 		db = dsh.getWritableDatabase();
 		daoUser = new DAO_User(this, db);
 		
-		if(daoUser.isCurrentUser()){
+		if(daoUser.getCurrentUser()!=null){
 			goToHome();			
 			return;
 		} 
@@ -50,12 +50,12 @@ public class LoginActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				DoBackgroundTask task = new DoBackgroundTask("login");
+				DoBackgroundTask task = new DoBackgroundTask(DoBackgroundTask.LOGIN);
 				task.execute();
 			}			
 		});
 				
-		DoBackgroundTask task = new DoBackgroundTask("updateGameData");
+		DoBackgroundTask task = new DoBackgroundTask(DoBackgroundTask.UPDATE_GAME_DATA);
 		task.execute();				
 	}
 
@@ -79,10 +79,12 @@ public class LoginActivity extends Activity {
 	
 	public class DoBackgroundTask extends AsyncTask<String, Void, String> {
 		
-		private ProgressDialog d;
-		private String mode;
+		public static final int UPDATE_GAME_DATA = 0, LOGIN = 1;
 		
-		public DoBackgroundTask(String mode){
+		private ProgressDialog d;
+		private int mode;
+		
+		public DoBackgroundTask(int mode){
 			super();
 			this.mode=mode;
 		}
@@ -90,10 +92,10 @@ public class LoginActivity extends Activity {
 		@Override
 		protected void onPreExecute() {
 			d = new ProgressDialog(LoginActivity.this);
-			if (mode.compareTo("login")==0){
+			if (mode==LOGIN){
 				d.setMessage("Logging in...");
 				
-			} else if (mode.compareTo("updateGameData")==0){
+			} else if (mode==UPDATE_GAME_DATA){
 				d.setMessage("Please, wait while application makes first configuration");				
 			}		
 			d.setCancelable(false);
@@ -106,9 +108,9 @@ public class LoginActivity extends Activity {
 						
 			DandremidsREST dr = new DandremidsREST(LoginActivity.this, LoginActivity.this.db);
 			
-			if (mode.compareTo("login")==0) {
+			if (mode==LOGIN) {
 				return dr.doLogin(user.getText().toString(), password.getText().toString());
-			} else if (mode.compareTo("updateGameData")==0) {
+			} else if (mode == UPDATE_GAME_DATA) {
 				return dr.updateGameData();
 			}
 			return null;						
@@ -116,10 +118,12 @@ public class LoginActivity extends Activity {
 
 		@Override
 		protected void onPostExecute(String result) {
-			showToast(result);
 			d.dismiss();			
-			if (mode.compareTo("login")==0 && result!=null) {							
+			if (mode==LOGIN && result!=null) {							
 				goToHome();
+			} else if (mode==UPDATE_GAME_DATA && result==null) {
+				showToast("Error while making first configuration. \nPlease, check your internet connection");
+				finish();
 			}
 		}
 	}

@@ -22,7 +22,7 @@
             android:src="@drawable/chicken" />
 
         <TextView
-            android:id="@+id/textView1"
+            android:id="@+id/fragment_selected_dandremid_health_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/imageView1"
@@ -40,7 +40,7 @@
         android:background="@drawable/background_green_button" >
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/fragment_selected_dandremid_food_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"

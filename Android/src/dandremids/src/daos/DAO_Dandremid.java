@@ -94,6 +94,6 @@ public class DAO_Dandremid {
 
 	public void deleteAll() {
 		String sql = "DELETE FROM Dandremid";
-		
+		db.execSQL(sql);
 	}
 }

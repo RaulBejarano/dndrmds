@@ -149,7 +149,7 @@ public class MyDandremidsFragment extends Fragment {
 	protected void onClickScanButton() {
 		
 		Intent intent = new Intent(this.getActivity(), LoadCombatActivity.class);
-		this.startActivity(intent);
+		this.getActivity().startActivityForResult(intent, HomeActivity.COMBAT);
 		
 		//Intent intent = new Intent("com.google.zxing.client.android.SCAN");
 		//intent.putExtra("SCAN_MODE", "QR_CODE_MODE");
@@ -175,5 +175,9 @@ public class MyDandremidsFragment extends Fragment {
 			case 2: c3.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.icon_empty));
 			default:
 		}
+	}
+
+	public void updateUser(User user) {
+		this.user=user;
 	}
 }

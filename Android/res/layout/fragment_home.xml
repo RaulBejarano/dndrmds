@@ -100,7 +100,7 @@
         android:layout_marginTop="5dp"
         android:max="500"
         android:progress="125"
-        android:progressDrawable="@drawable/style_progress_bar" />
+        android:progressDrawable="@drawable/style_green_progress_bar" />
 
     <TextView
         android:id="@+id/fragment_home_exp_text"

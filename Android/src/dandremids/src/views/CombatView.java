@@ -25,8 +25,6 @@ import android.widget.Toast;
 @SuppressLint("DrawAllocation")
 public class CombatView extends SurfaceView {
  
-	private long milis;	
-	
 	private Dandremid dLocal;
 	private Dandremid dRival;
 	
@@ -41,7 +39,6 @@ public class CombatView extends SurfaceView {
 		super(context);
 		this.display=display;
 		this.dLocal=dLocal;
-		this.dLocal.setLife(1);
 		this.dRival=dRival;
 		this.dialogLaunched=false;
 		
@@ -76,6 +73,7 @@ public class CombatView extends SurfaceView {
 		
 	}
 		
+	/*
 	public boolean onTouchEvent(MotionEvent event) {
 		
 		if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE) {
@@ -86,7 +84,7 @@ public class CombatView extends SurfaceView {
 		
 		return true;
 	}
-	
+	*/
 	
 	@SuppressLint("DrawAllocation")
 	@Override

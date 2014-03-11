@@ -27,7 +27,8 @@ public class DandremidsSQLiteHelper extends SQLiteOpenHelper {
 					  "gender VARCHAR(45) NOT NULL, "+
 					  "level INTEGER NOT NULL , "+
 					  "exp INTEGER NOT NULL , "+
-					  "expNextLevel INTEGER NOT NULL )");		
+					  "expNextLevel INTEGER NOT NULL, " +
+					  "fighting BOOLEAN NOT NULL )");		
 		
 		
 		db.execSQL("CREATE  TABLE IF NOT EXISTS Element ( "+

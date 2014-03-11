@@ -33,7 +33,7 @@ public class HomeFragment extends Fragment {
 	ProgressBar expBar;
 	TextView expText;
 	ViewPager mPager;
-	PagerAdapter mPagerAdapter;	
+	ScreenSlidePagerAdapter mPagerAdapter;	
 	ImageView c1, c2, c3;
 	
 	User user;
@@ -129,11 +129,16 @@ public class HomeFragment extends Fragment {
 		if (i==2) c3.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.icon_circle_selected));
 			
 		switch(user.getSelectedDandremidList().size()){
-		case 0: c1.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.icon_empty));
-		case 1: c2.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.icon_empty));
-		case 2: c3.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.icon_empty));
-		default:
+			case 0: c1.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.icon_empty));
+			case 1: c2.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.icon_empty));
+			case 2: c3.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.icon_empty));
+			default:
+		}
 	}
+
+	public void updateUser(User user){
+		this.user=user;
+		mPagerAdapter.updateUser(user);
 	}
 	
 	

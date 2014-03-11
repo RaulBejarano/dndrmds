@@ -12,7 +12,6 @@ import android.support.v4.view.ViewPager;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -41,6 +40,9 @@ public class SelectedDandremidFragment extends Fragment {
 	ProgressBar health;
 	ProgressBar food;
 	ProgressBar happiness;	
+	TextView healthText;
+	TextView foodText;
+	TextView happinessText;
 	
 	User user;
 	Dandremid dandremid;
@@ -54,7 +56,8 @@ public class SelectedDandremidFragment extends Fragment {
 		 super();
 	 }
 
-	@Override
+	
+@Override
 	    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 	        rootView = (ViewGroup) inflater.inflate(R.layout.fragment_selected_dandremid, container, false);
 
@@ -70,6 +73,9 @@ public class SelectedDandremidFragment extends Fragment {
 	        health = (ProgressBar) rootView.findViewById(R.id.fragment_selected_dandremid_health);
 	        food = (ProgressBar) rootView.findViewById(R.id.fragment_selected_dandremid_food);
 	        happiness = (ProgressBar) rootView.findViewById(R.id.fragment_selected_dandremid_happiness);
+	        healthText = (TextView) rootView.findViewById(R.id.fragment_selected_dandremid_health_text);
+	        foodText = (TextView) rootView.findViewById(R.id.fragment_selected_dandremid_food_text);
+	        happinessText = (TextView) rootView.findViewById(R.id.fragment_selected_dandremid_happiness_text);
 	        
 	        
 	        level.setText(dandremid.getLevel()+"");
@@ -83,10 +89,21 @@ public class SelectedDandremidFragment extends Fragment {
 	        image.setImageBitmap(dandremid.getDandremidBase().getImage());
 	        health.setMax(dandremid.getMaxLife());
 	        health.setProgress(dandremid.getLife());
+	        if (dandremid.getLife()<dandremid.getMaxFeed()/10) health.setProgressDrawable(getResources().getDrawable(R.drawable.style_red_progress_bar));
+	        else if (dandremid.getLife()<dandremid.getMaxLife()/2) health.setProgressDrawable(getResources().getDrawable(R.drawable.style_yellow_progress_bar));
+	        	        
 	        food.setMax(dandremid.getMaxFeed());
 	        food.setProgress(dandremid.getFeed());
-	        happiness.setProgress(dandremid.getHappiness());
+	        if (dandremid.getFeed()<dandremid.getMaxFeed()/10) food.setProgressDrawable(getResources().getDrawable(R.drawable.style_red_progress_bar));
+	        else if (dandremid.getFeed()<dandremid.getMaxFeed()/2) food.setProgressDrawable(getResources().getDrawable(R.drawable.style_yellow_progress_bar));
 	        
+	        happiness.setProgress(dandremid.getHappiness());
+	        healthText.setText(dandremid.getLife()+"/"+dandremid.getMaxLife());
+	        foodText.setText(dandremid.getFeed()+"/"+dandremid.getMaxFeed());
+	        happinessText.setText(dandremid.getHappiness()+"%");
+	        if (dandremid.getHappiness()<10) happiness.setProgressDrawable(getResources().getDrawable(R.drawable.style_red_progress_bar));
+	        else if (dandremid.getHappiness()<50) happiness.setProgressDrawable(getResources().getDrawable(R.drawable.style_yellow_progress_bar));
+	        	        
 	        image.setOnLongClickListener(new OnLongClickListener(){
 
 				@Override
@@ -110,6 +127,14 @@ public class SelectedDandremidFragment extends Fragment {
 	
 	
 		protected void onDandremidClick() {
+			
+			dandremid.setFeed(dandremid.getFeed() + 10);
+			if (dandremid.getFeed()>dandremid.getMaxFeed()) dandremid.setFeed(dandremid.getMaxFeed());
+			dandremid.setHappiness(dandremid.getHappiness()+10);
+			if (dandremid.getHappiness()>100) dandremid.setHappiness(100);
+			this.saveDandremidsChanges();
+			
+			
 			/*
 			Intent i = new Intent(this.getActivity(), DandremidActivity.class);
 			i.putExtra("CREATURE_ID", dandremid.getId());

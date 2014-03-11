@@ -3,9 +3,10 @@ package dandremids.src;
 import java.util.ArrayList;
 import java.util.List;
 
+
+import dandremids.src.alarms.WildDandremidAlarm;
 import dandremids.src.customclasses.DandremidsREST;
 import dandremids.src.customclasses.DandremidsSQLiteHelper;
-import dandremids.src.customclasses.MyAlarm;
 import dandremids.src.daos.DAO_DandremidBase;
 import dandremids.src.daos.DAO_User;
 import dandremids.src.model.Dandremid;
@@ -59,7 +60,7 @@ public class LoadCombatActivity extends Activity {
 			LoadCombatTask task = new LoadCombatTask(extra.getInt("MODE"));
 			task.execute();			
 		} else { //          <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Borrar este else
-			LoadCombatTask task = new LoadCombatTask(MyAlarm.WILD_COMBAT_MODE);
+			LoadCombatTask task = new LoadCombatTask(WildDandremidAlarm.WILD_COMBAT_MODE);
 			task.execute();
 		}
 		
@@ -116,7 +117,7 @@ public class LoadCombatActivity extends Activity {
 		
 		
 		//User(int id, Bitmap image, String playerName, String name, String email, String surname, String birth, String gender, int level, int exp, int expNextLevel) {
-		User u = new User (-1, null, null, null, null, null, null, null, 0,0,0);
+		User u = new User (-1, null, null, null, null, null, null, null, 0,0,0,true);
 		ArrayList<Dandremid> auxList = new ArrayList<Dandremid>();
 		auxList.add(d);
 		u.setDandremidList(auxList);
@@ -131,7 +132,7 @@ public class LoadCombatActivity extends Activity {
 		
 				
 		Intent i = new Intent(this, CombatActivity.class);
-		i.putExtra("mode", MyAlarm.WILD_COMBAT_MODE);
+		i.putExtra("mode", WildDandremidAlarm.WILD_COMBAT_MODE);
 		i.putExtra("rival", u);
 		i.putExtra("local", currentUser);
 		
@@ -160,9 +161,9 @@ public class LoadCombatActivity extends Activity {
 		
 		@Override
 		protected String doInBackground(String... urls) {
-			if (mode == MyAlarm.WILD_COMBAT_MODE){
+			if (mode == WildDandremidAlarm.WILD_COMBAT_MODE){
 				startWildCombatMode();					
-			} else if (mode == MyAlarm.TRAINER_COMBAT_MODE){
+			} else if (mode == WildDandremidAlarm.TRAINER_COMBAT_MODE){
 				
 			} 			
 			return null;

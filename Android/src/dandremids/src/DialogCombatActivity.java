@@ -18,7 +18,6 @@ import android.view.View.OnClickListener;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -46,14 +45,14 @@ public class DialogCombatActivity extends Activity {
 				this.launchListDialog(new AttackListAdapter(this, dandremid.getAttackList()));
 				break;
 			case OBJECT_LIST_MODE:		// Object List Mode
-				
+				//List<CombatObject> objectList = this.getIntent().getExtras().getParcelableArrayList("objects");
 				break;
 			case CHANGE_DANDREMID_MODE:
-				List<Dandremid> aux = this.getIntent().getExtras().getParcelableArrayList("dandremids");
-				for (Dandremid d:aux){
+				List<Dandremid> dandremidsList = this.getIntent().getExtras().getParcelableArrayList("dandremids");
+				for (Dandremid d:dandremidsList){
 					d.getDandremidBase().refreshDandremidImage(this);
 				}				
-				this.launchListDialog(new DandremidsListAdapter(this,aux));
+				this.launchListDialog(new DandremidsListAdapter(this,dandremidsList));
 				break;
 			case EXIT_MODE:
 				launchExitDialog();				
@@ -123,7 +122,6 @@ public class DialogCombatActivity extends Activity {
 	private void launchListDialog (Adapter adapter) {
 		dialog = new Dialog (this);
 		dialog.setCancelable(this.getIntent().getBooleanExtra("cancelable", true));
-		
 		dialog.setContentView(R.layout.dialog_list);
 		dialog.setOnCancelListener(new OnCancelListener(){
 			
@@ -160,7 +158,5 @@ public class DialogCombatActivity extends Activity {
 	public void onBackPressed() {
 		returnSelectionIntent(-1);
 	}
-
-	
 
 }

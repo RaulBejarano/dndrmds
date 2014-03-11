@@ -2,10 +2,12 @@ package dandremids.src;
 
 import java.util.List;
 
+import dandremids.src.alarms.UpdateDandremidAlarm;
+import dandremids.src.alarms.WildDandremidAlarm;
 import dandremids.src.customclasses.DandremidsSQLiteHelper;
-import dandremids.src.customclasses.MyAlarm;
 import dandremids.src.daos.DAO_DandremidBase;
 import dandremids.src.daos.DAO_User;
+import dandremids.src.fragments.ScreenSlidePagerAdapter;
 import dandremids.src.fragments.TabPagerAdapter;
 import dandremids.src.model.DandremidBase;
 import dandremids.src.model.User;
@@ -19,13 +21,16 @@ import android.app.FragmentTransaction;
 import android.app.ActionBar.Tab;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.BitmapFactory;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
+
 
 public class HomeActivity extends FragmentActivity {
 
+	public static final int COMBAT = 0, QR_READER = 1;
+	public static HomeActivity instance = null;
+	
 	User user;	
 	List <DandremidBase> dandremidsBaseList;
 	
@@ -53,7 +58,6 @@ public class HomeActivity extends FragmentActivity {
 			public void onPageSelected(int i) {
 				getActionBar().setSelectedNavigationItem(i);
 			}
-			
 		});
 		
 		ActionBar actionBar = getActionBar();
@@ -74,11 +78,24 @@ public class HomeActivity extends FragmentActivity {
 		dandremidsBaseList = daoDB.getAllDandremidBase();
 		db.close();
 		dsh.close();
-		// "Wild Dandremid" Notification System		
-		MyAlarm.setNextAlarm(this, 0, 1);
 		
+		
+		// Alarm Notification System		
+		WildDandremidAlarm.setNextAlarm(this, 0, 1);
+		UpdateDandremidAlarm.setNextAlarm(this, 1);
 	}
-
+	
+	@Override
+	protected void onResume() {
+	    super.onResume();
+	    instance = this;
+	}
+	@Override
+	protected void onPause() {
+	    super.onPause();
+	    instance = null;
+	}
+	
 	private Tab createTab(ActionBar actionBar, int drawable){
 		View tabView = getLayoutInflater().inflate(R.layout.tab_actionbar, null);
 		
@@ -110,32 +127,62 @@ public class HomeActivity extends FragmentActivity {
 	}
 	
 	protected void onSaveInstanceState(Bundle outState) {
-        outState.putInt("tab",  getActionBar().getSelectedTab().getPosition());    
+		super.onSaveInstanceState(outState);
+        outState.putInt("tab",  getActionBar().getSelectedTab().getPosition());
+        outState.putParcelable("user", user);
     }
 
 	public User getUser() {
 		return user;
 	}
 
-		
-	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-		if (requestCode == 0) {
-			if (resultCode == RESULT_OK) {
-				String code = intent.getStringExtra("SCAN_RESULT");
-				Toast.makeText(this, code, Toast.LENGTH_LONG).show();
-				Intent i = new Intent (this, LoadCombatActivity.class);
-				i.putExtra("MODE", MyAlarm.TRAINER_COMBAT_MODE);
-				this.startActivity(i);
-				
-			} else if (resultCode == RESULT_CANCELED) {
-				// Handle cancel
-			}
-		}
-	}
-
 	public List<DandremidBase> getAllDandremidsList() {
 		return dandremidsBaseList;
 	}
+		
+	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+		updateUser();		
+	}
 
-
+	public void setSelectedCircle (int i) {
+		ImageView c1 = (ImageView) this.findViewById(R.id.fragment_home_circle1);
+		ImageView c2 = (ImageView) this.findViewById(R.id.fragment_home_circle2);
+		ImageView c3 = (ImageView) this.findViewById(R.id.fragment_home_circle3);
+		
+		c1.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.icon_circle_unselected));
+		c2.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.icon_circle_unselected));
+		c3.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.icon_circle_unselected));
+					
+		if (i==0) c1.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.icon_circle_selected));
+		if (i==1) c2.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.icon_circle_selected));
+		if (i==2) c3.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.icon_circle_selected));
+			
+		switch(user.getSelectedDandremidList().size()){
+			case 0: c1.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.icon_empty));
+			case 1: c2.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.icon_empty));
+			case 2: c3.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.icon_empty));
+			default:
+		}
+	}
+	
+	public void updateUser() {
+		DandremidsSQLiteHelper dsh = new DandremidsSQLiteHelper(this,"DandremidsDB",null,1);
+		
+		SQLiteDatabase db = dsh.getWritableDatabase();
+		
+		DAO_User daoU = new DAO_User(this,db);
+		user = daoU.getCurrentUser();				
+		
+		db.close();
+		dsh.close();
+		
+		tabPagerAdapter.updateUser(user);
+		
+		ViewPager pager = (ViewPager) this.findViewById(R.id.fragment_home_pager);
+		int i = pager.getCurrentItem();
+		this.setSelectedCircle(i);
+		
+		pager.setAdapter(new ScreenSlidePagerAdapter(this.getSupportFragmentManager(), user));
+		pager.setCurrentItem(i);
+	}
 }

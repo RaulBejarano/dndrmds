@@ -52,7 +52,8 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name="dandremids.src.customclasses.MyAlarm" />
+        <receiver android:name="dandremids.src.alarms.WildDandremidAlarm" />
+        <receiver android:name="dandremids.src.alarms.UpdateDandremidAlarm" />
 
         <activity
             android:name="dandremids.src.CombatActivity"

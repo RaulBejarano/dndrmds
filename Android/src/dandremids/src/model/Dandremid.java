@@ -3,7 +3,6 @@ package dandremids.src.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import dandremids.src.LoadCombatActivity;
 import dandremids.src.daos.DAO_DandremidBase;
 
 import android.content.Context;
@@ -298,5 +297,21 @@ public class Dandremid implements Parcelable {
 			return d;
 	}
 
-	
+	public void updateTimeChangingValues() {
+		feed=feed-1;
+		if (feed<0) feed=0;
+		happiness = happiness-1;
+		if (happiness<0) happiness=0;
+		
+		double feedRatius = (double)feed/maxFeed;
+		double happinessRatius = (double)happiness/100;
+		
+		if ( feedRatius > 0.75 && happinessRatius > 0.75 ){
+			life = life + 5;
+			if (life > maxLife) life = maxLife;
+		} else if (feedRatius < 0.25 || happinessRatius<0.25) {
+			life = life - 1;
+			if (life<0) life = 0;
+		}
+	}	
 }

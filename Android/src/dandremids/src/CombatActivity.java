@@ -2,7 +2,10 @@ package dandremids.src;
 
 import java.util.ArrayList;
 
-import dandremids.src.customclasses.MyAlarm;
+
+import dandremids.src.alarms.WildDandremidAlarm;
+import dandremids.src.customclasses.DandremidsSQLiteHelper;
+import dandremids.src.daos.DAO_User;
 import dandremids.src.model.Attack;
 import dandremids.src.model.Dandremid;
 import dandremids.src.model.User;
@@ -10,6 +13,9 @@ import dandremids.src.views.CombatView;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Toast;
 
@@ -59,14 +65,27 @@ public class CombatActivity extends Activity {
 			}
 		}
 		
+		local.setFighting(true);
+		rival.setFighting(true);
+		
+		this.saveLocalData();
+		
 		combatView = new CombatView(this, getWindowManager().getDefaultDisplay(), dLocal, dRival);
+		combatView.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				if (!combatView.dialogLaunched){
+					launchActionSelectorDialog();
+				}				
+			}
+			
+		});
 		setContentView(combatView);
 		
 	}
 	
-	
-	
-	
+		
 	public void launchActionSelectorDialog() {
 		if(localTurn){
 			combatView.dialogLaunched=true;
@@ -113,13 +132,13 @@ public class CombatActivity extends Activity {
 		localTurn=!localTurn;
 		
 		if (end){
-			finish();
+			this.makeExit();
 		} else {
 			if (localTurn){
 				
 			}else{
 				combatView.dialogLaunched = false;
-				if (mode == MyAlarm.WILD_COMBAT_MODE) {
+				if (mode == WildDandremidAlarm.WILD_COMBAT_MODE) {
 					this.doWildDandremidAttack();
 				} else {
 					// doRivalUserTurn();
@@ -136,7 +155,7 @@ public class CombatActivity extends Activity {
 				
 		Toast.makeText(this, "Enemy "+dRival.getName()+" uses "+attack.getName(), Toast.LENGTH_SHORT).show();
 		// Make Attack Animation
-		
+				
 		// Perform Attack Logic
 		dRival.makeAttack(attack, dLocal);
 		this.doFinalTurnStep();
@@ -159,8 +178,7 @@ public class CombatActivity extends Activity {
 			}			
 		} else {
 			Toast.makeText(this, "You runned away like a chicken", Toast.LENGTH_LONG).show();
-		}		
-		
+		}				
 	}
 	
 	@Override
@@ -174,6 +192,9 @@ public class CombatActivity extends Activity {
 				case DialogCombatActivity.ATTACK_LIST_MODE:
 					attackSelectedHandler(data.getIntExtra("result", -1));
 					break;
+				case DialogCombatActivity.OBJECT_LIST_MODE:
+					objectSelectedHandler(data.getIntExtra("result", -1));
+					break;
 				case DialogCombatActivity.CHANGE_DANDREMID_MODE:
 					changeDandremidHandler(data.getIntExtra("result", -1));
 					break;
@@ -184,6 +205,7 @@ public class CombatActivity extends Activity {
 			}
 		}
 	}
+	
 	
 	private void actionSelectedHandler(int selection){
 		Intent intent;
@@ -233,6 +255,14 @@ public class CombatActivity extends Activity {
 		}
 	}
 	
+	private void objectSelectedHandler(int selection) {
+		if (selection != -1){
+			
+			
+			doFinalTurnStep();
+		}
+	}
+
 	private void changeDandremidHandler(int selection) {
 		if (selection != -1){
 			final Dandremid dSelected=local.getSelectedDandremidList().get(selection);
@@ -262,14 +292,26 @@ public class CombatActivity extends Activity {
 	
 	private void exitHandler(int selection) {
 		if (selection != -1){ // Exit
-			saveData();
-			finish();
+			makeExit();
 		} else {
 			combatView.dialogLaunched=false;
 		}
 	}
 	
-	private void saveData(){
+	private void makeExit() {
+		local.setFighting(false);
+		saveLocalData();
+		finish();
+	}
+
+	private void saveLocalData(){
+		DandremidsSQLiteHelper dsh = new DandremidsSQLiteHelper(this,"DandremidsDB",null,1);
+		SQLiteDatabase db = dsh.getWritableDatabase();
 		
+		DAO_User daoU = new DAO_User(this,db);
+		daoU.updateUser(local);
+		
+		db.close();
+		dsh.close();
 	}
 }
