@@ -2,33 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_my_dandremids" >
-    
-    <ListView
-        android:id="@+id/fragment_my_dandremids_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/fragment_my_dandremids_scan_button"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/row_attack_level" >
-
-    </ListView>
-
-     <Button
-        android:id="@+id/fragment_my_dandremids_scan_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_margin="5dp"
-        android:background="@drawable/green_button"
-        android:text="Scan"
-        android:textColor="@android:color/primary_text_dark"
-        android:textSize="20sp" />
+    android:background="@drawable/background_par" >
 
      <TextView
-         android:id="@+id/row_attack_level"
+         android:id="@+id/fragment_my_dandremids_title"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
          android:layout_alignParentLeft="true"
@@ -39,5 +16,30 @@
          android:text="My Dandremids"
          android:textAppearance="?android:attr/textAppearanceMedium"
          android:textColor="#FFFFFF" />
+
+     <ListView
+         android:id="@+id/fragment_my_dandremids_list"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_alignParentBottom="true"
+         android:layout_alignParentLeft="true"
+         android:layout_below="@+id/fragment_my_dandremids_title" >
+
+     </ListView>
+
+     <ImageButton
+         android:id="@+id/fragment_my_dandremids_scan_button"
+         android:layout_width="80dp"
+         android:layout_height="wrap_content"
+         android:layout_alignBottom="@+id/fragment_my_dandremids_title"
+         android:layout_alignParentRight="true"
+         android:layout_alignParentTop="true"
+         android:layout_margin="3dp"
+         android:background="@drawable/background_green_small_button"
+         android:padding="2dp"
+         android:scaleType="fitCenter"
+         android:src="@drawable/icon_qr"
+         android:textColor="@android:color/primary_text_dark"
+         android:textSize="20sp" />
     
 </RelativeLayout>

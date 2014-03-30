@@ -1,15 +1,14 @@
 package dandremids.src.daos;
 
-
 import java.util.ArrayList;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import dandremids.src.model.Attack;
 import dandremids.src.model.Dandremid;
 import dandremids.src.model.User;
-
 
 public class DAO_Dandremid {
 
@@ -55,6 +54,9 @@ public class DAO_Dandremid {
 				DAO_Attack daoAttack = new DAO_Attack (context, db);
 				dandremid.setAttackList(daoAttack.getDandremidAttackList(dandremid));
 				
+				DAO_State daoState = new DAO_State (context, db);
+				dandremid.setStateList(daoState.getDandremidStateList(dandremid));
+				
 				creatureList.add(dandremid);
 		}
 		
@@ -68,17 +70,32 @@ public class DAO_Dandremid {
 		
 		db.execSQL(sql);
 		
-		DAO_DandremidAttack daoDA = new DAO_DandremidAttack(context,db);
-		for (dandremids.src.model.db.DandremidAttack da : c.attacks) {
-			daoDA.insertDandremidAttack(da);
+		DAO_DandremidAttack daoDandremidAttack = new DAO_DandremidAttack (context, db);
+		for (dandremids.src.model.db.DandremidAttack a : c.attacks){
+			daoDandremidAttack.insertDandremidAttack(a);
+		}
+		/*
+		DAO_DandremidState daoDandremidState = new DAO_DandremidState (context, db);
+		for (dandremids.src.model.db.DandremidState s : c.states) {
+			daoDandremidState.insertState(s);
+		}*/
+	}
+	
+	public void insertDandremid(User user, Dandremid c) {
+		String sql = "INSERT INTO Dandremid (id, name, level, exp, expNextLevel, selected, strength, defense, speed, feed, maxFeed, happiness, life, maxLife, Dandremid_Base_id, User_id) " +
+				"VALUES ("+c.getId()+", '"+c.getName()+"', "+c.getLevel()+", "+c.getExp()+", "+c.getExpNextLevel()+", "+c.getSelected()+", "+c.getStrength()+", "+c.getDefense()+", "+c.getSpeed()+", "+c.getFeed()+", "+c.getMaxFeed()+", "+c.getHappiness()+", "+c.getLife()+", "+c.getMaxLife()+", "+c.getDandremidBase().getId()+", "+user.getId()+")";
+		db.execSQL(sql);
+		
+		DAO_DandremidAttack daoDandremidAttack = new DAO_DandremidAttack (context, db);
+		for (Attack a : c.getAttackList()){
+			daoDandremidAttack.insertDandremidAttack(c, a);
 		}
 		
 	}
 	
-	
 	public void updateDandremid(Dandremid c) {
 		String sql = "UPDATE Dandremid SET " +
-				"name = '"+c.getName()+"', level = "+c.getLevel()+", exp = "+c.getExp()+", expNextLevel = "+c.getExpNextLevel()+", selected = "+c.getSelected()+", strength = "+c.getStrength()+", defense = "+c.getDefense()+", speed = "+c.getSpeed()+", feed = "+c.getFeed()+", maxFeed = "+c.getMaxFeed()+", happiness = "+c.getHappiness()+", life = "+c.getLife()+", maxLife = "+c.getMaxLife()+
+				" name = '"+c.getName()+"', level = "+c.getLevel()+", exp = "+c.getExp()+", expNextLevel = "+c.getExpNextLevel()+", selected = "+c.getSelected()+", strength = "+c.getStrength()+", defense = "+c.getDefense()+", speed = "+c.getSpeed()+", feed = "+c.getFeed()+", maxFeed = "+c.getMaxFeed()+", happiness = "+c.getHappiness()+", life = "+c.getLife()+", maxLife = "+c.getMaxLife()+
 				" WHERE id = "+c.getId();
 		db.execSQL(sql);
 		
@@ -96,4 +113,20 @@ public class DAO_Dandremid {
 		String sql = "DELETE FROM Dandremid";
 		db.execSQL(sql);
 	}
+
+
+	public int getNextNegativeId() {
+		String sql = "SELECT MIN(id) FROM Dandremid";
+		Cursor c = db.rawQuery(sql, null);
+		int min = 0;
+		if (c.moveToFirst()){
+			min=c.getInt(0);
+		}
+		
+		if (min>0) min = -1;
+		else min = min - 1;
+		
+		return min;
+	}
+
 }

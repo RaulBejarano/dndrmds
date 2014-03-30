@@ -23,96 +23,47 @@ INSERT INTO Element (name) VALUES ('IRON');
 -- Element_Element
 DELETE FROM Element_Element;
 
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'NORMAL'), (SELECT id FROM Element WHERE name = 'NORMAL'), 1);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'NORMAL'), (SELECT id FROM Element WHERE name = 'FLAME'), 1);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'NORMAL'), (SELECT id FROM Element WHERE name = 'DROP'), 1);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'NORMAL'), (SELECT id FROM Element WHERE name = 'THUNDER'), 1);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'NORMAL'), (SELECT id FROM Element WHERE name = 'LEAF'), 1);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'NORMAL'), (SELECT id FROM Element WHERE name = 'COLD'), 1);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'NORMAL'), (SELECT id FROM Element WHERE name = 'FIST'), 1);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'NORMAL'), (SELECT id FROM Element WHERE name = 'VENOM'), 1);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'NORMAL'), (SELECT id FROM Element WHERE name = 'WING'), 1);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'NORMAL'), (SELECT id FROM Element WHERE name = 'MENTAL'), 1);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'NORMAL'), (SELECT id FROM Element WHERE name = 'INSECT'), 1);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'NORMAL'), (SELECT id FROM Element WHERE name = 'STONE'), 0.5);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'NORMAL'), (SELECT id FROM Element WHERE name = 'IRON'), 0.5);
 
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'FLAME'), (SELECT id FROM Element WHERE name = 'NORMAL'), 1);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'FLAME'), (SELECT id FROM Element WHERE name = 'FLAME'), 0.5);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'FLAME'), (SELECT id FROM Element WHERE name = 'DROP'), 0.5);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'FLAME'), (SELECT id FROM Element WHERE name = 'THUNDER'), 1);
+
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'FLAME'), (SELECT id FROM Element WHERE name = 'LEAF'), 2);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'FLAME'), (SELECT id FROM Element WHERE name = 'COLD'), 2);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'FLAME'), (SELECT id FROM Element WHERE name = 'FIST'), 1);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'FLAME'), (SELECT id FROM Element WHERE name = 'VENOM'), 1);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'FLAME'), (SELECT id FROM Element WHERE name = 'WING'), 1);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'FLAME'), (SELECT id FROM Element WHERE name = 'MENTAL'), 1);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'FLAME'), (SELECT id FROM Element WHERE name = 'INSECT'), 2);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'FLAME'), (SELECT id FROM Element WHERE name = 'STONE'), 0.5);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'FLAME'), (SELECT id FROM Element WHERE name = 'IRON'), 2);
 
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'DROP'), (SELECT id FROM Element WHERE name = 'NORMAL'), 1);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'DROP'), (SELECT id FROM Element WHERE name = 'FLAME'), 2);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'DROP'), (SELECT id FROM Element WHERE name = 'DROP'), 0.5);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'DROP'), (SELECT id FROM Element WHERE name = 'THUNDER'), 1);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'DROP'), (SELECT id FROM Element WHERE name = 'LEAF'), 0.5);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'DROP'), (SELECT id FROM Element WHERE name = 'COLD'), 1);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'DROP'), (SELECT id FROM Element WHERE name = 'FIST'), 1);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'DROP'), (SELECT id FROM Element WHERE name = 'VENOM'), 1);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'DROP'), (SELECT id FROM Element WHERE name = 'WING'), 1);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'DROP'), (SELECT id FROM Element WHERE name = 'MENTAL'), 1);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'DROP'), (SELECT id FROM Element WHERE name = 'INSECT'), 1);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'DROP'), (SELECT id FROM Element WHERE name = 'STONE'), 0.5);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'DROP'), (SELECT id FROM Element WHERE name = 'IRON'), 1);
 
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'THUNDER'), (SELECT id FROM Element WHERE name = 'NORMAL'), 1);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'THUNDER'), (SELECT id FROM Element WHERE name = 'FLAME'), 1);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'THUNDER'), (SELECT id FROM Element WHERE name = 'DROP'), 2);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'THUNDER'), (SELECT id FROM Element WHERE name = 'THUNDER'), 0.5);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'THUNDER'), (SELECT id FROM Element WHERE name = 'LEAF'), 0.5);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'THUNDER'), (SELECT id FROM Element WHERE name = 'COLD'), 1);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'THUNDER'), (SELECT id FROM Element WHERE name = 'FIST'), 1);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'THUNDER'), (SELECT id FROM Element WHERE name = 'VENOM'), 1);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'THUNDER'), (SELECT id FROM Element WHERE name = 'WING'), 2);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'THUNDER'), (SELECT id FROM Element WHERE name = 'MENTAL'), 1);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'THUNDER'), (SELECT id FROM Element WHERE name = 'INSECT'), 1);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'THUNDER'), (SELECT id FROM Element WHERE name = 'STONE'), 1);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'THUNDER'), (SELECT id FROM Element WHERE name = 'IRON'), 2);
 
-
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'LEAF'), (SELECT id FROM Element WHERE name = 'NORMAL'), 1);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'LEAF'), (SELECT id FROM Element WHERE name = 'FLAME'), 0.5);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'LEAF'), (SELECT id FROM Element WHERE name = 'DROP'), 2);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'LEAF'), (SELECT id FROM Element WHERE name = 'THUNDER'), 1);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'LEAF'), (SELECT id FROM Element WHERE name = 'LEAF'), 0.5);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'LEAF'), (SELECT id FROM Element WHERE name = 'COLD'), 1);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'LEAF'), (SELECT id FROM Element WHERE name = 'FIST'), 1);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'LEAF'), (SELECT id FROM Element WHERE name = 'VENOM'), 0.5);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'LEAF'), (SELECT id FROM Element WHERE name = 'WING'), 0.5);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'LEAF'), (SELECT id FROM Element WHERE name = 'MENTAL'), 1);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'LEAF'), (SELECT id FROM Element WHERE name = 'INSECT'), 0.5);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'LEAF'), (SELECT id FROM Element WHERE name = 'STONE'), 2);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'LEAF'), (SELECT id FROM Element WHERE name = 'IRON'), 0.5);
 
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'COLD'), (SELECT id FROM Element WHERE name = 'NORMAL'), 1);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'COLD'), (SELECT id FROM Element WHERE name = 'FLAME'), 0.5);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'COLD'), (SELECT id FROM Element WHERE name = 'DROP'), 0.5);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'COLD'), (SELECT id FROM Element WHERE name = 'THUNDER'), 1);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'COLD'), (SELECT id FROM Element WHERE name = 'LEAF'), 2);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'COLD'), (SELECT id FROM Element WHERE name = 'COLD'), 0.5);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'COLD'), (SELECT id FROM Element WHERE name = 'FIST'), 1);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'COLD'), (SELECT id FROM Element WHERE name = 'VENOM'), 1);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'COLD'), (SELECT id FROM Element WHERE name = 'WING'), 2);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'COLD'), (SELECT id FROM Element WHERE name = 'MENTAL'), 1);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'COLD'), (SELECT id FROM Element WHERE name = 'INSECT'), 1);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'COLD'), (SELECT id FROM Element WHERE name = 'STONE'), 2);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'COLD'), (SELECT id FROM Element WHERE name = 'IRON'), 0.5);
 
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'FIST'), (SELECT id FROM Element WHERE name = 'NORMAL'), 2);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'FIST'), (SELECT id FROM Element WHERE name = 'FLAME'), 1);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'FIST'), (SELECT id FROM Element WHERE name = 'DROP'), 1);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'FIST'), (SELECT id FROM Element WHERE name = 'THUNDER'), 1);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'FIST'), (SELECT id FROM Element WHERE name = 'LEAF'), 1);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'FIST'), (SELECT id FROM Element WHERE name = 'COLD'), 2);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'FIST'), (SELECT id FROM Element WHERE name = 'FIST'), 0.5);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'FIST'), (SELECT id FROM Element WHERE name = 'VENOM'), 0.5);
@@ -122,89 +73,43 @@ INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT 
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'FIST'), (SELECT id FROM Element WHERE name = 'STONE'), 2);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'FIST'), (SELECT id FROM Element WHERE name = 'IRON'), 2);
 
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'VENOM'), (SELECT id FROM Element WHERE name = 'NORMAL'), 1);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'VENOM'), (SELECT id FROM Element WHERE name = 'FLAME'), 1);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'VENOM'), (SELECT id FROM Element WHERE name = 'DROP'), 1);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'VENOM'), (SELECT id FROM Element WHERE name = 'THUNDER'), 1);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'VENOM'), (SELECT id FROM Element WHERE name = 'LEAF'), 2);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'VENOM'), (SELECT id FROM Element WHERE name = 'COLD'), 1);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'VENOM'), (SELECT id FROM Element WHERE name = 'FIST'), 1);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'VENOM'), (SELECT id FROM Element WHERE name = 'VENOM'), 0.5);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'VENOM'), (SELECT id FROM Element WHERE name = 'WING'), 1);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'VENOM'), (SELECT id FROM Element WHERE name = 'MENTAL'), 1);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'VENOM'), (SELECT id FROM Element WHERE name = 'INSECT'), 1);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'VENOM'), (SELECT id FROM Element WHERE name = 'STONE'), 0.5);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'VENOM'), (SELECT id FROM Element WHERE name = 'IRON'), 1);
 
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'WING'), (SELECT id FROM Element WHERE name = 'NORMAL'), 1);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'WING'), (SELECT id FROM Element WHERE name = 'FLAME'), 1);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'WING'), (SELECT id FROM Element WHERE name = 'DROP'), 1);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'WING'), (SELECT id FROM Element WHERE name = 'THUNDER'), 0.5);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'WING'), (SELECT id FROM Element WHERE name = 'LEAF'), 2);
 
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'WING'), (SELECT id FROM Element WHERE name = 'COLD'), 1);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'WING'), (SELECT id FROM Element WHERE name = 'FIST'), 2);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'WING'), (SELECT id FROM Element WHERE name = 'VENOM'), 1);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'WING'), (SELECT id FROM Element WHERE name = 'WING'), 1);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'WING'), (SELECT id FROM Element WHERE name = 'MENTAL'), 1);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'WING'), (SELECT id FROM Element WHERE name = 'INSECT'), 2);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'WING'), (SELECT id FROM Element WHERE name = 'STONE'), 0.5);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'WING'), (SELECT id FROM Element WHERE name = 'IRON'), 0.5);
 
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'MENTAL'), (SELECT id FROM Element WHERE name = 'NORMAL'), 1);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'MENTAL'), (SELECT id FROM Element WHERE name = 'FLAME'), 1);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'MENTAL'), (SELECT id FROM Element WHERE name = 'DROP'), 1);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'MENTAL'), (SELECT id FROM Element WHERE name = 'THUNDER'), 1);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'MENTAL'), (SELECT id FROM Element WHERE name = 'LEAF'), 1);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'MENTAL'), (SELECT id FROM Element WHERE name = 'COLD'), 1);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'MENTAL'), (SELECT id FROM Element WHERE name = 'FIST'), 2);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'MENTAL'), (SELECT id FROM Element WHERE name = 'VENOM'), 2);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'MENTAL'), (SELECT id FROM Element WHERE name = 'WING'), 1);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'MENTAL'), (SELECT id FROM Element WHERE name = 'MENTAL'), 0.5);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'MENTAL'), (SELECT id FROM Element WHERE name = 'INSECT'), 1);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'MENTAL'), (SELECT id FROM Element WHERE name = 'STONE'), 1);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'MENTAL'), (SELECT id FROM Element WHERE name = 'IRON'), 0.5);
 
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'INSECT'), (SELECT id FROM Element WHERE name = 'NORMAL'), 1);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'INSECT'), (SELECT id FROM Element WHERE name = 'FLAME'), 0.5);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'INSECT'), (SELECT id FROM Element WHERE name = 'DROP'), 1);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'INSECT'), (SELECT id FROM Element WHERE name = 'THUNDER'), 1);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'INSECT'), (SELECT id FROM Element WHERE name = 'LEAF'), 2);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'INSECT'), (SELECT id FROM Element WHERE name = 'COLD'), 1);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'INSECT'), (SELECT id FROM Element WHERE name = 'FIST'), 0.5);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'INSECT'), (SELECT id FROM Element WHERE name = 'VENOM'), 0.5);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'INSECT'), (SELECT id FROM Element WHERE name = 'WING'), 0.5);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'INSECT'), (SELECT id FROM Element WHERE name = 'MENTAL'), 2);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'INSECT'), (SELECT id FROM Element WHERE name = 'INSECT'), 1);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'INSECT'), (SELECT id FROM Element WHERE name = 'STONE'), 1);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'INSECT'), (SELECT id FROM Element WHERE name = 'IRON'), 0.5);
 
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'STONE'), (SELECT id FROM Element WHERE name = 'NORMAL'), 1);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'STONE'), (SELECT id FROM Element WHERE name = 'FLAME'), 2);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'STONE'), (SELECT id FROM Element WHERE name = 'DROP'), 1);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'STONE'), (SELECT id FROM Element WHERE name = 'THUNDER'), 2);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'STONE'), (SELECT id FROM Element WHERE name = 'LEAF'), 0.5);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'STONE'), (SELECT id FROM Element WHERE name = 'COLD'), 2);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'STONE'), (SELECT id FROM Element WHERE name = 'FIST'), 0.5);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'STONE'), (SELECT id FROM Element WHERE name = 'VENOM'), 2);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'STONE'), (SELECT id FROM Element WHERE name = 'WING'), 1);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'STONE'), (SELECT id FROM Element WHERE name = 'MENTAL'), 1);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'STONE'), (SELECT id FROM Element WHERE name = 'INSECT'), 1);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'STONE'), (SELECT id FROM Element WHERE name = 'STONE'), 1);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'STONE'), (SELECT id FROM Element WHERE name = 'IRON'), 1);
 
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'IRON'), (SELECT id FROM Element WHERE name = 'NORMAL'), 1);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'IRON'), (SELECT id FROM Element WHERE name = 'FLAME'), 0.5);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'IRON'), (SELECT id FROM Element WHERE name = 'DROP'), 0.5);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'IRON'), (SELECT id FROM Element WHERE name = 'THUNDER'), 0.5);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'IRON'), (SELECT id FROM Element WHERE name = 'LEAF'), 1);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'IRON'), (SELECT id FROM Element WHERE name = 'COLD'), 2);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'IRON'), (SELECT id FROM Element WHERE name = 'FIST'), 1);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'IRON'), (SELECT id FROM Element WHERE name = 'VENOM'), 1);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'IRON'), (SELECT id FROM Element WHERE name = 'WING'), 1);
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'IRON'), (SELECT id FROM Element WHERE name = 'MENTAL'), 1);
 
-INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'IRON'), (SELECT id FROM Element WHERE name = 'INSECT'), 1);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'IRON'), (SELECT id FROM Element WHERE name = 'STONE'), 2);
 INSERT INTO Element_Element (Element_id_1, Element_id_2, power) VALUES ((SELECT id FROM Element WHERE name = 'IRON'), (SELECT id FROM Element WHERE name = 'IRON'), 0.5);
 
@@ -283,46 +188,37 @@ INSERT INTO Attack (name, Element_id, strike, heal, minimumLevel) VALUES ('Picot
 INSERT INTO Attack (name, Element_id, strike, heal, minimumLevel) VALUES ('Ataque ala',(SELECT id FROM Element WHERE name = 'WING'), 8, 0, 0);
 
 
--- CombatObject
-DELETE FROM CombatObject;
+-- Object
+DELETE FROM Object;
 
-INSERT INTO CombatObject (name, strength,defense,speed,life,trap) VALUES ('Dandresello',		1,0,0,0,1);
-INSERT INTO CombatObject (name, strength,defense,speed,life,trap) VALUES ('Super Dandresello',	2,0,0,0,1);
-INSERT INTO CombatObject (name, strength,defense,speed,life,trap) VALUES ('Ultra Dandresello',	3,0,0,0,1);
-INSERT INTO CombatObject (name, strength,defense,speed,life,trap) VALUES ('Mega Dandresello',	4,0,0,0,1);
-INSERT INTO CombatObject (name, strength,defense,speed,life,trap) VALUES ('Dandresello supremo',10,0,0,0,1);
-INSERT INTO CombatObject (name, strength,defense,speed,life,trap) VALUES ('Poción',				0,0,0,25,0);
-INSERT INTO CombatObject (name, strength,defense,speed,life,trap) VALUES ('Super Poción',		0,0,0,50,0);
-INSERT INTO CombatObject (name, strength,defense,speed,life,trap) VALUES ('Ultra Poción',		0,0,0,100,0);
-INSERT INTO CombatObject (name, strength,defense,speed,life,trap) VALUES ('Mega Poción',		0,0,0,200,0);
-INSERT INTO CombatObject (name, strength,defense,speed,life,trap) VALUES ('Cura Máxima',		0,0,0,1000000,0);
-INSERT INTO CombatObject (name, strength,defense,speed,life,trap) VALUES ('Fuertetrón',			1,0,0,0,0);
-INSERT INTO CombatObject (name, strength,defense,speed,life,trap) VALUES ('Super Fuertetrón',	2,0,0,0,0);
-INSERT INTO CombatObject (name, strength,defense,speed,life,trap) VALUES ('Ultra Fuertetrón',	3,0,0,0,0);
-INSERT INTO CombatObject (name, strength,defense,speed,life,trap) VALUES ('Mega Fuertetrón',	4,0,0,0,0);
-INSERT INTO CombatObject (name, strength,defense,speed,life,trap) VALUES ('Defensitrón',		0,1,0,0,0);
-INSERT INTO CombatObject (name, strength,defense,speed,life,trap) VALUES ('Super Defensitrón',	0,2,0,0,0);
-INSERT INTO CombatObject (name, strength,defense,speed,life,trap) VALUES ('Ultra Defensitrón',	0,3,0,0,0);
-INSERT INTO CombatObject (name, strength,defense,speed,life,trap) VALUES ('Mega Defensitrón',	0,4,0,0,0);
-INSERT INTO CombatObject (name, strength,defense,speed,life,trap) VALUES ('Velocitrón',			0,0,1,0,0);
-INSERT INTO CombatObject (name, strength,defense,speed,life,trap) VALUES ('Super Velocitrón',	0,0,2,0,0);
-INSERT INTO CombatObject (name, strength,defense,speed,life,trap) VALUES ('Ultra Velocitrón',	0,0,3,0,0);
-INSERT INTO CombatObject (name, strength,defense,speed,life,trap) VALUES ('Mega Velocitrón',	0,0,4,0,0);
+INSERT INTO Object (name,strength,defense,speed,life,feed,happiness,trap,type,price) VALUES ('Dandresello',		1,0,0,0,0,0,1,'COMBAT',0);
+INSERT INTO Object (name,strength,defense,speed,life,feed,happiness,trap,type,price) VALUES ('Super Dandresello',	2,0,0,0,0,0,1,'COMBAT',0);
+INSERT INTO Object (name,strength,defense,speed,life,feed,happiness,trap,type,price) VALUES ('Ultra Dandresello',	3,0,0,0,0,0,1,'COMBAT',0);
+INSERT INTO Object (name,strength,defense,speed,life,feed,happiness,trap,type,price) VALUES ('Mega Dandresello',	4,0,0,0,0,0,1,'COMBAT',0);
+INSERT INTO Object (name,strength,defense,speed,life,feed,happiness,trap,type,price) VALUES ('Dandresello supremo',10,0,0,0,0,0,1,'COMBAT',0);
+INSERT INTO Object (name,strength,defense,speed,life,feed,happiness,trap,type,price) VALUES ('Fuertetrón',		1,0,0,0,0,0,0,'COMBAT',0);
+INSERT INTO Object (name,strength,defense,speed,life,feed,happiness,trap,type,price) VALUES ('Super Fuertetrón',	2,0,0,0,0,0,0,'COMBAT',0);
+INSERT INTO Object (name,strength,defense,speed,life,feed,happiness,trap,type,price) VALUES ('Ultra Fuertetrón',	3,0,0,0,0,0,0,'COMBAT',0);
+INSERT INTO Object (name,strength,defense,speed,life,feed,happiness,trap,type,price) VALUES ('Mega Fuertetrón',	4,0,0,0,0,0,0,'COMBAT',0);
+INSERT INTO Object (name,strength,defense,speed,life,feed,happiness,trap,type,price) VALUES ('Defensitrón',		0,1,0,0,0,0,0,'COMBAT',0);
+INSERT INTO Object (name,strength,defense,speed,life,feed,happiness,trap,type,price) VALUES ('Super Defensitrón',	0,2,0,0,0,0,0,'COMBAT',0);
+INSERT INTO Object (name,strength,defense,speed,life,feed,happiness,trap,type,price) VALUES ('Ultra Defensitrón',	0,3,0,0,0,0,0,'COMBAT',0);
+INSERT INTO Object (name,strength,defense,speed,life,feed,happiness,trap,type,price) VALUES ('Mega Defensitrón',	0,4,0,0,0,0,0,'COMBAT',0);
+INSERT INTO Object (name,strength,defense,speed,life,feed,happiness,trap,type,price) VALUES ('Velocitrón',		0,0,1,0,0,0,0,'COMBAT',0);
+INSERT INTO Object (name,strength,defense,speed,life,feed,happiness,trap,type,price) VALUES ('Super Velocitrón',	0,0,2,0,0,0,0,'COMBAT',0);
+INSERT INTO Object (name,strength,defense,speed,life,feed,happiness,trap,type,price) VALUES ('Ultra Velocitrón',	0,0,3,0,0,0,0,'COMBAT',0);
+INSERT INTO Object (name,strength,defense,speed,life,feed,happiness,trap,type,price) VALUES ('Mega Velocitrón',	0,0,4,0,0,0,0,'COMBAT',0);
 
+INSERT INTO Object (name,strength,defense,speed,life,feed,happiness,trap,type,price) VALUES ('Poción',			0,0,0,25,0,0,0,'COMBAT-CARE',0);
+INSERT INTO Object (name,strength,defense,speed,life,feed,happiness,trap,type,price) VALUES ('Super Poción',		0,0,0,50,0,0,0,'COMBAT-CARE',0);
+INSERT INTO Object (name,strength,defense,speed,life,feed,happiness,trap,type,price) VALUES ('Ultra Poción',		0,0,0,100,0,0,0,'COMBAT-CARE',0);
+INSERT INTO Object (name,strength,defense,speed,life,feed,happiness,trap,type,price) VALUES ('Mega Poción',		0,0,0,200,0,0,0,'COMBAT-CARE',0);
+INSERT INTO Object (name,strength,defense,speed,life,feed,happiness,trap,type,price) VALUES ('Cura Máxima',		0,0,0,1000000,0,0,0,'COMBAT-CARE',0);
 
-
--- CareObject
-DELETE FROM CareObject;
-
-INSERT INTO CareObject (name, life, feed, happiness) VALUES ('Poción',			25,0,0);
-INSERT INTO CareObject (name, life, feed, happiness) VALUES ('Super Poción',	50,0,0);
-INSERT INTO CareObject (name, life, feed, happiness) VALUES ('Ultra Poción',	100,0,0);
-INSERT INTO CareObject (name, life, feed, happiness) VALUES ('Mega Poción',		200,0,0);
-INSERT INTO CareObject (name, life, feed, happiness) VALUES ('Manzana',			0,5,0);
-INSERT INTO CareObject (name, life, feed, happiness) VALUES ('Galleta',			0,10,0);
-INSERT INTO CareObject (name, life, feed, happiness) VALUES ('Shushi',			0,10,0);
-INSERT INTO CareObject (name, life, feed, happiness) VALUES ('Pastel',			0,20,0);
-
+INSERT INTO Object (name,strength,defense,speed,life,feed,happiness,trap,type,price) VALUES ('Manzana',		0,0,0,0,10,0,0,'CARE',0);
+INSERT INTO Object (name,strength,defense,speed,life,feed,happiness,trap,type,price) VALUES ('Galleta',		0,0,0,0,20,0,0,'CARE',0);
+INSERT INTO Object (name,strength,defense,speed,life,feed,happiness,trap,type,price) VALUES ('Shushi',		0,0,0,0,30,0,0,'CARE',0);
+INSERT INTO Object (name,strength,defense,speed,life,feed,happiness,trap,type,price) VALUES ('Pastel',		0,0,0,0,40,0,0,'CARE',0);
 
 
 -- The part downhere must be deleted
@@ -330,9 +226,16 @@ INSERT INTO CareObject (name, life, feed, happiness) VALUES ('Pastel',			0,20,0)
 -- Users
 DELETE FROM User;
 
-INSERT INTO User (playerName, password, email, name, surname, birth, gender, level, exp, expNextLevel) 
-VALUES ('a', 'a', 'parry907@gmail.com', 'Raúl', 'Bejarano Parrilla', '17/04/1990', 'Male', 2, 10, 30);
+INSERT INTO User (playerName, password, email, name, surname, birth, gender, level, exp, expNextLevel,gold) 
+VALUES ('a', 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb', 'parry907@gmail.com', 'Raúl', 'Bejarano Parrilla', '17/04/1990', 'Male', 2, 10, 30,412);
 
+--  Objects
+DELETE FROM User_Object;
+
+INSERT INTO User_Object (Object_id, User_id, quantity) VALUES ((SELECT id FROM Object WHERE name = "Dandresello"),(SELECT id FROM User WHERE playerName = "a"),3);
+INSERT INTO User_Object (Object_id, User_id, quantity) VALUES ((SELECT id FROM Object WHERE name = "Poción"),(SELECT id FROM User WHERE playerName = "a"),3);
+INSERT INTO User_Object (Object_id, User_id, quantity) VALUES ((SELECT id FROM Object WHERE name = "Cura Máxima"),(SELECT id FROM User WHERE playerName = "a"),3);
+INSERT INTO User_Object (Object_id, User_id, quantity) VALUES ((SELECT id FROM Object WHERE name = "Super Defensitrón"),(SELECT id FROM User WHERE playerName = "a"),3);
 
 -- Dandremid
 DELETE FROM Dandremid;
@@ -352,16 +255,14 @@ VALUES ('Topa', 1, 0, 100, -1, 6, 4, 5, 30, 30, 100, 100, 90, (SELECT id FROM Us
 DELETE FROM Dandremid_Attack;
 
 INSERT INTO Dandremid_Attack (Attack_id, Dandremid_id, level, uses, nextLevelUses) 
-VALUES ((SELECT id FROM Attack WHERE name = 'Ataque 1'), (SELECT id FROM Dandremid WHERE name = 'aDrEtO'), 1, 0, 10);
+VALUES ((SELECT id FROM Attack WHERE name = 'Puño Duro'), (SELECT id FROM Dandremid WHERE name = 'Lasentu'), 1, 0, 10);
 
 INSERT INTO Dandremid_Attack (Attack_id, Dandremid_id, level, uses, nextLevelUses) 
-VALUES ((SELECT id FROM Attack WHERE name = 'Ataque 2'), (SELECT id FROM Dandremid WHERE name = 'aDrEtO'), 1, 0, 10);
+VALUES ((SELECT id FROM Attack WHERE name = 'Hoja Dura'), (SELECT id FROM Dandremid WHERE name = 'Tenko'), 1, 0, 10);
 
 INSERT INTO Dandremid_Attack (Attack_id, Dandremid_id, level, uses, nextLevelUses) 
-VALUES ((SELECT id FROM Attack WHERE name = 'Ataque 3'), (SELECT id FROM Dandremid WHERE name = 'aDrEtO'), 1, 0, 10);
+VALUES ((SELECT id FROM Attack WHERE name = 'Llamarada'), (SELECT id FROM Dandremid WHERE name = 'Topa'), 1, 0, 10);
 
-
-INSERT INTO Dandremid_State(Dandremid_id, State_id) VALUES ((SELECT id FROM Dandremid WHERE name = 'aDrEtO'),(SELECT id FROM State WHERE name = 'Burn'));
 
 
 -- Delete till here

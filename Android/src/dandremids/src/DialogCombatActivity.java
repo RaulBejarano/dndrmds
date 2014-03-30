@@ -1,10 +1,13 @@
 package dandremids.src;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import dandremids.src.customclasses.AttackListAdapter;
 import dandremids.src.customclasses.DandremidsListAdapter;
+import dandremids.src.customclasses.ObjectListAdapter;
+import dandremids.src.model.Object;
 import dandremids.src.model.Dandremid;
 import android.os.Bundle;
 import android.app.Activity;
@@ -45,7 +48,8 @@ public class DialogCombatActivity extends Activity {
 				this.launchListDialog(new AttackListAdapter(this, dandremid.getAttackList()));
 				break;
 			case OBJECT_LIST_MODE:		// Object List Mode
-				//List<CombatObject> objectList = this.getIntent().getExtras().getParcelableArrayList("objects");
+				ArrayList<Object> objectList = this.getIntent().getExtras().getParcelableArrayList("objects");
+				this.launchListDialog(new ObjectListAdapter(this, objectList));				
 				break;
 			case CHANGE_DANDREMID_MODE:
 				List<Dandremid> dandremidsList = this.getIntent().getExtras().getParcelableArrayList("dandremids");
@@ -94,6 +98,14 @@ public class DialogCombatActivity extends Activity {
 		});
 		
 		dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+		dialog.setOnCancelListener(new OnCancelListener(){
+			
+			@Override
+			public void onCancel(DialogInterface dialog) {
+				onBackPressed();
+			}
+			
+		});
 		dialog.show();
 	}
 

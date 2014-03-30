@@ -1,8 +1,5 @@
 package dandremids.src.fragments;
 
-
-import com.google.gson.Gson;
-
 import dandremids.src.HomeActivity;
 import dandremids.src.LoadCombatActivity;
 import dandremids.src.R;
@@ -10,12 +7,12 @@ import dandremids.src.customclasses.DandremidsListAdapter;
 import dandremids.src.customclasses.DandremidsSQLiteHelper;
 import dandremids.src.daos.DAO_Dandremid;
 import dandremids.src.daos.DAO_User;
+import dandremids.src.model.Attack;
 import dandremids.src.model.Dandremid;
 import dandremids.src.model.User;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -27,8 +24,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -38,7 +37,7 @@ public class MyDandremidsFragment extends Fragment {
 	User user;
 	
 	ListView dandremidList;
-	Button scanButton;
+	ImageButton scanButton;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,	Bundle savedInstanceState) {
@@ -46,7 +45,7 @@ public class MyDandremidsFragment extends Fragment {
 		user = ((HomeActivity)this.getActivity()).getUser();				
 		View v = inflater.inflate(dandremids.src.R.layout.fragment_my_dandremids, container, false);		
 		dandremidList = (ListView) v.findViewById(R.id.fragment_my_dandremids_list);
-		scanButton = (Button) v.findViewById(R.id.fragment_my_dandremids_scan_button);				
+		scanButton = (ImageButton) v.findViewById(R.id.fragment_my_dandremids_scan_button);				
 		dandremidList.setAdapter(new DandremidsListAdapter(this.getActivity(), user.getUnselectedDandremidList()));		
 		dandremidList.setOnItemLongClickListener(new OnItemLongClickListener(){
 			@Override
@@ -54,6 +53,16 @@ public class MyDandremidsFragment extends Fragment {
 				onDandremidListItemLongClick(pos);
 				return false;
 			}
+		});
+		dandremidList.setOnItemClickListener(new OnItemClickListener(){
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int i, long arg3) {
+				Dandremid d = user.getUnselectedDandremidList().get(i);
+				System.out.println(d.getName());
+				for (Attack a : d.getAttackList()){
+					System.out.println("\t"+a.getName());
+				}
+			}			
 		});
 		
 		scanButton.setOnClickListener(new OnClickListener(){
@@ -124,7 +133,7 @@ public class MyDandremidsFragment extends Fragment {
 			DandremidsSQLiteHelper dsh = new DandremidsSQLiteHelper(this.getActivity(),"DandremidsDB",null,1);
 			SQLiteDatabase db = dsh.getWritableDatabase();
 			DAO_User daoUser = new DAO_User(this.getActivity(), db);
-			daoUser.updateUser(user);	
+			daoUser.saveUser(user);	
 			db.close();
 			dsh.close();
 			
@@ -179,5 +188,6 @@ public class MyDandremidsFragment extends Fragment {
 
 	public void updateUser(User user) {
 		this.user=user;
+		dandremidList.setAdapter(new DandremidsListAdapter(this.getActivity(), user.getUnselectedDandremidList()));		
 	}
 }

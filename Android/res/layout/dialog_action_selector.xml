@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/LinearLayout1"
-    android:layout_width="match_parent"
+    android:layout_width="400dp"
     android:layout_height="match_parent"
-    android:background="@drawable/background_list_dialog"
+    android:background="@drawable/background_dialog"
     android:padding="15dp" >
 
     <LinearLayout
@@ -19,7 +19,8 @@
             android:layout_height="70dp"
             android:layout_margin="3dp"
             android:background="@drawable/background_green_button"
-            android:text="Attack" />
+            android:text="Attack"
+            android:textColor="#FFFFFF" />
 
         <Button
             android:id="@+id/dialog_action_selector_object"
@@ -27,7 +28,9 @@
             android:layout_height="70dp"
             android:layout_margin="3dp"
             android:background="@drawable/background_green_button"
-            android:text="Use Object" />
+            android:text="Use Object"
+            android:textColor="#FFFFFF" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -43,7 +46,8 @@
             android:layout_height="70dp"
             android:layout_margin="3dp"
             android:background="@drawable/background_green_button"
-            android:text="Change\nDandremid" />
+            android:text="Change\nDandremid"
+            android:textColor="#FFFFFF" />
 
         <Button
             android:id="@+id/dialog_action_selector_escape"
@@ -51,7 +55,9 @@
             android:layout_height="70dp"
             android:layout_margin="3dp"
             android:background="@drawable/background_green_button"
-            android:text="Escape" />
+            android:text="Escape"
+            android:textColor="#FFFFFF" />
+
     </LinearLayout>
 
 </LinearLayout>

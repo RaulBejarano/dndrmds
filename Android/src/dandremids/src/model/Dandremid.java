@@ -9,32 +9,38 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.widget.Toast;
 
 
 public class Dandremid implements Parcelable {
 	
 	// General Attributes
-	int id;
-	String name;
-	int level;
-	int exp;
-	int expNextLevel;
-	int selected;
+	private int id;
+	private String name;
+	private int level;
+	private int exp;
+	private int expNextLevel;
+	private int selected;
 	
-	int strength;
-	int defense;
-	int speed;
+	private int strength;
+	private int defense;
+	private int speed;
 	
-	int feed;
-	int maxFeed;
-	int happiness;
+	private int feed;
+	private int maxFeed;
+	private int happiness;
 	
-	int life;
-	int maxLife;
+	private int life;
+	private int maxLife;
 	
-	DandremidBase dandremidBase;
+	private DandremidBase dandremidBase;
 	private List<Attack> attackList;
+	private List<State> stateList;
 	
+	// Just for combat use
+	public int tmp_strength;
+	public int tmp_defense;
+	public int tmp_speed;
 	
 	public static final Parcelable.Creator<Dandremid> CREATOR =
             new Parcelable.Creator<Dandremid>()
@@ -74,6 +80,7 @@ public class Dandremid implements Parcelable {
 		this.maxLife = maxLife;
 		this.dandremidBase = null;
 		this.attackList = new ArrayList<Attack>();
+		this.stateList = new ArrayList<State>();
 	}
 	
 	public Dandremid (Parcel p) {
@@ -93,6 +100,7 @@ public class Dandremid implements Parcelable {
 		maxLife = p.readInt();
 		dandremidBase = (DandremidBase) p.readParcelable(getClass().getClassLoader());
 		attackList = (ArrayList<Attack>) p.readArrayList(getClass().getClassLoader());
+		stateList = (ArrayList<State>) p.readArrayList(getClass().getClassLoader());
 	}
 	
 	@Override
@@ -113,6 +121,7 @@ public class Dandremid implements Parcelable {
 		p.writeInt(maxLife);
 		p.writeParcelable(dandremidBase, flags);
 		p.writeList(attackList);
+		p.writeList(stateList);
 	}
 	
 	@Override
@@ -248,17 +257,41 @@ public class Dandremid implements Parcelable {
 		this.attackList = attackList;
 	}
 
-	public void makeAttack(Attack attack, Dandremid target) {
+	public void setStateList(List<State> stateList) {
+		this.stateList=stateList;
+	}	
+	
+	public List<State> getStateList() {
+		return stateList;
+	}
+
+	public void makeAttack(Context context, Attack attack, Dandremid target, List<ElementElement> elementList) {
 		// STRIKE
-		int total = attack.getLevel() * attack.getStrike() + this.getStrength();
-		total = total -  target.getDefense()/3;
+		double modifier=-1;
+		for (ElementElement e : elementList){
+			if (( attack.getElement().getId() == e.getElement_id_1() ) &&
+				( target.getDandremidBase().getElement1().getId() == e.getElement_id_2() || target.getDandremidBase().getElement2().getId() == e.getElement_id_2() )) {
+				
+				if (e.getPower()>modifier) {
+					modifier=e.getPower() ;
+				}
+			}			
+		}
+		
+		if (modifier == -1) modifier = 1;
+		if (modifier > 1 ) Toast.makeText(context, "Super efective", Toast.LENGTH_SHORT).show();
+		if (modifier < 1 )Toast.makeText(context, "Not efective", Toast.LENGTH_SHORT).show();;
+		
+		double total = modifier * attack.getLevel() * attack.getStrike() + this.getStrength() + this.tmp_strength;
+		total = total  -  (target.getDefense() + target.tmp_defense);
+		total = (int)(total * (Math.random() * 0.3 + 0.8) );
 		if (total <= 0) total = 1;
-		target.setLife(target.getLife()-total);
+		target.setLife((int)(target.getLife()-total));
 		if (target.getLife()<=0) target.setLife(0);
 		
 		// HEAL
 		total = attack.getLevel() * attack.getHeal();
-		this.setLife(this.getLife()+total);
+		this.setLife((int)(this.getLife()+total));
 		if(this.getLife()<0) this.setLife(0);
 		if(this.getLife()>this.getMaxLife()) this.setLife(this.getMaxLife());
 		
@@ -270,7 +303,7 @@ public class Dandremid implements Parcelable {
 		
 			DAO_DandremidBase dcb = new DAO_DandremidBase(context, db);				
 			DandremidBase cb = dcb.getRandomDandremidBase();
-					
+				
 			// Set Dandremid parameters
 			int level = currentUser.getLevel() - 3 + (int) (Math.random()*6);
 			if (level < 1) {
@@ -280,30 +313,40 @@ public class Dandremid implements Parcelable {
 			int expNextLevel = (int)Math.pow(level+1, 4);
 			int strength = (int) (cb.getBase_strength() + level * 2);
 			int defense = (int) (cb.getBase_defense() + level *2 );
-			int speed = (int) (cb.getBase_speed() + level * 2 );
-			int feed = 0;
-			int maxFeed = 0;
-			int life = 100;
-			int maxLife = 100;
+			int speed = (int) (cb.getBase_speed() + level * 2 );			
+			int maxFeed = (int)(1.5 * cb.getBase_maxFeed() * Math.log(cb.getBase_maxFeed()*level));
+			int feed = maxFeed/2;
+			int maxLife = (int)(cb.getBase_maxLife()/5 * (level - 1) + cb.getBase_maxLife());
+			int life = maxLife;
+			
 			
 			//Dandremid(int id, String name, int level, int exp, int expNextLevel,int selected, int strength, int defense, int speed, int feed, int maxFeed, int happiness, int life, int maxLife)
-			Dandremid d = new Dandremid (-1, cb.getName(), level, exp, expNextLevel, 1, strength, defense, speed, feed, maxFeed, 0, life, maxLife);
+			Dandremid d = new Dandremid (0, cb.getName(), level, exp, expNextLevel, 1, strength, defense, speed, feed, maxFeed, 0, life, maxLife);
 			d.setDandremidBase(cb);
 			
 			int nAttacks = (int) (Math.random()*2 + 1); // 1 - 3 Attacks
 			for (int i=0; i<nAttacks; i++){
 				d.getAttackList().add(Attack.getRandomAttackForDandremid(context, db, d));
-			}			
+			}	
+			
+			for (Attack a : d.getAttackList()) {
+				System.out.println(a.getName());
+			}
+			
 			return d;
 	}
 
 	public void updateTimeChangingValues() {
 		feed=feed-1;
 		if (feed<0) feed=0;
-		happiness = happiness-1;
-		if (happiness<0) happiness=0;
-		
+				
 		double feedRatius = (double)feed/maxFeed;
+		
+		if (feedRatius<0.75){
+			happiness = happiness-1;
+			if (happiness<0) happiness=0;
+		}
+		
 		double happinessRatius = (double)happiness/100;
 		
 		if ( feedRatius > 0.75 && happinessRatius > 0.75 ){
@@ -313,5 +356,41 @@ public class Dandremid implements Parcelable {
 			life = life - 1;
 			if (life<0) life = 0;
 		}
-	}	
+	}
+
+	public dandremids.src.model.db.Dandremid toDBDandremid(User u) {
+		
+		dandremids.src.model.db.Dandremid d = new dandremids.src.model.db.Dandremid();
+		d.id = this.id;
+		d.name = this.name;
+		d.level = this.level;
+		d.exp = this.exp;
+		d.expNextLevel = this.expNextLevel;
+		d.selected = this.selected;
+		d.strength = this.strength;
+		d.defense = this.defense;
+		d.speed = this.speed;
+		d.feed = this.feed;
+		d.maxFeed = this.maxFeed;
+		d.life = this.life;
+		d.maxLife = this.maxLife;
+		d.happiness = this.happiness;
+		d.User_id = u.getId();		
+		d.Dandremid_Base_id = this.dandremidBase.getId();
+		
+		List<dandremids.src.model.db.DandremidAttack> attacks = new ArrayList<dandremids.src.model.db.DandremidAttack>();
+		for (Attack a : this.getAttackList()){
+			attacks.add(a.toDBDandremidAttack(this));
+		}		
+		d.attacks = attacks;
+		
+		List<dandremids.src.model.db.DandremidState> states = new ArrayList<dandremids.src.model.db.DandremidState>();
+		for (State s : this.stateList) {
+			states.add(s.toDBDandremidState(this));
+		}
+		d.states = states;
+		
+		return d;
+	}
+	
 }

@@ -14,5 +14,7 @@ public class User {
 	public int level;
 	public int exp;
 	public int expNextLevel;
+	public int gold;
 	public List<Dandremid> dandremids;
+	public List<UserObject> userObjects;
 }

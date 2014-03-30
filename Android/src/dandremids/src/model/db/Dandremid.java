@@ -20,5 +20,5 @@ public class Dandremid {
 	public int User_id;
 	public int Dandremid_Base_id;
 	public List<DandremidAttack> attacks;
-	public List<State> states;
+	public List<DandremidState> states;
 }

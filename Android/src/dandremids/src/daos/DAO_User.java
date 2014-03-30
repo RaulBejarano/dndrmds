@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import dandremids.src.R;
 import dandremids.src.model.Dandremid;
 import dandremids.src.model.User;
+import dandremids.src.model.Object;
 
 public class DAO_User {
 
@@ -24,22 +25,25 @@ public class DAO_User {
 	
 	public void insertUser(dandremids.src.model.db.User u){
 		
-		String sql = "DELETE FROM User";
-		db.execSQL(sql);
+		this.doLogOut();
 		
-		sql = "INSERT INTO User (id, playerName, name, password, email, surname, birth, gender, level, exp, expNextLevel, fighting)" +
-				"VALUES ("+u.id+", '"+u.playerName+"', '"+u.name+"', '', '"+u.email+"', '"+u.surname+"', '"+u.birth+"', '"+u.gender+"', "+u.level+", "+u.exp+", "+u.expNextLevel+", 'false' ) ";
+		String sql = "INSERT INTO User (id, playerName, name, password, email, surname, birth, gender, level, exp, expNextLevel, gold, fighting) VALUES " +
+				"("+u.id+", '"+u.playerName+"', '"+u.name+"', '"+u.password+"', '"+u.email+"', '"+u.surname+"', '"+u.birth+"', '"+u.gender+"', "+u.level+", "+u.exp+", "+u.expNextLevel+", "+u.gold+", 'false' ) ";
 		db.execSQL(sql);		
 		
 		DAO_Dandremid daoDandremid = new DAO_Dandremid(context, db);
-		daoDandremid.deleteAll();
-		for (dandremids.src.model.db.Dandremid c : u.dandremids){
-			daoDandremid.insertDandremid(c);
+		for (dandremids.src.model.db.Dandremid d : u.dandremids) {
+			daoDandremid.insertDandremid(d);
+		}
+		
+		DAO_UserObject daoUserObject = new DAO_UserObject (context, db);
+		for (dandremids.src.model.db.UserObject co : u.userObjects){
+			daoUserObject.insertUserObject(co);
 		}
 	}
 	
 	public User getCurrentUser(){ // Just one in the local database, fetch = position
-		String sql="SELECT id, playerName, name, email, surname, birth, gender, level, exp, expNextLevel, fighting FROM User";		
+		String sql="SELECT id, playerName, name, password, email, surname, birth, gender, level, exp, expNextLevel, gold, fighting FROM User";		
 		Cursor c = db.rawQuery(sql, null);
 		
 		if(c.moveToFirst()){
@@ -47,20 +51,25 @@ public class DAO_User {
 					c.getInt(0), 		//id
 					getUserImage(), 	//image
 					c.getString(1), 	//playerName
-					c.getString(2), 	//name			
-					c.getString(3),		//email
-					c.getString(4), 	//surname
-					c.getString(5), 	//birth
-					c.getString(6), 	//gender
-					c.getInt(7), 		//level
-					c.getInt(8), 		//exp
-					c.getInt(9),		//expNextLevel 
-					c.getInt(10)>0		//fighting
+					c.getString(2), 	//name	
+					c.getString(3),		//password
+					c.getString(4),		//email
+					c.getString(5), 	//surname
+					c.getString(6), 	//birth
+					c.getString(7), 	//gender
+					c.getInt(8), 		//level
+					c.getInt(9), 		//exp
+					c.getInt(10),		//expNextLevel 
+					c.getInt(11),		//gold
+					c.getInt(12)>0		//fighting
 				);
 			
 			DAO_Dandremid daoDandremid = new DAO_Dandremid(context, db);
 			user.setDandremidList(daoDandremid.getUserDandremids(user));	
 			
+			DAO_Object daoObject = new DAO_Object(context, db);
+			user.setObjectList(daoObject.getUserObjects(user,"%"));
+						
 			c.close();
 			return user;
 		}		
@@ -75,14 +84,15 @@ public class DAO_User {
 	}
 
 	public boolean doLogOut(){		
-		db.execSQL("REMOVE FROM Dandremid_Atack");
-		db.execSQL("REMOVE FROM Dandremid_State");
-		db.execSQL("REMOVE FROM Dandremid");
-		db.execSQL("REMOVE FROM User");		
+		db.execSQL("DELETE FROM Dandremid_Attack");
+		db.execSQL("DELETE FROM Dandremid_State");
+		db.execSQL("DELETE FROM Dandremid");
+		db.execSQL("DELETE FROM User_Object");
+		db.execSQL("DELETE FROM User");		
 		return true;
 	}
 		
-	public void updateUser(User user) {
+	public void saveUser(User user) {
 		String sql = "UPDATE User SET" +
 				" playerName ='"+user.getPlayerName()+"', name='"+user.getName()+"', email = '"+user.getEmail()+"', surname = '"+user.getSurname()+"', birth = '"+user.getBirth()+"', gender = '"+user.getGender()+"', level = "+user.getLevel()+", exp = "+user.getExp()+", expNextLevel = "+user.getExpNextLevel()+", fighting = " +(user.isFighting()? 1:0)+
 				" WHERE id = "+user.getId();
@@ -90,7 +100,17 @@ public class DAO_User {
 		
 		DAO_Dandremid dc = new DAO_Dandremid(context, db);		
 		for (Dandremid c : user.getDandremidList()){
-			dc.updateDandremid(c);
+			if (c.getId()!=0){
+				dc.updateDandremid(c);
+			} else {
+				c.setId(dc.getNextNegativeId());
+				dc.insertDandremid(user,c);
+			}
+		}
+		
+		DAO_Object daoObject = new DAO_Object(context, db);
+		for (Object o : user.getObjectList()){
+			daoObject.updateObject(user, o);
 		}
 		
 	}

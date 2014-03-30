@@ -1,5 +1,8 @@
 package dandremids.src;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 import dandremids.src.customclasses.DandremidsREST;
 import dandremids.src.customclasses.DandremidsSQLiteHelper;
 import dandremids.src.daos.DAO_User;
@@ -77,6 +80,23 @@ public class LoginActivity extends Activity {
 		this.finish();		
 	}
 	
+	private String encriptPassword (String password) {
+		MessageDigest md;
+		try {
+			md = MessageDigest.getInstance("SHA-256");		
+			md.update(password.getBytes());			
+			byte [] mdBytes = md.digest();			
+			StringBuffer sb = new StringBuffer();
+			for (int i=0; i<mdBytes.length; i++){
+				sb.append(Integer.toHexString(0XFF & mdBytes[i]));
+			}
+			return sb.toString();
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 	public class DoBackgroundTask extends AsyncTask<String, Void, String> {
 		
 		public static final int UPDATE_GAME_DATA = 0, LOGIN = 1;
@@ -105,11 +125,10 @@ public class LoginActivity extends Activity {
 		
 		@Override
 		protected String doInBackground(String... urls) {
-						
 			DandremidsREST dr = new DandremidsREST(LoginActivity.this, LoginActivity.this.db);
 			
 			if (mode==LOGIN) {
-				return dr.doLogin(user.getText().toString(), password.getText().toString());
+				return dr.doLogin(user.getText().toString(),encriptPassword(password.getText().toString()));
 			} else if (mode == UPDATE_GAME_DATA) {
 				return dr.updateGameData();
 			}

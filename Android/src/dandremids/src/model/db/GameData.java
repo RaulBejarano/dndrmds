@@ -8,4 +8,6 @@ public class GameData {
 	public List<State> states;
 	public List<Attack> attacks;
 	public List<AttackState> attackStates;
+	public List<ElementElement> elementElement;
+	public List<Object> objects;
 }

@@ -5,9 +5,12 @@ import java.util.ArrayList;
 
 import dandremids.src.alarms.WildDandremidAlarm;
 import dandremids.src.customclasses.DandremidsSQLiteHelper;
+import dandremids.src.daos.DAO_Dandremid;
 import dandremids.src.daos.DAO_User;
 import dandremids.src.model.Attack;
+import dandremids.src.model.Object;
 import dandremids.src.model.Dandremid;
+import dandremids.src.model.ElementElement;
 import dandremids.src.model.User;
 import dandremids.src.views.CombatView;
 import android.os.Bundle;
@@ -28,6 +31,7 @@ public class CombatActivity extends Activity {
 	Dandremid dLocal, dRival;
 	CombatView combatView;
 	
+	ArrayList<ElementElement> elementElementList;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,23 +43,45 @@ public class CombatActivity extends Activity {
 		mode = this.getIntent().getExtras().getInt("mode");
 		local = (User) this.getIntent().getExtras().get("local");
 		rival = (User) this.getIntent().getExtras().get("rival");
+		elementElementList= this.getIntent().getExtras().getParcelableArrayList("elementRelations");
 		
+				
 		// This two for downthere are necesary because in the boundle we lost the images (too heavy)
 		for (Dandremid d : local.getDandremidList()) {
 			d.getDandremidBase().refreshDandremidImage(this);
+			
 		}
 		
-		for (Dandremid d : rival.getDandremidList()) {
+		for (Dandremid d : rival.getSelectedDandremidList()) {
 			d.getDandremidBase().refreshDandremidImage(this);
 		}	
 		
-		dLocal = local.getSelectedDandremidList().get(0);
-		dRival = rival.getSelectedDandremidList().get(0);
+		// Dandremid Selection
+		for (Dandremid d : local.getSelectedDandremidList()) {
+			if (d.getLife()>0){
+				dLocal = d;
+				break;
+			}
+			
+		}
 		
+		for (Dandremid d : rival.getDandremidList()) {
+			if (d.getLife()>0){
+				dRival = d;
+				break;
+			}
+		}	
+	
+	
 		if (dLocal.getSpeed() > dRival.getSpeed()){
 			localTurn=true;
 		} else if (dLocal.getSpeed() < dRival.getSpeed()) {
 			localTurn=false;
+			if (mode == WildDandremidAlarm.WILD_COMBAT_MODE){
+				this.doWildDandremidAttack();
+			} else {
+				// doRivalTurn
+			}
 		}else {
 			int i = (int)(Math.random()*2);
 			if (i==0){
@@ -65,11 +91,7 @@ public class CombatActivity extends Activity {
 			}
 		}
 		
-		local.setFighting(true);
-		rival.setFighting(true);
-		
-		this.saveLocalData();
-		
+			
 		combatView = new CombatView(this, getWindowManager().getDefaultDisplay(), dLocal, dRival);
 		combatView.setOnClickListener(new OnClickListener(){
 
@@ -157,7 +179,7 @@ public class CombatActivity extends Activity {
 		// Make Attack Animation
 				
 		// Perform Attack Logic
-		dRival.makeAttack(attack, dLocal);
+		dRival.makeAttack(this,attack, dLocal, elementElementList);
 		this.doFinalTurnStep();
 	}
 	
@@ -221,7 +243,7 @@ public class CombatActivity extends Activity {
 			case 1:		// Use Object
 				intent = new Intent(this, DialogCombatActivity.class);
 				intent.putExtra("mode", DialogCombatActivity.OBJECT_LIST_MODE);		// Object List Mode
-				intent.putExtra("objects", new String [] {"object 1","object 2","object 3","object 4","object 5","object 6","object 7","object 8","object 9","object 10","object 11","object 12"});
+				intent.putParcelableArrayListExtra("objects", local.getObjectList());
 				this.startActivityForResult(intent, 0);	
 				
 				break;
@@ -247,7 +269,7 @@ public class CombatActivity extends Activity {
 			// Make attack animation
 			
 			// Perform attack logic
-			dLocal.makeAttack(attack, dRival);	
+			dLocal.makeAttack(this, attack, dRival, elementElementList);	
 			
 			doFinalTurnStep();
 		} else { // If User closes dialog, Launch action selector			
@@ -257,9 +279,39 @@ public class CombatActivity extends Activity {
 	
 	private void objectSelectedHandler(int selection) {
 		if (selection != -1){
+			Object co = local.getObjectList().get(selection);
 			
+			if(co.isTrap()){
+				// Do trap logic
+				boolean trapped = (dRival.getLife() / dRival.getMaxLife()) < ( 0.1 * co.getStrength() * (Math.random() * 0.7 + 0.7)) ;
+				trapped=true;
+				if (trapped) {
+					// Animation
+					
+					dRival.setSelected(-1);
+					local.getDandremidList().add(dRival);
+					Toast.makeText(this, "Trapped", Toast.LENGTH_LONG).show();
+					end=true;
+				} else {
+					// Animation
+					Toast.makeText(this, "NOT Trapped", Toast.LENGTH_LONG).show();
+				}
+			} else {
+				// Animation
+				
+				dLocal.tmp_strength=dLocal.tmp_strength+co.getStrength();
+				dLocal.tmp_defense=dLocal.tmp_defense+co.getDefense();
+				dLocal.tmp_speed=dLocal.tmp_speed+co.getSpeed();
+				
+				dLocal.setLife(dLocal.getLife()+co.getLife());
+				if (dLocal.getLife()>dLocal.getMaxLife()) dLocal.setLife(dLocal.getMaxLife());
+			}
+			
+			co.setQuantity(co.getQuantity()-1);
 			
 			doFinalTurnStep();
+		} else {
+			this.launchActionSelectorDialog();
 		}
 	}
 
@@ -309,7 +361,7 @@ public class CombatActivity extends Activity {
 		SQLiteDatabase db = dsh.getWritableDatabase();
 		
 		DAO_User daoU = new DAO_User(this,db);
-		daoU.updateUser(local);
+		daoU.saveUser(local);
 		
 		db.close();
 		dsh.close();

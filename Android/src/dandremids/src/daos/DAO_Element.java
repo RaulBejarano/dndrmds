@@ -1,6 +1,8 @@
 package dandremids.src.daos;
 
 
+import java.util.ArrayList;
+
 import dandremids.src.model.Element;
 import android.content.Context;
 import android.database.Cursor;
@@ -40,5 +42,20 @@ public class DAO_Element {
 		c.close();
 		return null;
 	}
+
+	public ArrayList<Element> getAllElements() {
+		ArrayList<Element> list = new ArrayList<Element>();
+		String sql = "SELECT id, name FROM Element";
+		Cursor c = db.rawQuery(sql, null);
+		Element aux;
+		while(c.moveToNext()){
+			aux = new Element(c.getInt(0),c.getString(1));
+			list.add(aux);
+		}
+		
+		return list;
+	}
+
+	
 
 }

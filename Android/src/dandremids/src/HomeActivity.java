@@ -1,16 +1,21 @@
 package dandremids.src;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import dandremids.src.alarms.UpdateDandremidAlarm;
 import dandremids.src.alarms.WildDandremidAlarm;
+import dandremids.src.customclasses.DandremidsREST;
 import dandremids.src.customclasses.DandremidsSQLiteHelper;
 import dandremids.src.daos.DAO_DandremidBase;
+import dandremids.src.daos.DAO_League;
+import dandremids.src.daos.DAO_Object;
 import dandremids.src.daos.DAO_User;
 import dandremids.src.fragments.ScreenSlidePagerAdapter;
 import dandremids.src.fragments.TabPagerAdapter;
 import dandremids.src.model.DandremidBase;
 import dandremids.src.model.User;
+import dandremids.src.model.Object;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -32,7 +37,8 @@ public class HomeActivity extends FragmentActivity {
 	public static HomeActivity instance = null;
 	
 	User user;	
-	List <DandremidBase> dandremidsBaseList;
+	ArrayList <DandremidBase> dandremidsBaseList;
+	ArrayList <Object> shopObjectList;
 	
 	public TabPagerAdapter tabPagerAdapter;
 	public ViewPager mViewPager;
@@ -42,7 +48,6 @@ public class HomeActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.fragment_holder);
-		
 		tabPagerAdapter = new TabPagerAdapter(this.getSupportFragmentManager());
 		mViewPager = (ViewPager) this.findViewById(R.id.fragment_holder_pager);
 		mViewPager.setAdapter(tabPagerAdapter);		
@@ -67,6 +72,8 @@ public class HomeActivity extends FragmentActivity {
 		
 		actionBar.addTab(createTab(actionBar, R.drawable.icon_home));
 		actionBar.addTab(createTab(actionBar, R.drawable.icon_my_dandremids));
+		actionBar.addTab(createTab(actionBar, R.drawable.icon_swords));
+		actionBar.addTab(createTab(actionBar, R.drawable.icon_bag));
 		actionBar.addTab(createTab(actionBar, R.drawable.icon_wikimids));
 		
 		DandremidsSQLiteHelper dsh = new DandremidsSQLiteHelper(this,"DandremidsDB",null,1);
@@ -76,9 +83,12 @@ public class HomeActivity extends FragmentActivity {
 		
 		DAO_DandremidBase daoDB = new DAO_DandremidBase(this, db);
 		dandremidsBaseList = daoDB.getAllDandremidBase();
+		
+		DAO_Object daoObject = new DAO_Object(this,db);
+		shopObjectList = daoObject.getShopObjectList(user);
+		
 		db.close();
 		dsh.close();
-		
 		
 		// Alarm Notification System		
 		WildDandremidAlarm.setNextAlarm(this, 0, 1);
@@ -139,6 +149,10 @@ public class HomeActivity extends FragmentActivity {
 	public List<DandremidBase> getAllDandremidsList() {
 		return dandremidsBaseList;
 	}
+	
+	public ArrayList<Object> getShopObjectList() {
+		return this.shopObjectList;
+	}
 		
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		updateUser();		
@@ -166,23 +180,26 @@ public class HomeActivity extends FragmentActivity {
 	}
 	
 	public void updateUser() {
-		DandremidsSQLiteHelper dsh = new DandremidsSQLiteHelper(this,"DandremidsDB",null,1);
-		
-		SQLiteDatabase db = dsh.getWritableDatabase();
-		
-		DAO_User daoU = new DAO_User(this,db);
-		user = daoU.getCurrentUser();				
-		
-		db.close();
-		dsh.close();
-		
-		tabPagerAdapter.updateUser(user);
-		
-		ViewPager pager = (ViewPager) this.findViewById(R.id.fragment_home_pager);
-		int i = pager.getCurrentItem();
-		this.setSelectedCircle(i);
-		
-		pager.setAdapter(new ScreenSlidePagerAdapter(this.getSupportFragmentManager(), user));
-		pager.setCurrentItem(i);
+		try {
+			DandremidsSQLiteHelper dsh = new DandremidsSQLiteHelper(this,"DandremidsDB",null,1);			
+			SQLiteDatabase db = dsh.getWritableDatabase();			
+			DAO_User daoU = new DAO_User(this,db);
+			user = daoU.getCurrentUser();	
+			DAO_Object daoObject = new DAO_Object(this,db);
+			shopObjectList = daoObject.getShopObjectList(user);
+			db.close();
+			dsh.close();
+			
+			tabPagerAdapter.updateUser(user);
+			
+			ViewPager pager = (ViewPager) this.findViewById(R.id.fragment_home_pager);
+			int i = pager.getCurrentItem();
+			this.setSelectedCircle(i);
+			pager.setAdapter(new ScreenSlidePagerAdapter(this.getSupportFragmentManager(), user));
+			pager.setCurrentItem(i);
+		} catch (Exception e) {
+			
+		}
 	}
+	
 }

@@ -1,5 +1,7 @@
 package dandremids.src.model;
 
+import java.util.ArrayList;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,6 +13,7 @@ import android.os.Parcelable;
 public class Element implements Parcelable{
 	private int id;
 	private String name;
+	private ArrayList<Element> elementList;
 	
 	public static final Parcelable.Creator<Element> CREATOR =
             new Parcelable.Creator<Element>()
@@ -31,18 +34,22 @@ public class Element implements Parcelable{
 	public Element (int id, String name) {
 		this.id=id;
 		this.name=name;
+		this.elementList = null;
 	}
 	
 	public Element (Parcel p){
 		id=p.readInt();
 		name=p.readString();
+		elementList = (ArrayList<Element>) p.readArrayList(getClass().getClassLoader());
 	}
 	
 	@Override
 	public void writeToParcel(Parcel p, int flags) {
 		p.writeInt(id);
 		p.writeString(name);
+		p.writeList(elementList);
 	}
+	
 	public int getId() {
 		return id;
 	}
@@ -59,7 +66,13 @@ public class Element implements Parcelable{
 		this.name = name;
 	}
 
-	
+	public ArrayList<Element> getElementList() {
+		return elementList;
+	}
+
+	public void setElementList(ArrayList<Element> elementList) {
+		this.elementList = elementList;
+	}
 
 	@Override
 	public int describeContents() {

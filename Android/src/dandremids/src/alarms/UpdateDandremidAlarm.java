@@ -26,7 +26,7 @@ public class UpdateDandremidAlarm extends BroadcastReceiver {
 			for (Dandremid d : user.getSelectedDandremidList()){
 				d.updateTimeChangingValues();
 			}		
-			daoUser.updateUser(user);
+			daoUser.saveUser(user);
 			
 			if(HomeActivity.instance != null){
 				HomeActivity.instance.updateUser();

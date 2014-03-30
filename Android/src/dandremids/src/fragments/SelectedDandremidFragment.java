@@ -81,6 +81,7 @@ public class SelectedDandremidFragment extends Fragment {
 	        level.setText(dandremid.getLevel()+"");
 	        name.setText(dandremid.getName());
 	        element1.setImageBitmap(Element.getElementImage(this.getActivity(), dandremid.getDandremidBase().getElement1()));
+	        element2.setImageBitmap(Element.getElementImage(this.getActivity(), dandremid.getDandremidBase().getElement2()));
 	        exp.setMax(dandremid.getExpNextLevel());
 	        exp.setProgress(dandremid.getExp());
 	        str.setText(dandremid.getStrength()+"");
@@ -128,9 +129,11 @@ public class SelectedDandremidFragment extends Fragment {
 	
 		protected void onDandremidClick() {
 			
+			dandremid.setLife(dandremid.getLife()+10);
+			if (dandremid.getLife()>dandremid.getMaxLife()) dandremid.setLife(dandremid.getMaxLife());
 			dandremid.setFeed(dandremid.getFeed() + 10);
 			if (dandremid.getFeed()>dandremid.getMaxFeed()) dandremid.setFeed(dandremid.getMaxFeed());
-			dandremid.setHappiness(dandremid.getHappiness()+10);
+			dandremid.setHappiness(dandremid.getHappiness()+2);
 			if (dandremid.getHappiness()>100) dandremid.setHappiness(100);
 			this.saveDandremidsChanges();
 			
@@ -272,7 +275,7 @@ public class SelectedDandremidFragment extends Fragment {
 			DandremidsSQLiteHelper dsh = new DandremidsSQLiteHelper(this.getActivity(),"DandremidsDB",null,1);
 			SQLiteDatabase db = dsh.getWritableDatabase();
 			DAO_User daoUser = new DAO_User(this.getActivity(), db);
-			daoUser.updateUser(user);	
+			daoUser.saveUser(user);	
 			db.close();
 			dsh.close();
 		}

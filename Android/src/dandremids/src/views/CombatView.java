@@ -1,9 +1,7 @@
 package dandremids.src.views;
 
 import dandremids.src.R;
-import dandremids.src.CombatActivity;
 import dandremids.src.model.Dandremid;
-import dandremids.src.model.User;
 import dandremids.src.threads.CombatViewLoopThread;
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -16,10 +14,8 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.view.Display;
-import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.widget.Toast;
 
 
 @SuppressLint("DrawAllocation")
@@ -62,7 +58,9 @@ public class CombatView extends SurfaceView {
             @Override
             public void surfaceCreated(SurfaceHolder holder) {
             	combatViewLoopThread.setRunning(true);
-            	combatViewLoopThread.start();
+            	if(!combatViewLoopThread.isAlive()){
+            		combatViewLoopThread.start();
+            	}            	
             }
 
             @Override
@@ -72,20 +70,7 @@ public class CombatView extends SurfaceView {
 			
 		
 	}
-		
-	/*
-	public boolean onTouchEvent(MotionEvent event) {
-		
-		if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE) {
-			if (!dialogLaunched){
-				((CombatActivity) this.getContext()).launchActionSelectorDialog();
-			}			
-		} 
-		
-		return true;
-	}
-	*/
-	
+			
 	@SuppressLint("DrawAllocation")
 	@Override
 	public void onDraw(Canvas canvas) {
@@ -101,7 +86,7 @@ public class CombatView extends SurfaceView {
 			display.getSize(dp);
 			
 			canvas.drawColor(Color.WHITE);
-			Drawable background = getResources().getDrawable(R.drawable.background_my_dandremids);
+			Drawable background = getResources().getDrawable(R.drawable.background_par);
 			background.setBounds(0, 0, dp.x, dp.y);
 			background.draw(canvas);
 			

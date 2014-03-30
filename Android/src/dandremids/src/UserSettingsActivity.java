@@ -94,12 +94,9 @@ public class UserSettingsActivity extends Activity {
 			user.setGender("Male");
 		}else{ 
 			user.setGender("Female");
-		}
-		
-		daoUser.updateUser(user);
-		
+		}		
+		daoUser.saveUser(user);
 		Toast.makeText(this, "Saved successfully", Toast.LENGTH_LONG).show();
-		
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package dandremids.src.model;
 
 import dandremids.src.daos.DAO_Attack;
+import dandremids.src.model.db.DandremidAttack;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Parcel;
@@ -138,6 +139,17 @@ public class Attack implements Parcelable{
 		DAO_Attack daoAttack = new DAO_Attack(context, db);
 		Attack attack = daoAttack.getRandomAttackForDandremid(d);
 		return attack;
+	}
+	
+	public DandremidAttack toDBDandremidAttack(Dandremid d) {
+		DandremidAttack da = new DandremidAttack();
+		da.Attack_id = this.id;
+		da.Dandremid_id = d.getId();
+		da.level = this.level;
+		da.uses = this.uses;
+		da.nextLevelUses = this.nextLevelUses;
+				
+		return da;
 	}
 
 

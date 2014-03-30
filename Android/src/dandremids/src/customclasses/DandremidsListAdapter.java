@@ -20,7 +20,6 @@ public class DandremidsListAdapter extends BaseAdapter {
 
 	static class ViewHolder
 	{
-		
 		TextView levelView;
 		ImageView type1View;
 		ImageView type2View;
@@ -32,8 +31,7 @@ public class DandremidsListAdapter extends BaseAdapter {
 		ProgressBar happinessBar;
 		TextView foodText;
 		TextView healthText;
-		TextView happinessText;
-		
+		TextView happinessText;		
 	}
 	
 	private List<Dandremid> list;

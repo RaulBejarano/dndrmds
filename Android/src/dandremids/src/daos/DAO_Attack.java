@@ -5,7 +5,6 @@ import java.util.List;
 
 import dandremids.src.model.Attack;
 import dandremids.src.model.Dandremid;
-import dandremids.src.model.Element;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -69,7 +68,7 @@ public class DAO_Attack {
 		
 		String sql = "SELECT id, name, Element_id, strike, heal, minimumLevel" +
 				" FROM Attack" +
-				" WHERE (Element_id = "+d.getDandremidBase().getElement1().getId() + " OR Element_id = "+d.getDandremidBase().getElement2().getId() + " OR Element_id = (SELECT id FROM Element WHERE name='NONE'))" +
+				" WHERE Element_id = "+d.getDandremidBase().getElement1().getId() + " OR Element_id = "+d.getDandremidBase().getElement2().getId() + 
 				" AND minimumLevel <= "+d.getLevel() +
 				" AND id NOT IN ("+str+")";
 		Cursor c = db.rawQuery(sql, null);	

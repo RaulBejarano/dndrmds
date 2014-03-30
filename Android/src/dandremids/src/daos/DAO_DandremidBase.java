@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dandremids.src.model.DandremidBase;
-import dandremids.src.model.Element;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -112,8 +111,8 @@ public class DAO_DandremidBase {
 	}
 
 
-	public List<DandremidBase> getAllDandremidBase() {
-		List<DandremidBase> list = new ArrayList<DandremidBase>();
+	public ArrayList<DandremidBase> getAllDandremidBase() {
+		ArrayList<DandremidBase> list = new ArrayList<DandremidBase>();
 		
 		String sql = "SELECT id, name, " +
 				"Element1_id, " +

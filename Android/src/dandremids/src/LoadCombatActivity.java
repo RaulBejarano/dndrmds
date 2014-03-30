@@ -1,25 +1,21 @@
 package dandremids.src;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 import dandremids.src.alarms.WildDandremidAlarm;
 import dandremids.src.customclasses.DandremidsREST;
 import dandremids.src.customclasses.DandremidsSQLiteHelper;
-import dandremids.src.daos.DAO_DandremidBase;
+import dandremids.src.daos.DAO_ElementElement;
 import dandremids.src.daos.DAO_User;
 import dandremids.src.model.Dandremid;
-import dandremids.src.model.DandremidBase;
+import dandremids.src.model.ElementElement;
 import dandremids.src.model.User;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.Menu;
 import android.view.Window;
@@ -31,10 +27,10 @@ public class LoadCombatActivity extends Activity {
 
 	ProgressBar spinner;
 	TextView message, action;
-	ImageView rivalImage, localImage;
-	
+	ImageView rivalImage, localImage;	
 	TextView localName, localLevel, rivalName, rivalLevel;
 		
+	LoadCombatTask task;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -57,22 +53,22 @@ public class LoadCombatActivity extends Activity {
 		Bundle extra = this.getIntent().getExtras();
 		
 		if(extra!=null){
-			LoadCombatTask task = new LoadCombatTask(extra.getInt("MODE"));
+			task = new LoadCombatTask(extra.getInt("MODE"));
 			task.execute();			
 		} else { //          <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Borrar este else
-			LoadCombatTask task = new LoadCombatTask(WildDandremidAlarm.WILD_COMBAT_MODE);
+			task = new LoadCombatTask(WildDandremidAlarm.WILD_COMBAT_MODE);
 			task.execute();
 		}
 		
 	}
 
 	private void startWildCombatMode () {
+		
 		runOnUiThread(new Runnable(){
 
 			@Override
 			public void run() {
 				action.setText("Getting user's information");
-				
 			}
 			
 		});
@@ -80,10 +76,23 @@ public class LoadCombatActivity extends Activity {
 		DandremidsSQLiteHelper dsh = new DandremidsSQLiteHelper(this,"DandremidsDB",null,1);
 		SQLiteDatabase db = dsh.getWritableDatabase();
 		
+		// 0. Get Game Data
+		DAO_ElementElement daoElementElement = new DAO_ElementElement(this,db);
+		ArrayList<ElementElement> elementRelations = daoElementElement.getAllElementsRelations();
+		
 		// 1. Get User and selected Dandremids
 		DAO_User daoUser = new DAO_User(this, db);
 		final User currentUser = daoUser.getCurrentUser();
-				
+		
+		DandremidsREST dr = new DandremidsREST(this, db);
+		System.out.println(dr.saveUser(currentUser.toDBUser()));
+		
+		if (currentUser.getAvailableDandremids()==0) this.onBackPressed();
+		
+		
+		currentUser.setFighting(true);
+		daoUser.saveUser(currentUser);
+		
 		// 2. Set up Load User Interface	
 		runOnUiThread(new Runnable(){
 			@Override
@@ -93,7 +102,7 @@ public class LoadCombatActivity extends Activity {
 				rivalLevel.setText("?");
 				
 				localImage.setImageBitmap(currentUser.getImage());
-				localName.setText(currentUser.getName());
+				localName.setText(currentUser.getPlayerName());
 				localLevel.setText(currentUser.getLevel()+"");
 				
 				action.setText("Analizing dandremid with Wikimid");
@@ -117,36 +126,42 @@ public class LoadCombatActivity extends Activity {
 		
 		
 		//User(int id, Bitmap image, String playerName, String name, String email, String surname, String birth, String gender, int level, int exp, int expNextLevel) {
-		User u = new User (-1, null, null, null, null, null, null, null, 0,0,0,true);
+		User u = new User (-1, null, null, null, null, null, null, null, null, 0,0,0,0,true);
 		ArrayList<Dandremid> auxList = new ArrayList<Dandremid>();
 		auxList.add(d);
 		u.setDandremidList(auxList);
 		
 		db.close();
+		dsh.close();
 		
 		try {
 			Thread.sleep(5000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
-				
+						
 		Intent i = new Intent(this, CombatActivity.class);
 		i.putExtra("mode", WildDandremidAlarm.WILD_COMBAT_MODE);
+		i.putParcelableArrayListExtra("elementRelations", elementRelations);
 		i.putExtra("rival", u);
 		i.putExtra("local", currentUser);
-		
 		
 		this.startActivity(i);	
 		this.finish();
 	}
 	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.load_combat, menu);
-		return true;
-	}
 	
+	
+	@Override
+	public void onBackPressed() {
+		
+		task.cancel(true);
+		
+		super.onBackPressed();
+	}
+
+
+
 	public class LoadCombatTask extends AsyncTask<String, Void, String> {
 		
 		int mode;
