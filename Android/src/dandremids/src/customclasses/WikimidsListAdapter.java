@@ -6,8 +6,6 @@ import dandremids.src.R;
 import dandremids.src.model.DandremidBase;
 import dandremids.src.model.Element;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;

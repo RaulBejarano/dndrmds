@@ -1,41 +1,38 @@
 package dandremids.src.fragments;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.util.ArrayList;
+
 import dandremids.src.HomeActivity;
-import dandremids.src.LoginActivity;
 import dandremids.src.R;
-import dandremids.src.customclasses.DandremidsListAdapter;
 import dandremids.src.customclasses.DandremidsREST;
 import dandremids.src.customclasses.DandremidsSQLiteHelper;
+import dandremids.src.customclasses.LeagueListAdapter;
+import dandremids.src.customclasses.LeagueRankingAdapter;
 import dandremids.src.daos.DAO_League;
-import dandremids.src.daos.DAO_Object;
-import dandremids.src.daos.DAO_User;
-import dandremids.src.model.Attack;
-import dandremids.src.model.Dandremid;
 import dandremids.src.model.User;
 import dandremids.src.model.League;
 import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
-import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
 
 public class LeagueFragment extends Fragment{
 	
@@ -48,6 +45,7 @@ public class LeagueFragment extends Fragment{
 	Button bottomButton;
 	ListView rankingList;
 	
+	Dialog dialog;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,	Bundle savedInstanceState) {
@@ -55,8 +53,9 @@ public class LeagueFragment extends Fragment{
 		user = ((HomeActivity)this.getActivity()).getUser();	
 		
 		View v = inflater.inflate(dandremids.src.R.layout.fragment_league, container, false);		
-		
+		Typeface tf = Typeface.createFromAsset(this.getActivity().getAssets(), "HomemadeApple.ttf");
 		nameText = (TextView) v.findViewById(R.id.fragment_league_name);
+		nameText.setTypeface(tf);
 		rightButton = (Button) v.findViewById(R.id.fragment_league_right);
 		leftButton = (Button) v.findViewById(R.id.fragment_league_left);
 		bottomButton = (Button) v.findViewById(R.id.fragment_league_bottom);
@@ -68,14 +67,23 @@ public class LeagueFragment extends Fragment{
 	}
 	
 	
-	private void updateLeague() {
+	@Override
+	public void onViewCreated(View view, Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+		
+		Bundle extras = this.getActivity().getIntent().getExtras();
+		if (extras!=null && extras.getInt("id", -1) == HomeActivity.LEAGUE_NOTIFICATION){
+			this.onSearchClick();
+		}
+	}
+	
+	
+	public void updateLeague() {
 		DandremidsSQLiteHelper dsh = new DandremidsSQLiteHelper(this.getActivity(),"DandremidsDB",null,1);			
 		SQLiteDatabase db = dsh.getWritableDatabase();			
 		DAO_League daoL = new DAO_League(this.getActivity(),db);
 		league = daoL.getLeague();	
-		db.close();
-		dsh.close();
-		
+				
 		if (league!=null) {
 			if (league.getStatus().compareTo("WAITING")==0) {
 				setWaitingInterface();				
@@ -86,6 +94,9 @@ public class LeagueFragment extends Fragment{
 		} else {
 			setBaseInterface();
 		}
+		
+		db.close();
+		dsh.close();
 	}
 	
 	
@@ -106,10 +117,12 @@ public class LeagueFragment extends Fragment{
 		rightButton.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v) {
-				launchEditDialog(DoBackgroundTask.SEARCH_MODE,"League mode:","Search");
+				onSearchClick();
 			}			
 		});
-	
+		
+		rankingList.setAdapter(new LeagueRankingAdapter(this.getActivity(), new ArrayList<User>()));
+			
 		bottomButton.setText("Start League");
 		bottomButton.setEnabled(false);
 		bottomButton.setAlpha(0.7f);
@@ -119,8 +132,6 @@ public class LeagueFragment extends Fragment{
 	private void setWaitingInterface() {
 		nameText.setText(league.getName());
 		
-		// falta el ranking
-		
 		leftButton.setText("Invite");
 		leftButton.setBackgroundResource(R.drawable.background_green_small_button);
 		leftButton.setOnClickListener(new OnClickListener(){
@@ -129,8 +140,7 @@ public class LeagueFragment extends Fragment{
 				launchEditDialog(DoBackgroundTask.INVITE_MODE,"Write player name:","Send invitation");
 			}			
 		});
-		// if (not creator) leftButton.setEnabled(false);		
-		
+				
 		rightButton.setText("Abandone");
 		rightButton.setBackgroundResource(R.drawable.background_red_small_button);
 		rightButton.setOnClickListener(new OnClickListener(){
@@ -150,6 +160,8 @@ public class LeagueFragment extends Fragment{
 			}			
 		});
 	
+		rankingList.setAdapter(new LeagueRankingAdapter(this.getActivity(), league.getUserList()));
+				
 		bottomButton.setText("Start League");
 		bottomButton.setOnClickListener(new OnClickListener(){
 			@Override
@@ -158,14 +170,24 @@ public class LeagueFragment extends Fragment{
 				dbt.execute();
 			}			
 		});
-				
-		boolean creator = true;
-		if (creator){
+		
+		DandremidsSQLiteHelper dsh = new DandremidsSQLiteHelper(this.getActivity(),"DandremidsDB",null,1);			
+		SQLiteDatabase db = dsh.getWritableDatabase();			
+		DAO_League daoL = new DAO_League(this.getActivity(),db);
+		int id = daoL.getCreatorId();		
+		db.close();
+		dsh.close();
+		
+		if (id == user.getId()){
 			bottomButton.setEnabled(true);
 			bottomButton.setAlpha(1);
+			leftButton.setEnabled(true);
+			leftButton.setAlpha(1);
 		} else {
 			bottomButton.setEnabled(false);
 			bottomButton.setAlpha(0.7f);
+			leftButton.setEnabled(false);
+			leftButton.setAlpha(0.7f);
 		}
 		
 	}
@@ -204,6 +226,12 @@ public class LeagueFragment extends Fragment{
 		
 	}
 	
+	public void onSearchClick(){
+		//launchEditDialog(DoBackgroundTask.SEARCH_MODE,"League mode:","Search");
+		DoBackgroundTask dbt = new DoBackgroundTask(DoBackgroundTask.SEARCH_MODE);
+		dbt.execute();
+	}
+	
 	private void launchEditDialog (final int mode, String txt, String btn){
 		LayoutInflater li = LayoutInflater.from(LeagueFragment.this.getActivity());
 		View view = li.inflate(R.layout.dialog_edit_text, null);
@@ -240,7 +268,7 @@ public class LeagueFragment extends Fragment{
 	
 	public class DoBackgroundTask extends AsyncTask<String, Void, String> {
 		
-		public static final int CREATE_MODE=0, SEARCH_MODE=1, INVITE_MODE=2, ABANDONE_MODE=3, START_LEAGUE_MODE=4, NEXT_COMBAT_MODE=5;
+		public static final int CREATE_MODE=0, SEARCH_MODE=1, INVITE_MODE=2, ABANDONE_MODE=3, START_LEAGUE_MODE=4, NEXT_COMBAT_MODE=5, REJECT_LEAGUE_MODE=6, JOIN_LEAGUE_MODE=7;
 		
 		private ProgressDialog d;
 		private int mode;
@@ -256,20 +284,36 @@ public class LeagueFragment extends Fragment{
 		
 		@Override
 		protected void onPreExecute() {
-			d = new ProgressDialog(LeagueFragment.this.getActivity());			
-			if (mode == SEARCH_MODE) {
-				d.setMessage("Looking for Leagues...");
-			} else if (mode == CREATE_MODE) {
-				d.setMessage("Creating League...");
-			} else if (mode == INVITE_MODE) {
-				d.setMessage("Sending invitation...");
-			} else if (mode == ABANDONE_MODE) {
-				d.setMessage("Sending request...");
-			} else if (mode == START_LEAGUE_MODE){
-				d.setMessage("Starting league...");
-			} else if (mode == NEXT_COMBAT_MODE){
-				d.setMessage("Looking for next combat...");
+			d = new ProgressDialog(LeagueFragment.this.getActivity());	
+			
+			switch (mode) {
+				case SEARCH_MODE:
+					d.setMessage("Looking for Leagues...");
+					break;
+				case CREATE_MODE:
+					d.setMessage("Creating League...");
+					break;
+				case INVITE_MODE:
+					d.setMessage("Sending invitation...");
+					break;
+				case ABANDONE_MODE:
+					d.setMessage("Sending request...");
+					break;
+				case START_LEAGUE_MODE:
+					d.setMessage("Starting league...");
+					break;
+				case NEXT_COMBAT_MODE:
+					d.setMessage("Looking for next combat...");
+					break;
+				case REJECT_LEAGUE_MODE:
+					d.setMessage("Sending request...");
+					break;
+				case JOIN_LEAGUE_MODE:
+					d.setMessage("Sending request...");
+					break;
 			}
+			
+			
 			d.setCancelable(false);
 			d.show();
 		}
@@ -282,24 +326,44 @@ public class LeagueFragment extends Fragment{
 						
 			DandremidsREST dr = new DandremidsREST(LeagueFragment.this.getActivity(), db);
 			
-			if (mode == SEARCH_MODE) {
-				response = dr.searchLeague((String)values[0]);
-			} else if (mode == CREATE_MODE) {
-				dandremids.src.model.db.League league = new dandremids.src.model.db.League();
-				league.name = (String)values[0];
-				league.rounds = 1;
-				league.status = "WAITING";
-				league.code = "";
-				
-				response = dr.createLeague(league);
-			}else if (mode == INVITE_MODE) {
-				response = dr.invite((String)values[0]);
-			} else if (mode == ABANDONE_MODE) {
-				response = dr.abandone(user.toDBUser(), league.toDBLeague());
-			} else if (mode == START_LEAGUE_MODE){
-				response = dr.searchLeague((String)values[0]);
-			} else if (mode == NEXT_COMBAT_MODE){
-				response = dr.nextCombat(user.toDBUser(), league.toDBLeague());
+			switch (mode) {
+				case SEARCH_MODE:
+					response = dr.searchLeagueInvitations(user.toDBUser());
+					break;
+					
+				case CREATE_MODE:
+					dandremids.src.model.db.League l = new dandremids.src.model.db.League();
+					l.name = (String)values[0];
+					l.rounds = 1;
+					l.status = "WAITING";
+					l.code = "";
+					
+					response = dr.createLeague(user.toDBUser(),l);
+					break;
+					
+				case INVITE_MODE:
+					response = dr.sendLeagueInvitation((String)values[0], league.toDBLeague());
+					break;
+					
+				case ABANDONE_MODE:
+					response = dr.abandoneLeague(user.toDBUser(), league.toDBLeague());
+					break;
+					
+				case START_LEAGUE_MODE:
+					response = dr.startLeague((String)values[0]);
+					break;
+					
+				case NEXT_COMBAT_MODE:
+					response = dr.nextCombat(user.toDBUser(), league.toDBLeague());
+					break;
+					
+				case REJECT_LEAGUE_MODE:
+					response = dr.rejectLeagueInvitation(user.toDBUser(), ((dandremids.src.model.db.League)values[0]));
+					break;
+					
+				case JOIN_LEAGUE_MODE:
+					response = dr.aceptLeagueInvitation(user.toDBUser(), ((dandremids.src.model.db.League)values[0]));
+					break;
 			}
 			
 			db.close();
@@ -312,36 +376,70 @@ public class LeagueFragment extends Fragment{
 		protected void onPostExecute(String result) {
 			d.dismiss();
 			
-			if (mode == SEARCH_MODE) {
-				onSearchModeResponse(response);
-			} else if (mode == CREATE_MODE) {
-				onCreateModeResponse(response);
-			} else if (mode == INVITE_MODE) {
-				Toast.makeText(LeagueFragment.this.getActivity(), response, Toast.LENGTH_SHORT).show();
-			} else if (mode == ABANDONE_MODE) {
-				Toast.makeText(LeagueFragment.this.getActivity(), response, Toast.LENGTH_SHORT).show();
-			} else if (mode == START_LEAGUE_MODE){
-				Toast.makeText(LeagueFragment.this.getActivity(), response, Toast.LENGTH_SHORT).show();
-			} else if (mode == NEXT_COMBAT_MODE){
-				Toast.makeText(LeagueFragment.this.getActivity(), response, Toast.LENGTH_SHORT).show();
-			}
+			switch (mode) {
+				case SEARCH_MODE:
+					if (response != null){
+						ArrayList<dandremids.src.model.db.League> leagues = new Gson().fromJson(response, new TypeToken<ArrayList<dandremids.src.model.db.League>>(){}.getType());
+						if (leagues.size()>0){
+							launchLeagueListDialog(leagues);
+						} else {
+							Toast.makeText(getActivity(), "No league invitations", Toast.LENGTH_SHORT).show();
+						}						
+					} else {
+						Toast.makeText(getActivity(), "Request Error", Toast.LENGTH_SHORT).show();
+					}
+					break;
+				case CREATE_MODE:
+					updateLeague();							
+					break;
+				case INVITE_MODE:
+					Toast.makeText(LeagueFragment.this.getActivity(), response, Toast.LENGTH_SHORT).show();
+					break;
+				case ABANDONE_MODE:
+					updateLeague();
+					break;
+				case START_LEAGUE_MODE:
+					Toast.makeText(LeagueFragment.this.getActivity(), response, Toast.LENGTH_SHORT).show();
+					break;
+				case NEXT_COMBAT_MODE:
+					Toast.makeText(LeagueFragment.this.getActivity(), response, Toast.LENGTH_SHORT).show();
+					break;
+				case REJECT_LEAGUE_MODE:
+					if (response==null){
+						Toast.makeText(getActivity(), "Request Error", Toast.LENGTH_SHORT).show();
+					} 
+					break;
+				case JOIN_LEAGUE_MODE:
+					updateLeague();
+					break;
+			}			
 		}
 	}
 	
-	public void onSearchModeResponse(String response) {
-		if (response!=null &&  response.compareTo("true")==0) {
-			
-		} else {
-			Toast.makeText(this.getActivity(), "Error", Toast.LENGTH_SHORT).show();
+	public void launchLeagueListDialog(ArrayList<dandremids.src.model.db.League> leagues) {
+		dialog = new Dialog(this.getActivity());
+		dialog.setContentView(R.layout.dialog_list);
+		
+		ListView list = (ListView) dialog.findViewById(R.id.dialog_list_list);
+		list.setAdapter(new LeagueListAdapter(this.getActivity(), leagues));
+		
+		dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+		dialog.show();
+	}
+	
+	public void onRejectLeagueResponse(dandremids.src.model.db.League l) {
+		DoBackgroundTask dbt = new DoBackgroundTask(DoBackgroundTask.REJECT_LEAGUE_MODE, l);
+		dbt.execute();		
+		if (dialog!=null && dialog.isShowing()) {
+			dialog.dismiss();
 		}
 	}
 
-	public void onCreateModeResponse(String response) {
-		if (response!=null &&  response.compareTo("true")==0) {
-			updateLeague();			
-		} else {
-			Toast.makeText(this.getActivity(), "Error", Toast.LENGTH_SHORT).show();
+	public void onAcceptLeagueResponse(dandremids.src.model.db.League l) {
+		DoBackgroundTask dbt = new DoBackgroundTask(DoBackgroundTask.JOIN_LEAGUE_MODE, l);
+		dbt.execute();
+		if (dialog!=null && dialog.isShowing()) {
+			dialog.dismiss();
 		}
-		
 	}
 }

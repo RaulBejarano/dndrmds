@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dandremids.src.alarms.UpdateDandremidAlarm;
+import dandremids.src.alarms.UpdateSecondaryDataAlarm;
 import dandremids.src.alarms.WildDandremidAlarm;
 import dandremids.src.customclasses.DandremidsREST;
 import dandremids.src.customclasses.DandremidsSQLiteHelper;
 import dandremids.src.daos.DAO_DandremidBase;
-import dandremids.src.daos.DAO_League;
 import dandremids.src.daos.DAO_Object;
 import dandremids.src.daos.DAO_User;
 import dandremids.src.fragments.ScreenSlidePagerAdapter;
@@ -17,23 +17,26 @@ import dandremids.src.model.DandremidBase;
 import dandremids.src.model.User;
 import dandremids.src.model.Object;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
 import android.app.ActionBar.Tab;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.BitmapFactory;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 
 public class HomeActivity extends FragmentActivity {
 
-	public static final int COMBAT = 0, QR_READER = 1;
+	public static final int COMBAT = 0, QR_READER = 1, LEAGUE_NOTIFICATION = 2;
 	public static HomeActivity instance = null;
 	
 	User user;	
@@ -79,7 +82,7 @@ public class HomeActivity extends FragmentActivity {
 		DandremidsSQLiteHelper dsh = new DandremidsSQLiteHelper(this,"DandremidsDB",null,1);
 		SQLiteDatabase db = dsh.getWritableDatabase();
 		DAO_User daoUser = new DAO_User(this, db);
-		user = daoUser.getCurrentUser();
+		user = daoUser.getLocalUser();
 		
 		DAO_DandremidBase daoDB = new DAO_DandremidBase(this, db);
 		dandremidsBaseList = daoDB.getAllDandremidBase();
@@ -90,10 +93,31 @@ public class HomeActivity extends FragmentActivity {
 		db.close();
 		dsh.close();
 		
+		if (getIntent().getExtras()!=null){
+			mViewPager.setCurrentItem(2);
+		}
+		
 		// Alarm Notification System		
 		WildDandremidAlarm.setNextAlarm(this, 0, 1);
 		UpdateDandremidAlarm.setNextAlarm(this, 1);
+		UpdateSecondaryDataAlarm.setNextAlarm(this, 0);
+		
 	}
+	
+		
+	@Override
+	protected void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
+		
+		Bundle extras = intent.getExtras();
+		if (extras!=null){
+			mViewPager.setCurrentItem(2);
+			this.tabPagerAdapter.leagueFragment.onSearchClick();
+		}
+	}
+
+	
+	
 	
 	@Override
 	protected void onResume() {
@@ -154,8 +178,18 @@ public class HomeActivity extends FragmentActivity {
 		return this.shopObjectList;
 	}
 		
-	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-		updateUser();		
+	public void onActivityResult(int rc, int resultCode, Intent intent) {
+		updateUser();
+		/*
+		switch (rc) {
+			case COMBAT:
+				updateUser();
+				
+				break;
+			case QR_READER:
+				break;
+		}*/
+		
 	}
 
 	public void setSelectedCircle (int i) {
@@ -184,13 +218,14 @@ public class HomeActivity extends FragmentActivity {
 			DandremidsSQLiteHelper dsh = new DandremidsSQLiteHelper(this,"DandremidsDB",null,1);			
 			SQLiteDatabase db = dsh.getWritableDatabase();			
 			DAO_User daoU = new DAO_User(this,db);
-			user = daoU.getCurrentUser();	
+			user = daoU.getLocalUser();	
 			DAO_Object daoObject = new DAO_Object(this,db);
 			shopObjectList = daoObject.getShopObjectList(user);
 			db.close();
 			dsh.close();
 			
 			tabPagerAdapter.updateUser(user);
+			updateLeague();
 			
 			ViewPager pager = (ViewPager) this.findViewById(R.id.fragment_home_pager);
 			int i = pager.getCurrentItem();
@@ -200,6 +235,10 @@ public class HomeActivity extends FragmentActivity {
 		} catch (Exception e) {
 			
 		}
+	}
+		
+	public void updateLeague(){
+		this.tabPagerAdapter.leagueFragment.updateLeague();		
 	}
 	
 }

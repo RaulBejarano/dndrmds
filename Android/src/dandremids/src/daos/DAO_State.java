@@ -8,6 +8,8 @@ import dandremids.src.model.State;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
+import android.util.Log;
 
 public class DAO_State {
 
@@ -28,8 +30,13 @@ public class DAO_State {
 	}
 
 	public void deleteAll() {
-		String sql = "DELETE FROM State";
-		db.execSQL(sql);		
+		try {
+			db.execSQL("PRAGMA foreign_keys = ON");
+			db.execSQL("DELETE FROM State");
+			db.execSQL("PRAGMA foreign_keys = OFF");
+		} catch (SQLiteException e){
+			Log.i("DELETE EXCEPTION", "Error en el borrado total de State");
+		}
 	}
 
 	public List<State> getDandremidStateList(Dandremid dandremid) {

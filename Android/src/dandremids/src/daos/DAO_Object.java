@@ -7,6 +7,8 @@ import dandremids.src.model.User;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
+import android.util.Log;
 
 public class DAO_Object {
 	Context context;
@@ -17,10 +19,15 @@ public class DAO_Object {
 		this.context=context;
 		this.db=db;
 	}
-
+	
 	public void deleteAll() {
-		String sql = "DELETE FROM Object";
-		db.execSQL(sql);
+		try {
+			db.execSQL("PRAGMA foreign_keys = ON");
+			db.execSQL("DELETE FROM Object");
+			db.execSQL("PRAGMA foreign_keys = OFF");
+		} catch (SQLiteException e){
+			Log.i("DELETE EXCEPTION", "Error en el borrado total de Object");
+		}
 	}
 
 	public void insertObject(dandremids.src.model.db.Object co) {
@@ -68,7 +75,7 @@ public class DAO_Object {
 			list.add(o);
 			str = str  + "," + o.getId();
 		}
-		str = str.substring(1);
+		if(str.length()>0) str = str.substring(1);
 		
 		String sql = "SELECT id, name, strength, defense, speed, life, feed, happiness, trap, type, price " +
 				" FROM Object " +

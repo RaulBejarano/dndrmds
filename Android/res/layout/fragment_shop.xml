@@ -28,29 +28,6 @@
 
     </ListView>
 
-    <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_alignBottom="@+id/fragment_shop_title"
-        android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/fragment_shop_button"
-        android:src="@drawable/icon_coin" />
-
-    <TextView
-        android:id="@+id/fragment_shop_gold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/fragment_shop_list"
-        android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/imageView1"
-        android:gravity="center"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:text="0"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#FFFFFF" />
-
     <ImageButton
         android:id="@+id/fragment_shop_button"
         android:layout_width="80dp"
@@ -63,5 +40,29 @@
         android:padding="3dp"
         android:scaleType="fitCenter"
         android:src="@drawable/icon_qr" />
+
+    <ImageView
+        android:id="@+id/row_ranking_image"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_above="@+id/fragment_shop_list"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="5dp"
+        android:src="@drawable/icon_coin" />
+
+    <TextView
+        android:id="@+id/fragment_shop_gold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/fragment_shop_list"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/row_ranking_image"
+        android:gravity="center"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="0"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#FFFFFF" />
 
 </RelativeLayout>

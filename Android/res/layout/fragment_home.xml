@@ -108,7 +108,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/fragment_home_exp"
         android:layout_alignRight="@+id/fragment_home_exp"
-        android:layout_below="@+id/fragment_home_image"
+        android:layout_alignTop="@+id/fragment_home_exp"
         android:gravity="center"
         android:text="125/500"
         android:textAppearance="?android:attr/textAppearanceSmall"

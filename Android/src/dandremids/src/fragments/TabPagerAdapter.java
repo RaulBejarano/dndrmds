@@ -7,11 +7,11 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 public class TabPagerAdapter extends FragmentPagerAdapter {
 
-	HomeFragment homeFragment;
-	MyDandremidsFragment myDandremidsFragment;
-	LeagueFragment	leagueFragment;
-	ShopFragment shopFragment;
-	WikimidsFragment wikimidsFragment;
+	public HomeFragment homeFragment;
+	public MyDandremidsFragment myDandremidsFragment;
+	public LeagueFragment	leagueFragment;
+	public ShopFragment shopFragment;
+	public WikimidsFragment wikimidsFragment;
 	
 	
 	

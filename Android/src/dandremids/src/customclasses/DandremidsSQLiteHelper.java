@@ -14,6 +14,8 @@ public class DandremidsSQLiteHelper extends SQLiteOpenHelper {
 		this.context = context;
 	}
 
+	
+	
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 				
@@ -31,19 +33,20 @@ public class DandremidsSQLiteHelper extends SQLiteOpenHelper {
 					  " expNextLevel INTEGER NOT NULL, "+
 					  " gold INTEGER NOT NULL, "+
 					  " fighting BOOLEAN NOT NULL, "+
+					  " local BOOLEAN NOT NULL, "+
 					  " CONSTRAINT email_UNIQUE "+
 					  "    UNIQUE(email), "+
 					  "  CONSTRAINT playerName_UNIQUE "+
 					  "    UNIQUE(playerName) )");		
 			 	
 		db.execSQL("CREATE  TABLE IF NOT EXISTS Element ( "+
-					  " id INTEGER NOT NULL , "+
+					  " id INTEGER PRIMARY KEY NOT NULL , "+
 					  " name VARCHAR(45) NOT NULL," +
 					  " CONSTRAINT name_UNIQUE "+
 					  " UNIQUE(name)) ");
 		
 		db.execSQL("CREATE  TABLE IF NOT EXISTS Dandremid_Base ( "+
-					  " id INTEGER NOT NULL , "+
+					  " id INTEGER PRIMARY KEY NOT NULL , "+
 					  " name VARCHAR(45) NOT NULL , "+
 					  " Element1_id INTEGER NOT NULL , "+
 					  " Element2_id INTEGER NOT NULL , "+
@@ -55,7 +58,7 @@ public class DandremidsSQLiteHelper extends SQLiteOpenHelper {
 					  " description VARCHAR(250) NOT NULL, " +
 					  " CONSTRAINT fk_Dandremid_Base_Element1 "+
 					  "   FOREIGN KEY (Element1_id ) "+
-					  "   REFERENCES Element (id ), " +
+					  "   REFERENCES Element (id ) " +
 					  "   ON DELETE CASCADE "+
 					  "   ON UPDATE CASCADE,"+
 					  " CONSTRAINT fk_Dandremid_Base_Element2 "+
@@ -65,7 +68,7 @@ public class DandremidsSQLiteHelper extends SQLiteOpenHelper {
 					  "   ON UPDATE CASCADE )");
 		
 		db.execSQL("CREATE  TABLE IF NOT EXISTS Dandremid ( "+
-					  " id INTEGER NOT NULL , "+
+					  " id INTEGER PRIMARY KEY NOT NULL , "+
 					  " name VARCHAR(45) NOT NULL , "+
 					  " level INTEGER NOT NULL , "+
 					  " exp INTEGER NOT NULL , "+
@@ -93,7 +96,7 @@ public class DandremidsSQLiteHelper extends SQLiteOpenHelper {
 					  "   ON UPDATE CASCADE )");
 		
 		db.execSQL("CREATE  TABLE IF NOT EXISTS Attack ( "+
-					  " id INTEGER NOT NULL  , "+
+					  " id INTEGER PRIMARY KEY NOT NULL  , "+
 					  " name VARCHAR(45) NOT NULL , "+
 					  " Element_id INTEGER NOT NULL , "+
 					  " strike INTEGER NOT NULL , "+
@@ -106,7 +109,7 @@ public class DandremidsSQLiteHelper extends SQLiteOpenHelper {
 					  "   ON UPDATE CASCADE )");
 		
 		db.execSQL("CREATE  TABLE IF NOT EXISTS Dandremid_Attack (  "+
-					  " Attack_id INTEGER NOT NULL , "+
+					  " Attack_id INTEGER PRIMARY KEY NOT NULL , "+
 					  " Dandremid_id INTEGER NOT NULL , "+
 					  " level INTEGER NOT NULL , "+
 					  " uses INTEGER NOT NULL , "+
@@ -123,7 +126,7 @@ public class DandremidsSQLiteHelper extends SQLiteOpenHelper {
 					  "   ON UPDATE CASCADE )");
 		
 		db.execSQL("CREATE  TABLE IF NOT EXISTS State ( "+
-					  " id INTEGER NOT NULL , "+
+					  " id INTEGER PRIMARY KEY NOT NULL , "+
 					  " name VARCHAR(45) NOT NULL , "+
 					  " abreviation VARCHAR(3) NOT NULL )"); 
 		
@@ -160,7 +163,8 @@ public class DandremidsSQLiteHelper extends SQLiteOpenHelper {
 		db.execSQL("CREATE  TABLE IF NOT EXISTS Element_Element ( "+
 						" Element_id_1 INTEGER NOT NULL , "+
 						" Element_id_2 INTEGER NOT NULL , "+
-						" power DOUBLE NOT NULL , "+
+						" power DOUBLE NOT NULL , " +
+						" PRIMARY KEY (Element_id_1, Element_id_2), "+
 						" CONSTRAINT fk_Element_Element_Element1 "+
 						"   FOREIGN KEY (Element_id_1 ) "+
 						"   REFERENCES Element (id )" +
@@ -173,7 +177,7 @@ public class DandremidsSQLiteHelper extends SQLiteOpenHelper {
 					  	"   ON UPDATE CASCADE )");
 						
 		db.execSQL("CREATE  TABLE IF NOT EXISTS Object ( "+
-						" id INTEGER NOT NULL , "+
+						" id INTEGER PRIMARY KEY NOT NULL , "+
 						" name VARCHAR(45) NOT NULL , "+
 						" strength INTEGER NOT NULL , "+
 						" defense INTEGER NOT NULL , "+
@@ -186,7 +190,7 @@ public class DandremidsSQLiteHelper extends SQLiteOpenHelper {
 						" price INTEGER NOT NULL )");
 		
 		db.execSQL("CREATE  TABLE IF NOT EXISTS User_Object ( "+ 
-						" Object_id INTEGER NOT NULL , "+
+						" Object_id INTEGER PRIMARY KEY NOT NULL , "+
 						" User_id INTEGER NOT NULL , "+
 						" quantity INTEGER NOT NULL, "+
 						" CONSTRAINT fk_CombatObject_User_CombatObject1 "+
@@ -217,7 +221,7 @@ public class DandremidsSQLiteHelper extends SQLiteOpenHelper {
 		
 		
 		db.execSQL("CREATE TABLE IF NOT EXISTS League ( " +
-						" id INTEGER NOT NULL, " +
+						" id INTEGER PRIMARY KEY NOT NULL, " +
 						" name VARCHAR(45) NOT NULL, " +
 						" rounds INTEGER NOT NULL," +
 						" status VARCHAR(45) NOT NULL," +
@@ -227,6 +231,8 @@ public class DandremidsSQLiteHelper extends SQLiteOpenHelper {
 						" User_id INTEGER NOT NULL, " +
 						" League_id INTEGER NOT NULL, " +
 						" points INTEGER NOT NULL, " +
+						" status VARCHAR(45) NOT NULL, " +
+						" PRIMARY KEY (User_id, League_id)" +
 						" CONSTRAINT fk_User_League_User1 " +
 						"   FOREIGN KEY (User_id ) " +
 						"   REFERENCES User (id )" +
@@ -243,6 +249,7 @@ public class DandremidsSQLiteHelper extends SQLiteOpenHelper {
 						" id INTEGER NOT NULL, " +
 						" User_1_id INTEGER NOT NULL, " +
 						" User_2_id INTEGER NOT NULL, " +
+						" PRIMARY KEY (League_id, id), " +
 						" CONSTRAINT fk_Combat_User_League1 " +
 						"   FOREIGN KEY (League_id ) " +
 						"   REFERENCES User_League (League_id )" +
@@ -266,7 +273,8 @@ public class DandremidsSQLiteHelper extends SQLiteOpenHelper {
 						" User_id INTEGER NOT NULL, " +
 						" action VARCHAR(45) NOT NULL, " +
 						" value VARCHAR(45) NOT NULL, " +
-						" date DATE NOT NULL," +
+						" date DATE NOT NULL, " +
+						" PRIMARY KEY (League_id, Combat_id, id), " +
 						" CONSTRAINT fk_Turn_Combat1 " +
 						"   FOREIGN KEY (League_id , Combat_id ) " +
 						"   REFERENCES Combat (League_id , id )" +

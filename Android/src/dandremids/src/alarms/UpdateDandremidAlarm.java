@@ -20,13 +20,13 @@ public class UpdateDandremidAlarm extends BroadcastReceiver {
 		SQLiteDatabase db = dsh.getWritableDatabase();
 		DAO_User daoUser = new DAO_User(context, db);
 		
-		User user = daoUser.getCurrentUser();
+		User user = daoUser.getLocalUser();
 		if (!user.isFighting()){
 			
 			for (Dandremid d : user.getSelectedDandremidList()){
 				d.updateTimeChangingValues();
 			}		
-			daoUser.saveUser(user);
+			daoUser.updateUser(user);
 			
 			if(HomeActivity.instance != null){
 				HomeActivity.instance.updateUser();

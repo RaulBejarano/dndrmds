@@ -361,7 +361,7 @@ public class CombatActivity extends Activity {
 		SQLiteDatabase db = dsh.getWritableDatabase();
 		
 		DAO_User daoU = new DAO_User(this,db);
-		daoU.saveUser(local);
+		daoU.updateUser(local);
 		
 		db.close();
 		dsh.close();

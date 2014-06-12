@@ -8,6 +8,8 @@ import dandremids.src.model.Dandremid;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
+import android.util.Log;
 
 public class DAO_Attack {
 
@@ -27,8 +29,13 @@ public class DAO_Attack {
 	}
 
 	public void deleteAll() {
-		String sql = "DELETE FROM Attack";
-		db.execSQL(sql);
+		try {
+			db.execSQL("PRAGMA foreign_keys = ON");
+			db.execSQL("DELETE FROM Attack");
+			db.execSQL("PRAGMA foreign_keys = OFF");
+		} catch (SQLiteException e){
+			Log.i("DELETE EXCEPTION", "Error en el borrado total de attack");
+		}
 	}
 
 	public List<Attack> getDandremidAttackList(Dandremid dandremid) {

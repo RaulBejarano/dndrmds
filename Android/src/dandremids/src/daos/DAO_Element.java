@@ -7,6 +7,8 @@ import dandremids.src.model.Element;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
+import android.util.Log;
 
 public class DAO_Element {
 
@@ -26,9 +28,14 @@ public class DAO_Element {
 		
 	}
 	
-	public void deleteAll(){
-		String sql = "DELETE FROM Element";
-		db.execSQL(sql);
+	public void deleteAll() {
+		try {
+			db.execSQL("PRAGMA foreign_keys = ON");
+			db.execSQL("DELETE FROM Element");
+			db.execSQL("PRAGMA foreign_keys = OFF");
+		} catch (SQLiteException e){
+			Log.i("DELETE EXCEPTION", "Error en el borrado total de Element");
+		}
 	}
 
 	public Element getElementById(int id) {

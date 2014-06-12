@@ -5,7 +5,6 @@ import java.util.List;
 import dandremids.src.HomeActivity;
 import dandremids.src.R;
 import dandremids.src.customclasses.WikimidsListAdapter;
-import dandremids.src.model.Dandremid;
 import dandremids.src.model.DandremidBase;
 import dandremids.src.model.User;
 import android.os.Bundle;
@@ -32,7 +31,6 @@ public class WikimidsFragment extends Fragment{
 		
 		dandremidsList = (ListView) v.findViewById(R.id.fragment_wikimids_list);
 		dandremidsList.setAdapter(new WikimidsListAdapter(this.getActivity(), list));
-		
 		
 		return v;
 	}

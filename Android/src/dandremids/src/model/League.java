@@ -1,5 +1,7 @@
 package dandremids.src.model;
 
+import java.util.ArrayList;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -10,6 +12,7 @@ public class League implements Parcelable{
 	private int rounds;
 	private String status;
 	private String code;
+	private ArrayList<User> userList;
 	
 	public static final Parcelable.Creator<League> CREATOR =
             new Parcelable.Creator<League>()
@@ -34,6 +37,7 @@ public class League implements Parcelable{
 		this.rounds = rounds;
 		this.status = status;
 		this.code = code;
+		this.userList=new ArrayList<User>();
 	}
 
 	public League(Parcel p) {
@@ -42,6 +46,7 @@ public class League implements Parcelable{
 		this.rounds = p.readInt();
 		this.status = p.readString();
 		this.code = p.readString();
+		this.userList = p.readArrayList(this.getClass().getClassLoader());
 	}
 	
 	
@@ -52,6 +57,7 @@ public class League implements Parcelable{
 		p.writeInt(rounds);
 		p.writeString(status);
 		p.writeString(code);
+		p.writeList(userList);
 	}
 	
 	
@@ -99,6 +105,14 @@ public class League implements Parcelable{
 	public int describeContents() {
 		return 0;
 	}
+	
+	public ArrayList<User> getUserList() {
+		return userList;
+	}
+
+	public void setUserList(ArrayList<User> userList) {
+		this.userList = userList;
+	}
 
 	public dandremids.src.model.db.League toDBLeague() {
 		dandremids.src.model.db.League l = new dandremids.src.model.db.League ();
@@ -110,5 +124,7 @@ public class League implements Parcelable{
 		
 		return l;
 	}
+
+	
 
 }

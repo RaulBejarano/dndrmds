@@ -3,6 +3,8 @@ package dandremids.src.daos;
 import dandremids.src.model.db.AttackState;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
+import android.util.Log;
 
 public class DAO_AttackState {
 
@@ -22,8 +24,13 @@ public class DAO_AttackState {
 	}
 
 	public void deleteAll() {
-		String sql = "DELETE FROM Attack_State";
-		db.execSQL(sql);
+		try {
+			db.execSQL("PRAGMA foreign_keys = ON");
+			db.execSQL("DELETE FROM Attack_State");
+			db.execSQL("PRAGMA foreign_keys = OFF");
+		} catch (SQLiteException e){
+			Log.i("DELETE EXCEPTION", "Error en el borrado total de Attack_State");
+		}
 	}
 	
 }

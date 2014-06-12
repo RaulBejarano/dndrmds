@@ -40,7 +40,7 @@ public class LoginActivity extends Activity {
 		db = dsh.getWritableDatabase();
 		daoUser = new DAO_User(this, db);
 		
-		if(daoUser.getCurrentUser()!=null){
+		if(daoUser.getLocalUser()!=null){
 			goToHome();			
 			return;
 		} 

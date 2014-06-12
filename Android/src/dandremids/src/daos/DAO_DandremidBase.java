@@ -7,8 +7,10 @@ import dandremids.src.model.DandremidBase;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 public class DAO_DandremidBase {
 	private Context context;
@@ -28,11 +30,17 @@ public class DAO_DandremidBase {
 		
 	}
 	
-	public void deleteAll(){
-		String sql = "DELETE FROM Dandremid_Base";
-		db.execSQL(sql);
+	public void deleteAll() {
+		try {
+			db.execSQL("PRAGMA foreign_keys = ON");
+			db.execSQL("DELETE FROM Dandremid_Base");
+			db.execSQL("PRAGMA foreign_keys = OFF");
+		} catch (SQLiteException e){
+			Log.i("DELETE EXCEPTION", "Error en el borrado total de Dandremid_Base");
+		}
 	}
-
+	
+	
 	public DandremidBase getRandomDandremidBase(){
 			
 		String sql = "SELECT id, name, " +

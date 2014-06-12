@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_impar" >
+    android:background="#FFFFE1" >
 
     <TextView
         android:id="@+id/fragment_league_title"
@@ -45,7 +45,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_alignRight="@+id/fragment_league_bottom"
+        android:layout_alignParentRight="true"
         android:layout_below="@+id/fragment_league_title"
         android:background="@drawable/icon_papiro"
         android:gravity="center"
@@ -53,15 +53,14 @@
         android:paddingBottom="20dp"
         android:paddingTop="20dp"
         android:text="Sin participación en ninguna liga"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#FFFFFF" />
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
         android:id="@+id/fragment_league_title2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_alignRight="@+id/fragment_league_name"
+        android:layout_alignParentRight="true"
         android:layout_below="@+id/fragment_league_name"
         android:background="@drawable/background_title_2"
         android:gravity="center"
@@ -77,7 +76,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignRight="@+id/fragment_league_name"
         android:layout_margin="3dp"
-        android:background="@drawable/background_green_small_button"
+        android:background="@drawable/background_red_small_button"
         android:paddingLeft="3dp"
         android:paddingRight="3dp"
         android:text="Search"

@@ -27,7 +27,7 @@ public class WildDandremidAlarm extends BroadcastReceiver {
 		SQLiteDatabase db = dsh.getWritableDatabase();
 		DAO_User daoUser = new DAO_User(context, db);
 		
-		User user = daoUser.getCurrentUser();
+		User user = daoUser.getLocalUser();
 		 db.close();
 		 dsh.close();
 		

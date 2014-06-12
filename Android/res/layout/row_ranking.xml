@@ -5,40 +5,75 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/row_ranking_user"
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/row_ranking_points"
-        android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/row_ranking_points"
-        android:layout_toRightOf="@+id/row_ranking_position"
-        android:gravity="center"
-        android:text="User name"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <TextView
-        android:id="@+id/row_ranking_points"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:background="@drawable/background_title_3"
-        android:gravity="center"
-        android:paddingLeft="10dp"
-        android:paddingRight="20dp"
-        android:text="0"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <TextView
-        android:id="@+id/row_ranking_position"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/row_ranking_user"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:gravity="center"
-        android:text="1"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:paddingBottom="5dp" >
+
+        <TextView
+            android:id="@+id/row_ranking_position"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/row_ranking_image"
+            android:layout_alignTop="@+id/row_ranking_image"
+            android:gravity="center"
+            android:padding="3dp"
+            android:text="1"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:id="@+id/row_ranking_points"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/row_ranking_image"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/row_ranking_image"
+            android:background="@drawable/background_title_3"
+            android:gravity="center"
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp"
+            android:text="0"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/row_ranking_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/row_ranking_points"
+            android:layout_alignTop="@+id/row_ranking_points"
+            android:layout_toLeftOf="@+id/row_ranking_points"
+            android:layout_toRightOf="@+id/row_ranking_image"
+            android:gravity="center"
+            android:text="User name"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <ImageView
+            android:id="@+id/row_ranking_image"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/row_ranking_position"
+            android:src="@drawable/ic_launcher" />
+
+        <TextView
+            android:id="@+id/row_ranking_level"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignTop="@+id/row_ranking_image"
+            android:layout_marginLeft="-15dp"
+            android:layout_marginTop="-5dp"
+            android:layout_toRightOf="@+id/row_ranking_image"
+            android:background="@drawable/background_level"
+            android:gravity="center"
+            android:text="0"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#FFFFFF" />
+
+    </RelativeLayout>
 
 </RelativeLayout>

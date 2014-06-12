@@ -9,13 +9,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/row_attack_level"
+        android:layout_below="@+id/fragment_wikimids_title"
         android:background="#FFFFE1" >
 
     </ListView>
 
     <TextView
-        android:id="@+id/row_attack_level"
+        android:id="@+id/fragment_wikimids_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"

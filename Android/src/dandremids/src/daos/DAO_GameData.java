@@ -33,19 +33,19 @@ public class DAO_GameData {
 		DAO_ElementElement daoElementElement = new DAO_ElementElement(context,db);
 		DAO_Object daoObject = new DAO_Object(context, db);
 		
-		daoDandremidBase.deleteAll();
-		for (DandremidBase cb : gm.dandremidBases) {
-			daoDandremidBase.insertDandremidBase(cb);
-		}
-		
 		daoElement.deleteAll();
 		for (Element e : gm.elements) {
 			daoElement.insertElement(e);
 		}
 		
-		daoState.deleteAll();
-		for (State s : gm.states) {
-			daoState.insertState(s);
+		daoElementElement.deleteAll();
+		for(ElementElement co : gm.elementElement){
+			daoElementElement.insertCombatObject(co);
+		}
+				
+		daoDandremidBase.deleteAll();
+		for (DandremidBase cb : gm.dandremidBases) {
+			daoDandremidBase.insertDandremidBase(cb);
 		}
 		
 		daoAttack.deleteAll();
@@ -53,14 +53,14 @@ public class DAO_GameData {
 			daoAttack.insertAttack(a);
 		}
 		
+		daoState.deleteAll();
+		for (State s : gm.states) {
+			daoState.insertState(s);
+		}
+			
 		daoAttackState.deleteAll();
 		for (AttackState as : gm.attackStates) {
 			daoAttackState.insertAttack_State(as);
-		}
-		
-		daoElementElement.deleteAll();
-		for(ElementElement co : gm.elementElement){
-			daoElementElement.insertCombatObject(co);
 		}
 		
 		daoObject.deleteAll();

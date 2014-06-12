@@ -25,6 +25,7 @@ public class User implements Parcelable{
 	private ArrayList<Object> objectList;
 	private Bitmap image;
 	
+	private int leaguePoints;
 	
 	public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
                 @Override
@@ -234,6 +235,15 @@ public class User implements Parcelable{
 		this.email = email;
 	}
 
+	public int getLeaguePoints() {
+		return leaguePoints;
+	}
+
+	public void setLeaguePoints(int leaguePoints) {
+		this.leaguePoints = leaguePoints;
+	}
+
+	
 	public ArrayList<Dandremid> getSelectedDandremidList() {
 		
 		ArrayList <Dandremid> list = new ArrayList<Dandremid>();
@@ -318,4 +328,5 @@ public class User implements Parcelable{
 		return u;
 	}
 
+	
 }

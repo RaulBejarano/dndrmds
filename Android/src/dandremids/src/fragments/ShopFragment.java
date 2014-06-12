@@ -13,17 +13,14 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.AdapterView.OnItemClickListener;
+import android.widget.TextView;
 import dandremids.src.HomeActivity;
 import dandremids.src.R;
 import dandremids.src.customclasses.DandremidsSQLiteHelper;
 import dandremids.src.customclasses.ObjectShopListAdapter;
 import dandremids.src.daos.DAO_User;
-import dandremids.src.model.Attack;
-import dandremids.src.model.Dandremid;
 import dandremids.src.model.User;
 import dandremids.src.model.Object;
 
@@ -33,6 +30,7 @@ public class ShopFragment extends Fragment {
 	ArrayList<Object> list;
 	ListView objectList;
 	ImageButton scanButton;
+	TextView goldText;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,	Bundle savedInstanceState) {
@@ -42,7 +40,9 @@ public class ShopFragment extends Fragment {
 		
 		View v = inflater.inflate(dandremids.src.R.layout.fragment_shop, container, false);		
 		objectList = (ListView) v.findViewById(R.id.fragment_shop_list);
-		scanButton = (ImageButton) v.findViewById(R.id.fragment_shop_button);				
+		scanButton = (ImageButton) v.findViewById(R.id.fragment_shop_button);
+		goldText = (TextView) v.findViewById(R.id.fragment_shop_gold);
+		
 		objectList.setAdapter(new ObjectShopListAdapter(this.getActivity(), list));		
 		objectList.setOnItemLongClickListener(new OnItemLongClickListener(){
 
@@ -61,6 +61,8 @@ public class ShopFragment extends Fragment {
 				onClickScanButton();				
 			}
 		});
+		
+		goldText.setText(""+user.getGold());
 		
 		return v;
 	}
@@ -119,7 +121,7 @@ public class ShopFragment extends Fragment {
 		DandremidsSQLiteHelper dsh = new DandremidsSQLiteHelper(this.getActivity(),"DandremidsDB",null,1);			
 		SQLiteDatabase db = dsh.getWritableDatabase();			
 		DAO_User daoU = new DAO_User(this.getActivity(),db);
-		daoU.saveUser(user);	
+		daoU.updateUser(user);	
 		db.close();
 		dsh.close();
 		

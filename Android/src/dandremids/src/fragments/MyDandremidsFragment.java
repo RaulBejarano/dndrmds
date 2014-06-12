@@ -26,10 +26,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MyDandremidsFragment extends Fragment {
@@ -133,7 +133,7 @@ public class MyDandremidsFragment extends Fragment {
 			DandremidsSQLiteHelper dsh = new DandremidsSQLiteHelper(this.getActivity(),"DandremidsDB",null,1);
 			SQLiteDatabase db = dsh.getWritableDatabase();
 			DAO_User daoUser = new DAO_User(this.getActivity(), db);
-			daoUser.saveUser(user);	
+			daoUser.updateUser(user);	
 			db.close();
 			dsh.close();
 			

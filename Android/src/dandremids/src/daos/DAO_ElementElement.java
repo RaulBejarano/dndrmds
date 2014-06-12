@@ -6,6 +6,8 @@ import dandremids.src.model.ElementElement;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
+import android.util.Log;
 
 public class DAO_ElementElement {
 	Context context;
@@ -16,10 +18,15 @@ public class DAO_ElementElement {
 		this.context=context;
 		this.db=db;
 	}
-
+	
 	public void deleteAll() {
-		String sql = "DELETE FROM Element_Element";
-		db.execSQL(sql);		
+		try {
+			db.execSQL("PRAGMA foreign_keys = ON");
+			db.execSQL("DELETE FROM Element_Element");
+			db.execSQL("PRAGMA foreign_keys = OFF");
+		} catch (SQLiteException e){
+			Log.i("DELETE EXCEPTION", "Error en el borrado total de Element_Element");
+		}
 	}
 
 	public void insertCombatObject(dandremids.src.model.db.ElementElement e) {

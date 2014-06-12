@@ -77,7 +77,6 @@ public class SelectedDandremidFragment extends Fragment {
 	        foodText = (TextView) rootView.findViewById(R.id.fragment_selected_dandremid_food_text);
 	        happinessText = (TextView) rootView.findViewById(R.id.fragment_selected_dandremid_happiness_text);
 	        
-	        
 	        level.setText(dandremid.getLevel()+"");
 	        name.setText(dandremid.getName());
 	        element1.setImageBitmap(Element.getElementImage(this.getActivity(), dandremid.getDandremidBase().getElement1()));
@@ -275,7 +274,7 @@ public class SelectedDandremidFragment extends Fragment {
 			DandremidsSQLiteHelper dsh = new DandremidsSQLiteHelper(this.getActivity(),"DandremidsDB",null,1);
 			SQLiteDatabase db = dsh.getWritableDatabase();
 			DAO_User daoUser = new DAO_User(this.getActivity(), db);
-			daoUser.saveUser(user);	
+			daoUser.updateUser(user);	
 			db.close();
 			dsh.close();
 		}

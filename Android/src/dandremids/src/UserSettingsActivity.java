@@ -65,7 +65,7 @@ public class UserSettingsActivity extends Activity {
 		dsh = new DandremidsSQLiteHelper(this,"DandremidsDB",null,1);
 		daoUser = new DAO_User(this, dsh.getWritableDatabase());
 		
-		user = daoUser.getCurrentUser();
+		user = daoUser.getLocalUser();
 		playerName.setText(user.getPlayerName());
 		name.setText(user.getName());
 		surname.setText(user.getSurname());
@@ -95,7 +95,7 @@ public class UserSettingsActivity extends Activity {
 		}else{ 
 			user.setGender("Female");
 		}		
-		daoUser.saveUser(user);
+		daoUser.updateUser(user);
 		Toast.makeText(this, "Saved successfully", Toast.LENGTH_LONG).show();
 	}
 
